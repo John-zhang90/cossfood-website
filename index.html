@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-SG">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CossFood | 新加坡优质快熟面与伊面食品批发供应商</title>
+    <meta name="description" content="CossFood专注于新加坡本地食品批发，主营35款精选快熟面、伊面。拥有9am-5pm自送车队，每日8:55 AM前下单当日极速送达，支持线下PayNow便捷结算。">
+    
+    <!-- 预解析外部域名，提升全球加载速度 -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://cloudflare.com">
+    
+    <style>
+        /* --- 核心变量与原子复位 --- */
+        :root {
+            --brand-red: #D32F2F;    /* 品牌主红 */
+            --brand-yellow: #FFEB3B; /* 快捷订货主黄 */
+            --text-dark: #212121;    /* 现代暗黑文字 */
+            --bg-light: #F5F5F5;     /* 浅灰背景 */
+            --white: #FFFFFF;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: var(--text-dark); 
+            line-height: 1.6;
+            background-color: var(--white);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- 导航栏 (Sticky Header) --- */
+        header {
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .nav-container {
+            max-width: 1200px; margin: 0 auto; padding: 15px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo { font-size: 24px; font-weight: 800; color: var(--brand-red); text-transform: uppercase; letter-spacing: 1px; }
+        .nav-links { display: flex; list-style: none; gap: 30px; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-dark); font-weight: 500; transition: var(--transition); }
+        .nav-links a:hover { color: var(--brand-red); }
+        .btn-order { 
+            background: var(--brand-yellow); color: #000 !important; 
+            padding: 8px 18px; border-radius: 4px; font-weight: 600 !important; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .btn-order:hover { background: #FDD835; transform: translateY(-1px); }
+
+        /* --- B2B 企业级 Hero Section --- */
+        .hero { display: flex; min-height: calc(100vh - 70px); background: var(--bg-light); }
+        .hero-left { 
+            flex: 1; background: url('https://unsplash.com') center/cover no-repeat; 
+            position: relative;
+        }
+        /* 遮罩层防止白底大图刺眼 */
+        .hero-left::after { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.1); }
+        .hero-right { 
+            flex: 1; background: var(--brand-red); color: var(--white); 
+            display: flex; flex-direction: column; justify-content: center; 
+            padding: 60px; position: relative;
+        }
+        .hero-right h1 { font-size: 42px; font-weight: 800; line-height: 1.2; margin-bottom: 20px; }
+        .hero-right p { font-size: 18px; margin-bottom: 35px; opacity: 0.9; }
+        .hero-cta { 
+            align-self: flex-start; background: var(--brand-yellow); color: #000; 
+            text-decoration: none; padding: 15px 40px; font-size: 18px; 
+            font-weight: 700; border-radius: 4px; transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-align: center;
+        }
+        .hero-cta:hover { background: #FDD835; transform: scale(1.03); }
+
+        /* --- 核心优势/服务模块 --- */
+        .services { max-width: 1200px; margin: 80px auto; padding: 0 20px; }
+        .section-title { text-align: center; font-size: 32px; font-weight: 700; margin-bottom: 50px; position: relative; }
+        .section-title::after { content:''; display:block; width:50px; height:4px; background:var(--brand-red); margin:10px auto 0; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .card { 
+            background: var(--white); padding: 40px 30px; border-radius: 6px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: center; 
+            transition: var(--transition); border-top: 4px solid transparent;
+        }
+        .card:hover { transform: translateY(-5px); border-top-color: var(--brand-red); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .card h3 { font-size: 22px; margin-bottom: 15px; margin-top: 15px; }
+        .card p { color: #666; font-size: 15px; }
+        .icon { font-size: 40px; color: var(--brand-red); }
+
+        /* --- 关于我们与闭环声明 --- */
+        .about { background: var(--bg-light); padding: 80px 20px; }
+        .about-container { max-width: 1200px; margin: 0 auto; display: flex; gap: 50px; align-items: center; }
+        .about-text { flex: 1; }
+        .about-text p { margin-bottom: 15px; color: #444; }
+        .about-img { 
+            flex: 1; background: url('https://unsplash.com') center/cover no-repeat;
+            height: 350px; border-radius: 6px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* --- 页脚区块 --- */
+        footer { background: #1A1A1A; color: rgba(255,255,255,0.7); padding: 60px 20px 20px; font-size: 14px; }
+        .footer-container { 
+            max-width: 1200px; margin: 0 auto; 
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 40px;
+        }
+        .footer-col h4 { color: var(--white); font-size: 16px; margin-bottom: 20px; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col ul li a { color: rgba(255,255,255,0.7); text-decoration: none; transition: var(--transition); }
+        .footer-col ul li a:hover { color: var(--white); }
+        .copyright { text-align: center; margin-top: 30px; font-size: 13px; }
+
+        /* --- 🎯 极致移动端适配响应式断点 (Responsive Media Queries) --- */
+        @media (max-width: 992px) {
+            .hero { flex-direction: column; }
+            .hero-left { min-height: 40vh; }
+            .hero-right { padding: 40px 20px; text-align: center; }
+            .hero-right h1 { font-size: 32px; }
+            .hero-cta { align-self: center; width: 100%; max-width: 300px; }
+            .grid-3 { grid-template-columns: repeat(2, 1fr); }
+            .about-container { flex-direction: column-reverse; gap: 30px; }
+            .about-img { width: 100%; height: 250px; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* 移动端隐藏冗余链接，靠Hero的大按钮转化 */
+            .grid-3 { grid-template-columns: 1fr; }
+            .footer-container { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 480px) {
+            .footer-container { grid-template-columns: 1fr; }
+            .section-title { font-size: 26px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">CossFood</div>
+            <ul class="nav-links">
+                <li><a href="#services">核心服务</a></li>
+                <li><a href="#about">关于我们</a></li>
+                <!-- 替换此处链接为你真实的 Jotform 订货表单 URL -->
+                <li><a href="https://jotform.com" class="btn-order" target="_blank">快捷订货通道</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section (左图右红B2B经典布局) -->
+    <section class="hero">
+        <div class="hero-left" title="CossFood 自送车队"></div>
+        <div class="hero-right">
+            <h1>CossFood<br>您的数字化面类供应链专家</h1>
+            <p>专注于快熟面、各类伊面等35款核心产品批发。新加坡本地自送车队，高效闭环交付。</p>
+            <!-- 替换此处链接为你真实的 Jotform 订货表单 URL -->
+            <a href="https://jotform.com" class="hero-cta" target="_blank">CONTACT US 快捷订货</a>
+        </div>
+    </section>
+
+    <!-- 服务与优势 -->
+    <section class="services" id="services">
+        <h2 class="section-title">为什么选择 CossFood</h2>
+        <div class="grid-3">
+            <div class="card">
+                <div class="icon">🚚</div>
+                <h3>专属车队 自送保障</h3>
+                <p>拥有每日 9am - 5pm 专职自送车队，严格把控本地配送时效与食品安全。</p>
+            </div>
+            <div class="card">
+                <div class="icon">⏱️</div>
+                <h3>高效截单 极速响应</h3>
+                <p>每日 8:55 AM 修改死线。截单后数据一键直达后端系统，发票随车即刻出发。</p>
+            </div>
+            <div class="card">
+                <div class="icon">📱</div>
+                <h3>便捷移动端订货</h3>
+                <p>基于数字键盘优化的原生订货列表，一客一价系统自动核算，线下 PayNow 极速结算。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section class="about" id="about">
+        <div class="about-container">
+            <div class="about-text">
+                <h2 class="section-title" style="text-align: left; margin-bottom: 30px;">关于 CossFood</h2>
+                <p>CossFood 是一家立足于新加坡的现代化食品批发供应链公司，深耕面食批发领域，主营包括优质快熟面、传统伊面在内的 35 款精选产品。</p>
+                <p>我们颠覆了传统食品批发的繁琐流程，通过将前端便捷订货平台与后端 Million 财务记账系统无缝闭环连接，实现了“客户指尖下单、后台1秒清洗、发票随车出库、线下PayNow核销”的高效数字化闭环运营模式。</p>
+            </div>
+            <div class="about-img" title="现代化仓储与物流"></div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4>CossFood</h4>
+                <p>新加坡数字化面类食品供应链供应商。</p>
+            </div>
+            <div class="footer-col">
+                <h4>核心产品</h4>
+                <ul>
+                    <li>各类精选快熟面</li>
+                    <li>高品质伊面系列</li>
+                    <li>共35款精选SKU</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>服务条款</h4>
+                <ul>
