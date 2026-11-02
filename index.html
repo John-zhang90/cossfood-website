@@ -2,13 +2,9 @@
 <html lang="zh-SG">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CossFood | 新加坡优质快熟面与伊面食品批发供应商</title>
-    <meta name="description" content="CossFood专注于新加坡本地食品批发，主营35款精选快熟面、伊面。拥有9am-5pm自送车队，每日8:55 AM前下单当日极速送达，支持线下PayNow便捷结算。">
-    
-    <!-- 预解析外部域名，提升全球加载速度 -->
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://cloudflare.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CossFood | 新加坡优质的食品批发供应商</title>
+    <meta name="description" content="CossFood专注于新加坡本地食品批发，主营精选快熟面、伊面。拥有自送车队，每日9AM开始配送，支持多种方式结算。">
     
     <style>
         /* --- 核心变量与原子复位 --- */
@@ -41,7 +37,7 @@
             max-width: 1200px; margin: 0 auto; padding: 15px 20px;
             display: flex; justify-content: space-between; align-items: center;
         }
-        .logo { font-size: 24px; font-weight: 800; color: var(--brand-red); text-transform: uppercase; letter-spacing: 1px; }
+        .logo { display: inline-flex; align-items: center; text-decoration: none; font-size: 32px; font-weight: 800; color: var(--brand-red); text-transform: uppercase; letter-spacing: 1px; }
         .nav-links { display: flex; list-style: none; gap: 30px; align-items: center; }
         .nav-links a { text-decoration: none; color: var(--text-dark); font-weight: 500; transition: var(--transition); }
         .nav-links a:hover { color: var(--brand-red); }
@@ -51,13 +47,14 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         .btn-order:hover { background: #FDD835; transform: translateY(-1px); }
+        .menu-toggle { display: none; border: 0; background: transparent; color: var(--brand-red); font-size: 28px; line-height: 1; cursor: pointer; }
+        .language-select { border: 1px solid #ddd; border-radius: 4px; background: #fff; color: var(--text-dark); padding: 8px 28px 8px 10px; font: inherit; cursor: pointer; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
         /* --- B2B 企业级 Hero Section --- */
         .hero { display: flex; min-height: calc(100vh - 70px); background: var(--bg-light); }
-        .hero-left { 
-            flex: 1; background: url('https://unsplash.com') center/cover no-repeat; 
-            position: relative;
-        }
+        .hero-left { flex: 1; position: relative; overflow: hidden; min-height: 420px; background: #ece7df; }
+        .hero-left img { width: 100%; height: 100%; min-height: 420px; display: block; object-fit: cover; }
         /* 遮罩层防止白底大图刺眼 */
         .hero-left::after { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.1); }
         .hero-right { 
@@ -90,15 +87,38 @@
         .card p { color: #666; font-size: 15px; }
         .icon { font-size: 40px; color: var(--brand-red); }
 
+        /* --- 产品目录 --- */
+        .catalog { background: #fffaf2; padding: 80px 20px; }
+        .catalog-container { max-width: 1200px; margin: 0 auto; }
+        .catalog-intro { max-width: 680px; margin: -25px auto 30px; text-align: center; color: #666; }
+        .catalog-tools { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-bottom: 26px; }
+        .search-box { flex: 1 1 260px; min-width: 240px; padding: 13px 16px; border: 1px solid #ddd; border-radius: 6px; font: inherit; background: #fff; }
+        .category-list { display: flex; gap: 8px; flex-wrap: wrap; }
+        .category-btn { border: 1px solid #e0cfc3; background: #fff; color: #6d4035; padding: 9px 13px; border-radius: 999px; cursor: pointer; font: inherit; }
+        .category-btn.active, .category-btn:hover { background: var(--brand-red); color: #fff; border-color: var(--brand-red); }
+        .product-count { color: #666; font-size: 14px; margin-bottom: 18px; }
+        .product-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
+        .product-card { background: #fff; border: 1px solid #eee6dc; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; min-width: 0; transition: var(--transition); }
+        .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(77, 34, 18, 0.12); }
+        .product-image-wrap { aspect-ratio: 1 / 1; background: #f3eee8; overflow: hidden; }
+        .product-image { width: 100%; height: 100%; display: block; object-fit: contain; }
+        .product-info { padding: 16px; display: flex; flex-direction: column; flex: 1; }
+        .product-code { color: var(--brand-red); font-size: 12px; font-weight: 700; letter-spacing: .08em; }
+        .product-name { font-size: 17px; line-height: 1.35; margin: 5px 0 8px; }
+        .product-meta { color: #666; font-size: 13px; line-height: 1.7; margin-bottom: 14px; }
+        .product-actions { display: flex; gap: 8px; margin-top: auto; }
+        .product-actions a { flex: 1; text-align: center; text-decoration: none; padding: 9px 8px; border-radius: 5px; font-size: 13px; font-weight: 700; }
+        .product-actions .call { background: var(--brand-red); color: #fff; }
+        .product-actions .whatsapp { background: #1f9d55; color: #fff; }
+        .empty-state { padding: 36px; color: #666; text-align: center; background: #fff; border: 1px dashed #ddd; border-radius: 8px; grid-column: 1 / -1; }
+
         /* --- 关于我们与闭环声明 --- */
         .about { background: var(--bg-light); padding: 80px 20px; }
         .about-container { max-width: 1200px; margin: 0 auto; display: flex; gap: 50px; align-items: center; }
         .about-text { flex: 1; }
         .about-text p { margin-bottom: 15px; color: #444; }
-        .about-img { 
-            flex: 1; background: url('https://unsplash.com') center/cover no-repeat;
-            height: 350px; border-radius: 6px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
+        .about-img { flex: 1; height: 350px; border-radius: 6px; overflow: hidden; background: #ece7df; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .about-img img { width: 100%; height: 100%; display: block; object-fit: cover; }
 
         /* --- 页脚区块 --- */
         footer { background: #1A1A1A; color: rgba(255,255,255,0.7); padding: 60px 20px 20px; font-size: 14px; }
@@ -108,6 +128,7 @@
             border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 40px;
         }
         .footer-col h4 { color: var(--white); font-size: 16px; margin-bottom: 20px; }
+        .footer-brand-title { color: var(--white); font-size: 30px; font-weight: 800; letter-spacing: 1px; margin-bottom: 12px; }
         .footer-col ul { list-style: none; }
         .footer-col ul li { margin-bottom: 10px; }
         .footer-col ul li a { color: rgba(255,255,255,0.7); text-decoration: none; transition: var(--transition); }
@@ -122,66 +143,119 @@
             .hero-right h1 { font-size: 32px; }
             .hero-cta { align-self: center; width: 100%; max-width: 300px; }
             .grid-3 { grid-template-columns: repeat(2, 1fr); }
+            .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
             .about-container { flex-direction: column-reverse; gap: 30px; }
             .about-img { width: 100%; height: 250px; }
         }
 
         @media (max-width: 768px) {
-            .nav-links { display: none; } /* 移动端隐藏冗余链接，靠Hero的大按钮转化 */
+            .menu-toggle { display: block; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; padding: 12px 20px 18px; box-shadow: 0 8px 14px rgba(0,0,0,0.08); flex-direction: column; align-items: stretch; gap: 8px; }
+            .nav-links.open { display: flex; }
+            .nav-links a { display: block; padding: 10px 0; }
             .grid-3 { grid-template-columns: 1fr; }
+            .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .footer-container { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 480px) {
+            .product-grid { grid-template-columns: 1fr; }
             .footer-container { grid-template-columns: 1fr; }
             .section-title { font-size: 26px; }
         }
     </style>
 </head>
-<body>
+<body id="top">
 
     <!-- 导航栏 -->
     <header>
         <div class="nav-container">
-            <div class="logo">CossFood</div>
+            <a class="logo" href="#top" aria-label="CossFood Marketing Pte Ltd">CossFood</a>
+            <button class="menu-toggle" type="button" aria-label="打开菜单" aria-expanded="false">☰</button>
             <ul class="nav-links">
-                <li><a href="#services">核心服务</a></li>
-                <li><a href="#about">关于我们</a></li>
-                <!-- 替换此处链接为你真实的 Jotform 订货表单 URL -->
-                <li><a href="https://jotform.com" class="btn-order" target="_blank">快捷订货通道</a></li>
+                <li><a href="#products" data-i18n="navProducts">产品目录</a></li>
+                <li><a href="#services" data-i18n="navServices">核心服务</a></li>
+                <li><a href="#delivery" data-i18n="navDelivery">配送安排</a></li>
+                <li><a href="#about" data-i18n="navAbout">关于我们</a></li>
+                <li><a id="header-whatsapp" href="https://wa.me/6567733116" class="btn-order" target="_blank" rel="noopener" data-i18n="navContact">电话 / WhatsApp 询问</a></li>
+                <li>
+                    <label class="sr-only" for="language-select">Language</label>
+                    <select id="language-select" class="language-select" aria-label="Language">
+                        <option value="zh">中文</option>
+                        <option value="ms">Bahasa Melayu</option>
+                        <option value="en">English</option>
+                    </select>
+                </li>
             </ul>
         </div>
     </header>
 
     <!-- Hero Section (左图右红B2B经典布局) -->
     <section class="hero">
-        <div class="hero-left" title="CossFood 自送车队"></div>
+        <div class="hero-left" title="CossFood 产品展示">
+            <img src="image/logo_company.jpg" alt="CossFood 公司 Logo" fetchpriority="high">
+        </div>
         <div class="hero-right">
-            <h1>CossFood<br>您的数字化面类供应链专家</h1>
-            <p>专注于快熟面、各类伊面等35款核心产品批发。新加坡本地自送车队，高效闭环交付。</p>
-            <!-- 替换此处链接为你真实的 Jotform 订货表单 URL -->
-            <a href="https://jotform.com" class="hero-cta" target="_blank">CONTACT US 快捷订货</a>
+            <h1>CossFood<br><span data-i18n="heroTitle">您可以信赖的食品供应链专家</span></h1>
+            <p data-i18n="heroLead">专注于面类、包点、豆制品、冷冻食品及餐饮常用食材批发。</p>
+            <a id="hero-whatsapp" href="https://wa.me/6567733116" class="hero-cta" target="_blank" rel="noopener" data-i18n="heroCta">WhatsApp 询问</a>
         </div>
     </section>
 
     <!-- 服务与优势 -->
     <section class="services" id="services">
-        <h2 class="section-title">为什么选择 CossFood</h2>
+        <h2 class="section-title" data-i18n="servicesTitle">为什么选择 CossFood</h2>
         <div class="grid-3">
             <div class="card">
                 <div class="icon">🚚</div>
-                <h3>专属车队 自送保障</h3>
-                <p>拥有每日 9am - 5pm 专职自送车队，严格把控本地配送时效与食品安全。</p>
+                <h3 data-i18n="service1Title">专属车队 自送保障</h3>
+                <p data-i18n="service1Body">由公司专职司机配送，覆盖新加坡全岛，方便餐饮客户安排补货。</p>
             </div>
             <div class="card">
                 <div class="icon">⏱️</div>
-                <h3>高效截单 极速响应</h3>
-                <p>每日 8:55 AM 修改死线。截单后数据一键直达后端系统，发票随车即刻出发。</p>
+                <h3 data-i18n="service2Title">订单安排清晰</h3>
+                <p data-i18n="service2Body">按订单时间安排早车、晚车或第二天早车，减少沟通误差。</p>
             </div>
             <div class="card">
                 <div class="icon">📱</div>
-                <h3>便捷移动端订货</h3>
-                <p>基于数字键盘优化的原生订货列表，一客一价系统自动核算，线下 PayNow 极速结算。</p>
+                <h3 data-i18n="service3Title">电话与 WhatsApp 询问</h3>
+                <p data-i18n="service3Body">产品规格、库存和批发安排由公司直接说明，沟通更方便。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 产品目录 -->
+    <section class="catalog" id="products">
+        <div class="catalog-container">
+            <h2 class="section-title" data-i18n="catalogTitle">产品目录</h2>
+            <p class="catalog-intro" data-i18n="catalogIntro">以下为目前已整理的产品图片。最低订购量按产品 Unit 计算，每项最低为 1 个 Unit。如需规格、库存或配送安排，请直接通过电话或 WhatsApp 联系我们。</p>
+            <div class="catalog-tools">
+                <input id="product-search" class="search-box" type="search" placeholder="搜索产品名称、品牌或编号" aria-label="搜索产品" data-i18n-placeholder="searchPlaceholder" data-i18n-aria-label="searchLabel">
+                <div id="category-list" class="category-list" aria-label="产品分类" data-i18n-aria-label="categoryLabel"></div>
+            </div>
+            <p id="product-count" class="product-count" aria-live="polite"></p>
+            <div id="product-grid" class="product-grid"></div>
+        </div>
+    </section>
+
+    <!-- 配送安排 -->
+    <section class="services" id="delivery">
+        <h2 class="section-title" data-i18n="deliveryTitle">配送安排</h2>
+        <div class="grid-3">
+            <div class="card">
+                <div class="icon">🇸🇬</div>
+                <h3 data-i18n="delivery1Title">新加坡全岛配送</h3>
+                <p data-i18n="delivery1Body">由 CossFood 公司专职司机配送，服务新加坡全岛客户。</p>
+            </div>
+            <div class="card">
+                <div class="icon">🌅</div>
+                <h3 data-i18n="delivery2Title">早车 09:00–17:00</h3>
+                <p data-i18n="delivery2Body">每天 08:55 前收到的订单，安排早车配送。</p>
+            </div>
+            <div class="card">
+                <div class="icon">🌙</div>
+                <h3 data-i18n="delivery3Title">晚车 17:00–21:00</h3>
+                <p data-i18n="delivery3Body">09:00–17:00 收到的订单，请注明安排晚车或第二天早车。</p>
             </div>
         </div>
     </section>
@@ -190,11 +264,13 @@
     <section class="about" id="about">
         <div class="about-container">
             <div class="about-text">
-                <h2 class="section-title" style="text-align: left; margin-bottom: 30px;">关于 CossFood</h2>
-                <p>CossFood 是一家立足于新加坡的现代化食品批发供应链公司，深耕面食批发领域，主营包括优质快熟面、传统伊面在内的 35 款精选产品。</p>
-                <p>我们颠覆了传统食品批发的繁琐流程，通过将前端便捷订货平台与后端 Million 财务记账系统无缝闭环连接，实现了“客户指尖下单、后台1秒清洗、发票随车出库、线下PayNow核销”的高效数字化闭环运营模式。</p>
+                <h2 class="section-title" style="text-align: left; margin-bottom: 30px;" data-i18n="aboutTitle">关于 CossFood</h2>
+                <p data-i18n="aboutBody1">CossFood 是一家立足于新加坡的食品批发供应商，为餐厅、咖啡店、小贩摊位、零售商及餐饮客户提供日常食品和食材。</p>
+                <p data-i18n="aboutBody2">我们持续整理面类、包点、豆制品、冷冻食品及其他餐饮常用产品，方便客户快速浏览并通过电话或 WhatsApp 询问。</p>
             </div>
-            <div class="about-img" title="现代化仓储与物流"></div>
+            <div class="about-img" title="CossFood 产品与配送">
+                <img src="image/logo_company.jpg" alt="CossFood 公司 Logo">
+            </div>
         </div>
     </section>
 
@@ -202,17 +278,215 @@
     <footer>
         <div class="footer-container">
             <div class="footer-col">
-                <h4>CossFood</h4>
-                <p>新加坡数字化面类食品供应链供应商。</p>
+                <h4 class="footer-brand-title">CossFood</h4>
+                <p data-i18n="footerBrand">新加坡食品本地优质供应商。</p>
             </div>
             <div class="footer-col">
-                <h4>核心产品</h4>
+                <h4 data-i18n="footerProductsTitle">核心产品</h4>
                 <ul>
-                    <li>各类精选快熟面</li>
-                    <li>高品质伊面系列</li>
-                    <li>共35款精选SKU</li>
+                    <li data-i18n="footerProduct1">各类精选快熟面</li>
+                    <li data-i18n="footerProduct2">高品质伊面系列</li>
+                    <li data-i18n="footerProduct3">包点与豆卜系列</li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>服务条款</h4>
+                <h4 data-i18n="footerContactTitle">联系我们</h4>
                 <ul>
+                    <li><a href="tel:+6567733116">+65 6773 3116</a></li>
+                    <li><a id="footer-whatsapp" href="https://wa.me/6567733116" target="_blank" rel="noopener" data-i18n="whatsappAsk">WhatsApp 询问</a></li>
+                    <li data-i18n="islandDelivery">新加坡全岛配送</li>
+                </ul>
+            </div>
+            <div class="footer-col" id="contact">
+                <h4 data-i18n="footerDeliveryTitle">配送时间</h4>
+                <ul>
+                    <li data-i18n="footerDelivery1">早车：09:00–17:00</li>
+                    <li data-i18n="footerDelivery2">晚车：17:00–21:00</li>
+                    <li data-i18n="footerDelivery3">08:55 前订单安排早车</li>
+                </ul>
+            </div>
+        </div>
+        <p class="copyright">© 2026 CossFood. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const products = [
+            { code: 'B016', name: 'Lotus Leaf (Plain)', category: '包点与点心', unit: 'PKT', brand: 'SOON LEE', image: 'image/B016 LOTUS LEAF MIX.jpg' },
+            { code: 'CC001', name: 'Sweeten Chin Chow 560g', category: '甜品与凉粉', unit: 'PCS', brand: 'LO SAM', image: 'image/CC001 SWEETEN CHIN CHOW.jpg' },
+            { code: 'CC002', name: 'Chin Chow No Sugar 480g', category: '甜品与凉粉', unit: 'PCS', brand: 'LO SAM', image: 'image/CC002 CHIN CHOW NO SUGAR.jpg' },
+            { code: 'CC003', name: 'Jelly Chin Chow 300g', category: '甜品与凉粉', unit: 'BOX', brand: 'LO SAM', image: 'image/CC003 JELLY CHIN CHOW 300G.jpg' },
+            { code: 'CF002', name: 'Cuttlefish (A)', category: '海鲜与冷冻', unit: 'CTN', brand: 'LHF', image: 'image/CF002 CUTTLEFISH A 10KG.jpg' },
+            { code: 'CF014', name: 'Flower Clam (Lala)', category: '海鲜与冷冻', unit: 'CTN', brand: 'COSS', image: 'image/CF014 FLOWER CLAM 500G.jpg' },
+            { code: 'CF025', name: 'Sotong Rendam Cut EN 12PKT', category: '海鲜与冷冻', unit: 'CTN', brand: 'LHF', image: 'image/CF025 RENDAM CUT  12KG.jpg' },
+            { code: 'CS001', name: 'Vegetarian Char Siew 900g', category: '其他', unit: 'UNIT', brand: '—', image: 'image/CS001 VEGETARIAN CHAR SIEW 900G.jpg' },
+            { code: 'G001', name: 'Garlic 1kg', category: '蔬菜与调味', unit: 'PKT', brand: 'LHF', image: 'image/G001 GARLIC 1KG.jpg' },
+            { code: 'G003', name: 'Garlic 200g', category: '蔬菜与调味', unit: 'BOX', brand: 'LHF', image: 'image/G003 GARLIC 200G.jpg' },
+            { code: 'MIX-001', name: 'Mantou Plain Mix', category: '包点与点心', unit: 'UNIT', brand: '—', image: 'image/MANTOU PLAIN MIX.jpg' },
+            { code: 'N001', name: 'Clay Pot Yee Mee 375g', category: '面类', unit: 'PKT', brand: 'MEGAH MEE', image: 'image/N001 MEGAH MEE CLAYPOT YEE MEE 375KG.jpg' },
+            { code: 'N002', name: 'Mega Instant Noodle 600g', category: '面类', unit: 'CTN', brand: 'FUDO', image: 'image/N002 MEGAH MEE INSTANT NOODLE 600G.jpg' },
+            { code: 'N003', name: 'Canton Yee Mee 320g', category: '面类', unit: 'PKT', brand: 'MEGAH MEE', image: 'image/N003 MEGAH MEE CANTON YEE MEE 320G.jpg' },
+            { code: 'N004', name: 'Sapo Mee Suah 330g', category: '面类', unit: 'PKT', brand: 'MEGAH MEE', image: 'image/N004 MEGAH MEE SAPO MEE SUAH 330G.jpg' },
+            { code: 'N005', name: 'Fried Egg Noodle 3kg', category: '面类', unit: 'CTN', brand: 'MEGAH MEE', image: 'image/N005 FRIED EGG NOODLE 1.5KG.jpg' },
+            { code: 'N013', name: 'CF Claypot Yee Mee 375g', category: '面类', unit: 'PKT', brand: 'TEHKI', image: 'image/N013 CF CLAYPOT YEE MEE 375G.jpg' },
+            { code: 'N019', name: 'Shabu Shabu Noodles', category: '面类', unit: 'PKT', brand: 'MEGAH MEE', image: 'image/N019 MEGAH MEE SHABU SHABU NOODLES.jpg' },
+            { code: 'N020', name: 'Vitaman Instant Noodles 600g', category: '面类', unit: 'CTN', brand: 'VITAMAN', image: 'image/N020 VITAMAN INSTANT NOODLES  600G.jpg' },
+            { code: 'P001', name: 'Obasan Popiah Wrapper 20 Pieces', category: '包点与点心', unit: 'CTN', brand: 'FABULOUS', image: 'image/P001 OBASAN POPIAH WRAPPER 20PIECES.jpg' },
+            { code: 'TAU-LI', name: 'Tau Li 50g / 25g', category: '豆制品与火锅', unit: 'UNIT', brand: '—', image: 'image/SAMLL TAU LI50G(50 PCS) AND BIG TOU LI 25G(25 PCS).jpg' },
+            { code: 'STB-001', name: 'Steamboat Fish Beancurd 135g', category: '豆制品与火锅', unit: 'UNIT', brand: '—', image: 'image/STEAMBOAT FISH BEANCURD 135G.jpg' },
+            { code: 'TF002', name: 'Smooth Tofu 300g - Blue', category: '豆制品与火锅', unit: 'BOX', brand: 'LO SAM', image: 'image/TF002 SMOOTH TOFU 300G-BLUE.jpg' },
+            { code: 'TF003', name: 'Lo Sam Premium Tofu 300g', category: '豆制品与火锅', unit: 'BOX', brand: 'LO SAM', image: 'image/TF003 LOSAM PREMIUM TOFU 300G.jpg' },
+            { code: 'TF011', name: 'Egg Tofu (Chef)', category: '豆制品与火锅', unit: 'CTN', brand: 'MSM', image: 'image/TF011 EGG TOUFU(CHEF).jpg' },
+            { code: 'TK005', name: 'Crispy Bean Curd 176g', category: '豆制品与火锅', unit: 'PKT', brand: 'LO SAM', image: 'image/TK005 CRISPY BEANCURD 176G.jpg' },
+            { code: 'TP001', name: 'Tau Pok (Obasan) 150g', category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', image: 'image/TP001 TAU POK(OBASAN) 150G.jpg' },
+            { code: 'TP006', name: 'Tau Bian 500g', category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', image: 'image/TP006 SAMLL TAU LI-50 PCSPKT 500G.jpg' },
+            { code: 'Z001', name: 'Chee Cheong Fun 300g', category: '包点与点心', unit: 'CTN', brand: 'LO SAM', image: 'image/Z001 CHEE CHEONG FUN 300G.jpg' }
+        ];
+
+        // 默认展示顺序：面类 → 馒头/包点 → 豆卜及豆制品 → 其他 → 海鲜/鱿鱼
+        const productGroup = (product) => {
+            if (product.category === '面类') return 0;
+            if (product.code === 'B016' || product.code === 'MIX-001') return 1;
+            if (product.category === '豆制品与火锅') return 2;
+            if (product.category === '海鲜与冷冻') return 4;
+            return 3;
+        };
+        products.sort((first, second) => productGroup(first) - productGroup(second));
+
+        const translations = {
+            zh: {
+                navProducts: '产品目录', navServices: '核心服务', navDelivery: '配送安排', navAbout: '关于我们', navContact: '电话 / WhatsApp 询问',
+                heroTitle: '您可以信赖的食品供应链专家', heroLead: '专注于面类、包点、豆制品、冷冻食品及餐饮常用食材批发。', heroCta: 'WhatsApp 询问',
+                servicesTitle: '为什么选择 CossFood', service1Title: '专属车队 自送保障', service1Body: '由公司专职司机配送，覆盖新加坡全岛，方便餐饮客户安排补货。', service2Title: '订单安排清晰', service2Body: '按订单时间安排早车、晚车或第二天早车，减少沟通误差。', service3Title: '电话与 WhatsApp 询问', service3Body: '产品规格、库存和批发安排由公司直接说明，沟通更方便。',
+                catalogTitle: '产品目录', catalogIntro: '目前本公司提供以下产品，如需其他相关产品可与客服联系。订单金额达到 $50（不含 GST）不收取运费。如需规格、库存或配送安排，请直接通过电话或 WhatsApp 联系我们。', searchPlaceholder: '搜索产品名称、品牌或编号', searchLabel: '搜索产品', categoryLabel: '产品分类',
+                deliveryTitle: '配送安排', delivery1Title: '新加坡全岛配送', delivery1Body: '由 CossFood 公司专职司机配送，服务新加坡全岛客户。', delivery2Title: '早车 09:00–17:00', delivery2Body: '每天 08:55 前收到的订单，安排早车配送。', delivery3Title: '晚车 17:00–21:00', delivery3Body: '09:00–17:00 收到的订单，请注明安排晚车或第二天早车。',
+                aboutTitle: '关于 CossFood', aboutBody1: 'CossFood 是一家立足于新加坡的优质食品批发供应商，为餐厅、咖啡店、小贩摊位、零售商及餐饮客户提供日常食品和食材。', aboutBody2: '我们持续整理面类、包点、豆制品、冷冻食品及其他餐饮常用产品，方便客户快速浏览并通过电话或 WhatsApp 询问。',
+                footerBrand: '新加坡食品本地优质供应商。', footerProductsTitle: '核心产品', footerProduct1: '各类精选快熟面', footerProduct2: '高品质伊面系列', footerProduct3: '包点与豆卜系列', footerContactTitle: '联系我们', whatsappAsk: 'WhatsApp 询问', islandDelivery: '新加坡全岛配送', footerDeliveryTitle: '配送时间', footerDelivery1: '早车：09:00–17:00', footerDelivery2: '晚车：17:00–21:00', footerDelivery3: '08:55 前订单安排早车',
+                brandLabel: '品牌', unitLabel: 'Unit', minimumLabel: '最低订购量', call: '电话', whatsapp: 'WhatsApp', productCount: (shown, total) => `显示 ${shown} / ${total} 项产品`, noResult: '没有找到匹配的产品，请尝试其他关键词。', allCategory: '全部', whatsappGeneral: '您好，我想咨询 CossFood 的产品和配送安排。', whatsappProduct: '您好，我想咨询产品：'
+            },
+            ms: {
+                navProducts: 'Produk', navServices: 'Perkhidmatan Utama', navDelivery: 'Penghantaran', navAbout: 'Tentang Kami', navContact: 'Telefon / WhatsApp',
+                heroTitle: 'Pakar Rantaian Bekalan Makanan Yang Boleh Dipercayai', heroLead: 'Pembekal mi, pau, produk tauhu, makanan sejuk beku dan bahan makanan untuk perniagaan F&B.', heroCta: 'Tanya melalui WhatsApp',
+                servicesTitle: 'Mengapa Pilih CossFood', service1Title: 'Armada Sendiri', service1Body: 'Penghantaran oleh pemandu syarikat ke seluruh Singapura untuk memudahkan pembelian stok.', service2Title: 'Jadual Pesanan Jelas', service2Body: 'Pesanan diatur dengan lori pagi, lori petang atau lori pagi hari berikutnya mengikut masa pesanan.', service3Title: 'Pertanyaan Telefon dan WhatsApp', service3Body: 'Hubungi kami terus untuk spesifikasi produk, stok dan urusan borong.',
+                catalogTitle: 'Katalog Produk', catalogIntro: 'Syarikat kami kini menyediakan produk-produk berikut. Untuk produk berkaitan yang lain, sila hubungi kami. Tiada caj penghantaran untuk pesanan bernilai $50 ke atas, tidak termasuk GST. Untuk spesifikasi, stok atau pengaturan penghantaran, sila hubungi kami melalui telefon atau WhatsApp.', searchPlaceholder: 'Cari nama, jenama atau kod produk', searchLabel: 'Cari produk', categoryLabel: 'Kategori produk',
+                deliveryTitle: 'Jadual Penghantaran', delivery1Title: 'Seluruh Singapura', delivery1Body: 'Dihantar oleh pemandu syarikat CossFood ke seluruh Singapura.', delivery2Title: 'Lori Pagi 09:00–17:00', delivery2Body: 'Pesanan yang diterima sebelum 08:55 akan dihantar dengan lori pagi.', delivery3Title: 'Lori Petang 17:00–21:00', delivery3Body: 'Untuk pesanan 09:00–17:00, nyatakan lori petang atau lori pagi hari berikutnya.',
+                aboutTitle: 'Tentang CossFood', aboutBody1: 'CossFood ialah pembekal makanan borong berkualiti yang berpangkalan di Singapura untuk restoran, kafe, gerai penjaja, peruncit dan pelanggan F&B.', aboutBody2: 'Kami menyediakan mi, pau, produk tauhu, makanan sejuk beku dan bahan makanan harian untuk memudahkan pelanggan membuat pertanyaan.',
+                footerBrand: 'Pembekal makanan tempatan di Singapura.', footerProductsTitle: 'Produk Utama', footerProduct1: 'Mi segera pilihan', footerProduct2: 'Pelbagai Yee Mee', footerProduct3: 'Pau dan Tau Pok', footerContactTitle: 'Hubungi Kami', whatsappAsk: 'Pertanyaan WhatsApp', islandDelivery: 'Penghantaran seluruh Singapura', footerDeliveryTitle: 'Waktu Penghantaran', footerDelivery1: 'Lori pagi: 09:00–17:00', footerDelivery2: 'Lori petang: 17:00–21:00', footerDelivery3: 'Pesanan sebelum 08:55: lori pagi',
+                brandLabel: 'Jenama', unitLabel: 'Unit', minimumLabel: 'Pesanan minimum', call: 'Telefon', whatsapp: 'WhatsApp', productCount: (shown, total) => `Menunjukkan ${shown} / ${total} produk`, noResult: 'Tiada produk yang sepadan. Cuba kata kunci lain.', allCategory: 'Semua', whatsappGeneral: 'Salam, saya ingin bertanya tentang produk dan penghantaran CossFood.', whatsappProduct: 'Salam, saya ingin bertanya tentang produk: '
+            },
+            en: {
+                navProducts: 'Products', navServices: 'Core Services', navDelivery: 'Delivery', navAbout: 'About Us', navContact: 'Call / WhatsApp',
+                heroTitle: 'Your Trusted Food Supply Chain Partner', heroLead: 'Wholesale supply of noodles, buns, tofu products, frozen foods and everyday F&B ingredients.', heroCta: 'Ask on WhatsApp',
+                servicesTitle: 'Why Choose CossFood', service1Title: 'Dedicated Delivery Fleet', service1Body: 'Company drivers deliver islandwide in Singapore, helping F&B customers replenish their stock.', service2Title: 'Clear Order Scheduling', service2Body: 'Orders are arranged for the morning, evening or next morning delivery based on the order time.', service3Title: 'Phone and WhatsApp Enquiries', service3Body: 'Contact our team directly for product specifications, availability and wholesale arrangements.',
+                catalogTitle: 'Product Catalogue', catalogIntro: 'Our company currently provides the products below. For other related products, please contact our team. Delivery is free for orders of $50 or more, excluding GST. For specifications, stock or delivery arrangements, please contact us by phone or WhatsApp.', searchPlaceholder: 'Search by product name, brand or code', searchLabel: 'Search products', categoryLabel: 'Product categories',
+                deliveryTitle: 'Delivery Schedule', delivery1Title: 'Islandwide Singapore', delivery1Body: 'Delivered by dedicated CossFood company drivers across Singapore.', delivery2Title: 'Morning Run 09:00–17:00', delivery2Body: 'Orders received before 08:55 are scheduled for the morning run.', delivery3Title: 'Evening Run 17:00–21:00', delivery3Body: 'For orders received from 09:00–17:00, specify evening or next morning delivery.',
+                aboutTitle: 'About CossFood', aboutBody1: 'CossFood is a quality food wholesaler based in Singapore, serving restaurants, cafés, hawker stalls, retailers and F&B customers.', aboutBody2: 'We supply noodles, buns, tofu products, frozen foods and everyday ingredients so customers can browse and enquire easily.',
+                footerBrand: 'A local food supplier in Singapore.', footerProductsTitle: 'Key Products', footerProduct1: 'Selected instant noodles', footerProduct2: 'Yee Mee range', footerProduct3: 'Buns and bean curd', footerContactTitle: 'Contact Us', whatsappAsk: 'WhatsApp Enquiry', islandDelivery: 'Islandwide Singapore delivery', footerDeliveryTitle: 'Delivery Hours', footerDelivery1: 'Morning: 09:00–17:00', footerDelivery2: 'Evening: 17:00–21:00', footerDelivery3: 'Before 08:55: morning run',
+                brandLabel: 'Brand', unitLabel: 'Unit', minimumLabel: 'Minimum order', call: 'Call', whatsapp: 'WhatsApp', productCount: (shown, total) => `Showing ${shown} of ${total} products`, noResult: 'No matching products found. Try another keyword.', allCategory: 'All', whatsappGeneral: 'Hello, I would like to enquire about CossFood products and delivery.', whatsappProduct: 'Hello, I would like to enquire about: '
+            }
+        };
+
+        const categoryLabels = {
+            zh: { '全部': '全部', '面类': '面类', '豆制品与火锅': '豆制品与火锅', '包点与点心': '包点与点心', '海鲜与冷冻': '海鲜与冷冻', '甜品与凉粉': '甜品与凉粉', '蔬菜与调味': '蔬菜与调味', '其他': '其他' },
+            ms: { '全部': 'Semua', '面类': 'Mi', '豆制品与火锅': 'Tauhu dan Steamboat', '包点与点心': 'Pau dan Dim Sum', '海鲜与冷冻': 'Makanan Laut dan Sejuk Beku', '甜品与凉粉': 'Pencuci Mulut', '蔬菜与调味': 'Sayur dan Perasa', '其他': 'Lain-lain' },
+            en: { '全部': 'All', '面类': 'Noodles', '豆制品与火锅': 'Tofu and Steamboat', '包点与点心': 'Buns and Dim Sum', '海鲜与冷冻': 'Seafood and Frozen', '甜品与凉粉': 'Desserts', '蔬菜与调味': 'Vegetables and Seasonings', '其他': 'Others' }
+        };
+
+        const grid = document.getElementById('product-grid');
+        const count = document.getElementById('product-count');
+        const search = document.getElementById('product-search');
+        const categoryList = document.getElementById('category-list');
+        const languageSelect = document.getElementById('language-select');
+        const savedLanguage = localStorage.getItem('cossfood-language');
+        let currentLanguage = ['zh', 'ms', 'en'].includes(savedLanguage) ? savedLanguage : 'zh';
+        let activeCategory = '全部';
+
+        const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
+        const t = () => translations[currentLanguage];
+        const whatsappUrl = (product) => `https://wa.me/6567733116?text=${encodeURIComponent(product ? `${t().whatsappProduct}${product.code} ${product.name}` : t().whatsappGeneral)}`;
+
+        function renderCategories() {
+            const categories = ['全部', ...new Set(products.map((product) => product.category))];
+            categoryList.innerHTML = categories.map((category) => `<button class="category-btn ${category === activeCategory ? 'active' : ''}" type="button" data-category="${escapeHtml(category)}">${escapeHtml(categoryLabels[currentLanguage][category] || category)}</button>`).join('');
+            categoryList.querySelectorAll('.category-btn').forEach((button) => button.addEventListener('click', () => {
+                activeCategory = button.dataset.category;
+                renderCategories();
+                renderProducts();
+            }));
+        }
+
+        function renderProducts() {
+            const keyword = search.value.trim().toLowerCase();
+            const filtered = products.filter((product) => {
+                const matchesCategory = activeCategory === '全部' || product.category === activeCategory;
+                const haystack = `${product.code} ${product.name} ${product.brand} ${product.category}`.toLowerCase();
+                return matchesCategory && haystack.includes(keyword);
+            });
+            count.textContent = t().productCount(filtered.length, products.length);
+            if (!filtered.length) {
+                grid.innerHTML = `<div class="empty-state">${escapeHtml(t().noResult)}</div>`;
+                return;
+            }
+            const categoryLabel = (product) => categoryLabels[currentLanguage][product.category] || product.category;
+            grid.innerHTML = filtered.map((product) => `
+                <article class="product-card">
+                    <div class="product-image-wrap">
+                        <img class="product-image" src="${encodeURI(product.image)}" alt="${escapeHtml(product.name)}" loading="lazy" decoding="async">
+                    </div>
+                    <div class="product-info">
+                        <span class="product-code">${escapeHtml(product.code)}</span>
+                        <h3 class="product-name">${escapeHtml(product.name)}</h3>
+                        <p class="product-meta">${escapeHtml(categoryLabel(product))}<br>${escapeHtml(t().brandLabel)}：${escapeHtml(product.brand)}<br>${escapeHtml(t().unitLabel)}：${escapeHtml(product.unit)}<br>${escapeHtml(t().minimumLabel)}：1 ${escapeHtml(product.unit)}</p>
+                        <div class="product-actions">
+                            <a class="call" href="tel:+6567733116">${escapeHtml(t().call)}</a>
+                            <a class="whatsapp" href="${whatsappUrl(product)}" target="_blank" rel="noopener">${escapeHtml(t().whatsapp)}</a>
+                        </div>
+                    </div>
+                </article>`).join('');
+        }
+
+        function applyLanguage() {
+            const language = t();
+            document.documentElement.lang = currentLanguage === 'zh' ? 'zh-SG' : `${currentLanguage}-SG`;
+            document.title = currentLanguage === 'zh' ? 'CossFood | 新加坡优质的食品批发供应商' : currentLanguage === 'ms' ? 'CossFood | Pembekal Makanan Borong Singapura' : 'CossFood | Singapore Food Wholesale Supplier';
+            document.querySelectorAll('[data-i18n]').forEach((element) => {
+                const key = element.dataset.i18n;
+                if (language[key]) element.textContent = language[key];
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach((element) => {
+                const key = element.dataset.i18nPlaceholder;
+                if (language[key]) element.placeholder = language[key];
+            });
+            document.querySelectorAll('[data-i18n-aria-label]').forEach((element) => {
+                const key = element.dataset.i18nAriaLabel;
+                if (language[key]) element.setAttribute('aria-label', language[key]);
+            });
+            languageSelect.value = currentLanguage;
+            document.getElementById('header-whatsapp').href = whatsappUrl();
+            document.getElementById('hero-whatsapp').href = whatsappUrl();
+            document.getElementById('footer-whatsapp').href = whatsappUrl();
+            renderCategories();
+            renderProducts();
+        }
+
+        search.addEventListener('input', renderProducts);
+        languageSelect.addEventListener('change', () => {
+            currentLanguage = languageSelect.value;
+            localStorage.setItem('cossfood-language', currentLanguage);
+            activeCategory = '全部';
+            applyLanguage();
+        });
+        applyLanguage();
+
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        menuToggle.addEventListener('click', () => {
+            const isOpen = navLinks.classList.toggle('open');
+            menuToggle.setAttribute('aria-expanded', String(isOpen));
+        });
+        navLinks.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+            navLinks.classList.remove('open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+        }));
+    </script>
+</body>
+</html>
