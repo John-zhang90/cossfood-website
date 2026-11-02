@@ -342,6 +342,16 @@
             { code: 'Z001', name: 'Chee Cheong Fun 300g', category: '包点与点心', unit: 'CTN', brand: 'LO SAM', image: 'image/Z001 CHEE CHEONG FUN 300G.jpg' }
         ];
 
+        // 默认展示顺序：面类 → 馒头/包点 → 豆卜及豆制品 → 其他 → 海鲜/鱿鱼
+        const productGroup = (product) => {
+            if (product.category === '面类') return 0;
+            if (product.code === 'B016' || product.code === 'MIX-001') return 1;
+            if (product.category === '豆制品与火锅') return 2;
+            if (product.category === '海鲜与冷冻') return 4;
+            return 3;
+        };
+        products.sort((first, second) => productGroup(first) - productGroup(second));
+
         const translations = {
             zh: {
                 navProducts: '产品目录', navServices: '核心服务', navDelivery: '配送安排', navAbout: '关于我们', navContact: '电话 / WhatsApp 询问',
