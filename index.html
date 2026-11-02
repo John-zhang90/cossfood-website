@@ -403,6 +403,7 @@
         const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
         const t = () => translations[currentLanguage];
         const whatsappUrl = (product) => `https://wa.me/6567733116?text=${encodeURIComponent(product ? `${t().whatsappProduct}${product.code} ${product.name}` : t().whatsappGeneral)}`;
+        const optimizedImage = (path) => path.replace(/^image\/(.+)\.jpg$/i, 'image/optimized/$1.webp');
 
         function renderCategories() {
             const categories = ['全部', ...new Set(products.map((product) => product.category))];
@@ -430,7 +431,7 @@
             grid.innerHTML = filtered.map((product) => `
                 <article class="product-card">
                     <div class="product-image-wrap">
-                        <img class="product-image" src="${encodeURI(product.image)}" alt="${escapeHtml(product.name)}" loading="lazy" decoding="async">
+                        <img class="product-image" src="${encodeURI(optimizedImage(product.image))}" alt="${escapeHtml(product.name)}" loading="lazy" decoding="async">
                     </div>
                     <div class="product-info">
                         <span class="product-code">${escapeHtml(product.code)}</span>
