@@ -1,0 +1,34 @@
+const fs = require('fs');
+const path = require('path');
+const vm = require('vm');
+
+const root = path.resolve(__dirname, '..');
+const indexPath = path.join(root, 'index.html');
+const html = fs.readFileSync(indexPath, 'utf8');
+
+function assert(condition, message) {
+    if (!condition) throw new Error(message);
+}
+
+assert(html.includes('data-i18n="navContact"'), 'Header WhatsApp contact is missing');
+assert((html.match(/\+65 6773 3116/g) || []).length >= 6, 'Singapore phone number is not shown in all required contact copy');
+assert(html.includes('const wechatQrUrl = \'image/WeChat_QRcode.jpeg\';'), 'WeChat QR URL constant is missing');
+assert(html.includes('href="${wechatQrUrl}"'), 'Red product contact buttons do not use the WeChat QR code');
+assert(!html.includes('<a class="call" href="tel:+6567733116">'), 'Red product contact buttons still dial the phone directly');
+assert(html.includes('image/WeChat_QRcode.jpeg'), 'WeChat QR code is not referenced');
+assert(html.includes('image/WhatsApp_QRcode.jpeg'), 'WhatsApp QR code is not referenced');
+assert(html.includes('data-i18n="footerQrTitle"'), 'Footer QR section title is missing');
+assert(html.includes('data-i18n-alt="wechatQrAlt"'), 'WeChat QR alt translation hook is missing');
+assert(html.includes('data-i18n-alt="whatsappQrAlt"'), 'WhatsApp QR alt translation hook is missing');
+
+for (const relativePath of ['image/WeChat_QRcode.jpeg', 'image/WhatsApp_QRcode.jpeg']) {
+    const filePath = path.join(root, relativePath);
+    assert(fs.existsSync(filePath), `Missing QR asset: ${relativePath}`);
+    assert(fs.statSync(filePath).size > 0, `Empty QR asset: ${relativePath}`);
+}
+
+const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
+assert(scriptMatch, 'Inline site script is missing');
+new vm.Script(scriptMatch[1], { filename: indexPath });
+
+console.log('PASS: CossFood site structure, QR assets, contact links and script syntax are valid.');
