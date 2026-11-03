@@ -20,6 +20,8 @@ assert(html.includes('image/WhatsApp_QRcode.jpeg'), 'WhatsApp QR code is not ref
 assert(html.includes('data-i18n="footerQrTitle"'), 'Footer QR section title is missing');
 assert(html.includes('data-i18n-alt="wechatQrAlt"'), 'WeChat QR alt translation hook is missing');
 assert(html.includes('data-i18n-alt="whatsappQrAlt"'), 'WhatsApp QR alt translation hook is missing');
+assert(html.includes('background: #f1dfc7'), 'Footer QR cards are missing the softer brand background');
+assert(html.includes('border-radius: 10px'), 'Footer QR cards are missing rounded corners');
 
 for (const relativePath of ['image/WeChat_QRcode.jpeg', 'image/WhatsApp_QRcode.jpeg']) {
     const filePath = path.join(root, relativePath);
