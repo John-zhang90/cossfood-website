@@ -34,6 +34,10 @@ for (const relativePath of ['image/WeChat_QRcode.jpeg', 'image/WhatsApp_QRcode.j
     assert(fs.statSync(filePath).size > 0, `Empty QR asset: ${relativePath}`);
 }
 
+const companyWebsiteQrPath = path.join(root, 'image/cossfood-com-qr.png');
+assert(fs.existsSync(companyWebsiteQrPath), 'Missing cossfood.com QR asset');
+assert(fs.statSync(companyWebsiteQrPath).size > 0, 'Empty cossfood.com QR asset');
+
 const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
 assert(scriptMatch, 'Inline site script is missing');
 new vm.Script(scriptMatch[1], { filename: indexPath });
