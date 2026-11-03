@@ -4,7 +4,9 @@ const vm = require('vm');
 
 const root = path.resolve(__dirname, '..');
 const indexPath = path.join(root, 'index.html');
+const cpanelPath = path.join(root, '.cpanel.yml');
 const html = fs.readFileSync(indexPath, 'utf8');
+const cpanel = fs.readFileSync(cpanelPath, 'utf8');
 
 function assert(condition, message) {
     if (!condition) throw new Error(message);
@@ -22,6 +24,9 @@ assert(html.includes('data-i18n-alt="wechatQrAlt"'), 'WeChat QR alt translation 
 assert(html.includes('data-i18n-alt="whatsappQrAlt"'), 'WhatsApp QR alt translation hook is missing');
 assert(html.includes('background: #f1dfc7'), 'Footer QR cards are missing the softer brand background');
 assert(html.includes('border-radius: 10px'), 'Footer QR cards are missing rounded corners');
+assert(cpanel.includes('export DEPLOYPATH=/home/cossfood/public_html/'), 'cPanel deployment path is incorrect');
+assert(cpanel.includes('/bin/cp index.html $DEPLOYPATH'), 'cPanel deployment does not copy index.html');
+assert(cpanel.includes('/bin/cp -R image $DEPLOYPATH'), 'cPanel deployment does not copy the image directory');
 
 for (const relativePath of ['image/WeChat_QRcode.jpeg', 'image/WhatsApp_QRcode.jpeg']) {
     const filePath = path.join(root, relativePath);
