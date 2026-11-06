@@ -5,3 +5,4 @@ deployment:
     - /bin/cp index.html $DEPLOYPATH
     - /bin/cp -R image $DEPLOYPATH
     - /bin/cp api/save-inquiry.php $DEPLOYPATH/save-inquiry.php
+    - /bin/cp api/visitor-stats.php $DEPLOYPATH/visitor-stats.php

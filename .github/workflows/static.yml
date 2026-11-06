@@ -27,7 +27,9 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Validate PHP API syntax
-        run: php -l api/save-inquiry.php
+        run: |
+          php -l api/save-inquiry.php
+          php -l api/visitor-stats.php
       - name: Prepare public site
         run: |
           mkdir _site

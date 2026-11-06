@@ -61,7 +61,7 @@ if (!in_array($deliverySlot, ['早车（09:00–17:00）', '晚车（17:00–21:
 }
 
 // Keep customer data outside public_html so it cannot be downloaded from the website.
-$dataDirectory = dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'customer_data';
+$dataDirectory = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'customer_data';
 if (!is_dir($dataDirectory) && !mkdir($dataDirectory, 0700, true) && !is_dir($dataDirectory)) {
     respond(500, ['success' => false, 'message' => 'Unable to prepare storage']);
 }

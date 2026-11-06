@@ -6,10 +6,12 @@ const root = path.resolve(__dirname, '..');
 const indexPath = path.join(root, 'index.html');
 const cpanelPath = path.join(root, '.cpanel.yml');
 const apiPath = path.join(root, 'api', 'save-inquiry.php');
+const visitorApiPath = path.join(root, 'api', 'visitor-stats.php');
 const pagesWorkflowPath = path.join(root, '.github', 'workflows', 'static.yml');
 const html = fs.readFileSync(indexPath, 'utf8');
 const cpanel = fs.readFileSync(cpanelPath, 'utf8');
 const api = fs.readFileSync(apiPath, 'utf8');
+const visitorApi = fs.readFileSync(visitorApiPath, 'utf8');
 const pagesWorkflow = fs.readFileSync(pagesWorkflowPath, 'utf8');
 
 function assert(condition, message) {
@@ -37,6 +39,9 @@ for (const field of ['name', 'address', 'phone', 'deliverySlot']) {
 assert(html.includes('value="早车（09:00–17:00）"'), 'Morning delivery option is missing');
 assert(html.includes('value="晚车（17:00–21:00）"'), 'Evening delivery option is missing');
 assert(html.includes("const enquiryApiUrl"), 'Enquiry API URL is missing');
+assert(html.includes('id="visitor-total"'), 'Total visitor counter is missing from the footer');
+assert(html.includes('id="visitor-today"'), 'Daily visitor counter is missing from the footer');
+assert(html.includes("const visitorStatsUrl"), 'Visitor statistics API URL is missing');
 assert((html.match(/\+65 8756 9015/g) || []).length >= 6, 'New Singapore phone number is not shown in all required contact copy');
 assert(!html.includes('6773 3116'), 'Old displayed phone number is still present');
 assert(!html.includes('6567733116'), 'Old phone or WhatsApp target is still present');
@@ -56,18 +61,26 @@ assert(cpanel.includes('export DEPLOYPATH=/home/cossfood/public_html/'), 'cPanel
 assert(cpanel.includes('/bin/cp index.html $DEPLOYPATH'), 'cPanel deployment does not copy index.html');
 assert(cpanel.includes('/bin/cp -R image $DEPLOYPATH'), 'cPanel deployment does not copy the image directory');
 assert(cpanel.includes('/bin/cp api/save-inquiry.php $DEPLOYPATH/save-inquiry.php'), 'cPanel deployment does not copy the enquiry API to the public site root');
+assert(cpanel.includes('/bin/cp api/visitor-stats.php $DEPLOYPATH/visitor-stats.php'), 'cPanel deployment does not copy the visitor statistics API');
 
 assert(fs.existsSync(apiPath), 'Enquiry API file is missing');
 assert(api.includes("'customer-inquiries.csv'"), 'Customer inquiry CSV storage is missing');
 assert(api.includes("'customer-inquiries.xlsx'"), 'Native Excel storage path is missing');
 assert(api.includes("['序号', '名字', '地址', '电话', '配送时间段', '时间']"), 'Customer information columns are incomplete');
-assert(api.includes("dirname(__DIR__, 2)"), 'Customer data must be stored outside public_html');
+assert(api.includes("dirname(__DIR__)"), 'Customer data must be stored outside public_html');
 assert(api.includes('flock($lock, LOCK_EX)'), 'Customer storage must use a write lock');
 assert(api.includes('ZipArchive'), 'API should create a native Excel copy when available');
+assert(fs.existsSync(visitorApiPath), 'Visitor statistics API file is missing');
+assert(visitorApi.includes("'visitor-stats.csv'"), 'Visitor CSV report storage is missing');
+assert(visitorApi.includes("'visitor-stats.xlsx'"), 'Visitor Excel report storage is missing');
+assert(visitorApi.includes("['日期', '当日访问人数', '累计访问人数', '最后更新时间']"), 'Visitor report columns are incomplete');
+assert(visitorApi.includes("hash('sha256'"), 'Visitor identity must be anonymized');
+assert(visitorApi.includes('flock($lock, LOCK_EX)'), 'Visitor storage must use a write lock');
 assert(pagesWorkflow.includes('path: _site'), 'GitHub Pages must publish the prepared public site directory');
 assert(pagesWorkflow.includes('cp index.html _site/'), 'GitHub Pages artifact must include index.html');
 assert(pagesWorkflow.includes('cp -R image _site/'), 'GitHub Pages artifact must include image assets');
-assert(pagesWorkflow.includes('php -l api/save-inquiry.php'), 'GitHub Actions must validate PHP API syntax');
+assert(pagesWorkflow.includes('php -l api/save-inquiry.php'), 'GitHub Actions must validate the enquiry API syntax');
+assert(pagesWorkflow.includes('php -l api/visitor-stats.php'), 'GitHub Actions must validate the visitor API syntax');
 assert(!pagesWorkflow.includes("path: '.'"), 'GitHub Pages must not publish the whole repository');
 
 for (const relativePath of ['image/WeChat_QRcode.jpeg', 'image/WhatsApp_QRcode.jpeg', 'image/WeChat_QRcode-transparent.png', 'image/WhatsApp_QRcode-transparent.png']) {
