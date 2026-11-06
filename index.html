@@ -12,7 +12,7 @@
             --brand-red: #D32F2F;    /* 品牌主红 */
             --brand-yellow: #FFEB3B; /* 快捷订货主黄 */
             --text-dark: #212121;    /* 现代暗黑文字 */
-            --bg-light: #F5F5F5;     /* 浅灰背景 */
+            --bg-light: #fffaf2;     /* 品牌暖白背景 */
             --white: #FFFFFF;
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
@@ -52,18 +52,16 @@
         .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
         /* --- B2B 企业级 Hero Section --- */
-        .hero { display: flex; min-height: calc(100vh - 70px); background: var(--bg-light); }
-        .hero-left { flex: 1; position: relative; overflow: hidden; min-height: 420px; background: #ece7df; }
-        .hero-left img { width: 100%; height: 100%; min-height: 420px; display: block; object-fit: cover; }
-        /* 遮罩层防止白底大图刺眼 */
-        .hero-left::after { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.1); }
+        .hero { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); height: min(620px, calc(100vh - 78px)); background: var(--bg-light); }
+        .hero-left { position: relative; overflow: hidden; min-height: 0; display: grid; place-items: center; padding: 28px; background: var(--bg-light); }
+        .hero-left img { width: 100%; height: 100%; min-height: 0; display: block; object-fit: contain; object-position: center; }
         .hero-right { 
             flex: 1; background: var(--brand-red); color: var(--white); 
             display: flex; flex-direction: column; justify-content: center; 
-            padding: 60px; position: relative;
+            padding: clamp(32px, 5vw, 72px); position: relative;
         }
-        .hero-right h1 { font-size: 42px; font-weight: 800; line-height: 1.2; margin-bottom: 20px; }
-        .hero-right p { font-size: 18px; margin-bottom: 35px; opacity: 0.9; }
+        .hero-right h1 { font-size: clamp(34px, 4vw, 48px); font-weight: 800; line-height: 1.2; margin-bottom: 20px; }
+        .hero-right p { font-size: clamp(16px, 1.6vw, 18px); margin-bottom: 35px; opacity: 0.9; }
         .hero-cta { 
             align-self: flex-start; background: var(--brand-yellow); color: #000; 
             text-decoration: none; padding: 15px 40px; font-size: 18px; 
@@ -117,8 +115,8 @@
         .about-container { max-width: 1200px; margin: 0 auto; display: flex; gap: 50px; align-items: center; }
         .about-text { flex: 1; }
         .about-text p { margin-bottom: 15px; color: #444; }
-        .about-img { flex: 1; height: 350px; border-radius: 6px; overflow: hidden; background: #ece7df; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .about-img img { width: 100%; height: 100%; display: block; object-fit: cover; }
+        .about-img { flex: 1; height: 350px; padding: 18px; border-radius: 10px; overflow: hidden; background: var(--bg-light); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .about-img img { width: 100%; height: 100%; display: block; object-fit: contain; }
 
         /* --- 页脚区块 --- */
         footer { background: #1A1A1A; color: rgba(255,255,255,0.7); padding: 60px 20px 20px; font-size: 14px; }
@@ -140,10 +138,10 @@
 
         /* --- 🎯 极致移动端适配响应式断点 (Responsive Media Queries) --- */
         @media (max-width: 992px) {
-            .hero { flex-direction: column; }
-            .hero-left { min-height: 40vh; }
+            .hero { display: flex; flex-direction: column; height: auto; }
+            .hero-left { height: clamp(260px, 42vw, 360px); padding: 20px 56px; }
             .hero-right { padding: 40px 20px; text-align: center; }
-            .hero-right h1 { font-size: 32px; }
+            .hero-right h1 { font-size: 34px; }
             .hero-cta { align-self: center; width: 100%; max-width: 300px; }
             .grid-3 { grid-template-columns: repeat(2, 1fr); }
             .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -152,19 +150,42 @@
         }
 
         @media (max-width: 768px) {
+            .nav-container { padding: 12px 16px; }
+            .logo { font-size: 28px; }
             .menu-toggle { display: block; }
             .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; padding: 12px 20px 18px; box-shadow: 0 8px 14px rgba(0,0,0,0.08); flex-direction: column; align-items: stretch; gap: 8px; }
             .nav-links.open { display: flex; }
             .nav-links a { display: block; padding: 10px 0; }
+            .nav-links .btn-order { text-align: center; white-space: normal; }
             .grid-3 { grid-template-columns: 1fr; }
             .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .footer-container { grid-template-columns: repeat(2, 1fr); }
+            .catalog { padding: 56px 14px; }
+            .catalog-tools { display: block; }
+            .search-box { width: 100%; min-width: 0; margin-bottom: 12px; }
+            .category-list { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; }
+            .category-btn { flex: 0 0 auto; }
+            .product-grid { gap: 14px; }
+            .product-info { padding: 12px; }
+            .product-name { font-size: 15px; }
+            .product-meta { font-size: 12px; line-height: 1.6; }
+            .product-actions a { padding: 8px 5px; font-size: 12px; }
         }
 
         @media (max-width: 480px) {
-            .product-grid { grid-template-columns: 1fr; }
+            .hero-left { height: 260px; padding: 18px 42px; }
+            .hero-right { padding: 38px 18px 42px; }
+            .hero-right h1 { font-size: 29px; }
+            .hero-right p { font-size: 15px; margin-bottom: 24px; }
+            .hero-cta { max-width: none; padding: 13px 12px; font-size: 16px; }
+            .services { margin: 56px auto; padding: 0 14px; }
+            .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
             .footer-container { grid-template-columns: 1fr; }
             .section-title { font-size: 26px; }
+        }
+
+        @media (max-width: 360px) {
+            .product-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
