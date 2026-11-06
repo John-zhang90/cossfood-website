@@ -42,6 +42,7 @@ assert(html.includes("const enquiryApiUrl"), 'Enquiry API URL is missing');
 assert(html.includes('id="visitor-total"'), 'Total visitor counter is missing from the footer');
 assert(html.includes('id="visitor-today"'), 'Daily visitor counter is missing from the footer');
 assert(html.includes("const visitorStatsUrl"), 'Visitor statistics API URL is missing');
+assert(html.includes('setInterval(recordVisit, 60000)'), 'Visitor statistics should refresh periodically');
 assert((html.match(/\+65 8756 9015/g) || []).length >= 6, 'New Singapore phone number is not shown in all required contact copy');
 assert(!html.includes('6773 3116'), 'Old displayed phone number is still present');
 assert(!html.includes('6567733116'), 'Old phone or WhatsApp target is still present');
