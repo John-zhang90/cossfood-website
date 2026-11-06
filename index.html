@@ -168,6 +168,7 @@
         .footer-col ul li { margin-bottom: 10px; }
         .footer-col ul li a { color: rgba(255,255,255,0.7); text-decoration: none; transition: var(--transition); }
         .footer-col ul li a:hover { color: var(--white); }
+        .visitor-stat strong { color: #fff; font-size: 16px; }
         .footer-qr-list { display: flex; gap: 8px; flex-wrap: wrap; }
         .footer-qr-card { width: 96px; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px 6px 7px; color: #4a3028; font-size: 12px; text-align: center; background: #f1dfc7; border: 1px solid rgba(255,255,255,0.22); border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.16); }
         .footer-qr-card img { width: 80px; height: 80px; display: block; object-fit: contain; background: transparent; border: 0; border-radius: 6px; }
@@ -428,6 +429,8 @@
                     <li><a href="tel:+6587569015">+65 8756 9015</a></li>
                     <li><a id="footer-whatsapp" href="https://wa.me/6587569015" target="_blank" rel="noopener" data-i18n="whatsappAsk">WhatsApp 询问：+65 8756 9015</a></li>
                     <li data-i18n="islandDelivery">新加坡全岛配送</li>
+                    <li class="visitor-stat"><span data-i18n="visitorStatsLabel">网站访问</span>：<strong id="visitor-total">—</strong></li>
+                    <li class="visitor-stat"><span data-i18n="visitorTodayLabel">今日访问</span>：<strong id="visitor-today">—</strong></li>
                 </ul>
             </div>
             <div class="footer-col" id="contact">
@@ -506,7 +509,7 @@
                 catalogTitle: '产品目录', catalogIntro: '目前本公司提供以下产品，如需其他相关产品可与客服联系。订单金额达到 $50（不含 GST）不收取运费。如需规格、库存或配送安排，请直接通过电话或 WhatsApp 联系我们。', searchPlaceholder: '搜索产品名称、品牌或编号', searchLabel: '搜索产品', categoryLabel: '产品分类',
                 deliveryTitle: '配送安排', delivery1Title: '新加坡全岛配送', delivery1Body: '由 CossFood 公司专职司机配送，服务新加坡全岛客户。', delivery2Title: '早车 09:00–17:00', delivery2Body: '每天 08:55 前收到的订单，安排早车配送。', delivery3Title: '晚车 17:00–21:00', delivery3Body: '09:00–17:00 收到的订单，请注明安排晚车或第二天早车。',
                 aboutTitle: '关于 CossFood', aboutBody1: 'CossFood 是一家立足于新加坡的优质食品批发供应商，为餐厅、咖啡店、小贩摊位、零售商及餐饮客户提供日常食品和食材。', aboutBody2: '我们持续整理面类、包点、豆制品、冷冻食品及其他餐饮常用产品，方便客户快速浏览并通过电话或 WhatsApp 询问。',
-                footerBrand: '新加坡食品本地优质供应商。', footerProductsTitle: '核心产品', footerProduct1: '各类精选快熟面', footerProduct2: '高品质伊面系列', footerProduct3: '包点与豆卜系列', footerContactTitle: '联系我们', whatsappAsk: 'WhatsApp 询问：+65 8756 9015', islandDelivery: '新加坡全岛配送', footerDeliveryTitle: '配送时间', footerDelivery1: '早车：09:00–17:00', footerDelivery2: '晚车：17:00–21:00', footerDelivery3: '08:55 前订单安排早车', footerQrTitle: '扫码联系', wechatQrLabel: '微信', whatsappQrLabel: 'WhatsApp', wechatQrAlt: '微信二维码', whatsappQrAlt: 'WhatsApp 二维码',
+                footerBrand: '新加坡食品本地优质供应商。', footerProductsTitle: '核心产品', footerProduct1: '各类精选快熟面', footerProduct2: '高品质伊面系列', footerProduct3: '包点与豆卜系列', footerContactTitle: '联系我们', whatsappAsk: 'WhatsApp 询问：+65 8756 9015', islandDelivery: '新加坡全岛配送', visitorStatsLabel: '网站访问', visitorTodayLabel: '今日访问', footerDeliveryTitle: '配送时间', footerDelivery1: '早车：09:00–17:00', footerDelivery2: '晚车：17:00–21:00', footerDelivery3: '08:55 前订单安排早车', footerQrTitle: '扫码联系', wechatQrLabel: '微信', whatsappQrLabel: 'WhatsApp', wechatQrAlt: '微信二维码', whatsappQrAlt: 'WhatsApp 二维码',
                 brandLabel: '品牌', unitLabel: 'Unit', minimumLabel: '最低订购量', call: '微信', whatsapp: 'WhatsApp', productCount: (shown, total) => `显示 ${shown} / ${total} 项产品`, noResult: '没有找到匹配的产品，请尝试其他关键词。', allCategory: '全部', whatsappGeneral: '您好，我想咨询 CossFood 的产品和配送安排。', whatsappProduct: '您好，我想咨询产品：'
             },
             ms: {
@@ -516,7 +519,7 @@
                 catalogTitle: 'Katalog Produk', catalogIntro: 'Syarikat kami kini menyediakan produk-produk berikut. Untuk produk berkaitan yang lain, sila hubungi kami. Tiada caj penghantaran untuk pesanan bernilai $50 ke atas, tidak termasuk GST. Untuk spesifikasi, stok atau pengaturan penghantaran, sila hubungi kami melalui telefon atau WhatsApp.', searchPlaceholder: 'Cari nama, jenama atau kod produk', searchLabel: 'Cari produk', categoryLabel: 'Kategori produk',
                 deliveryTitle: 'Jadual Penghantaran', delivery1Title: 'Seluruh Singapura', delivery1Body: 'Dihantar oleh pemandu syarikat CossFood ke seluruh Singapura.', delivery2Title: 'Lori Pagi 09:00–17:00', delivery2Body: 'Pesanan yang diterima sebelum 08:55 akan dihantar dengan lori pagi.', delivery3Title: 'Lori Petang 17:00–21:00', delivery3Body: 'Untuk pesanan 09:00–17:00, nyatakan lori petang atau lori pagi hari berikutnya.',
                 aboutTitle: 'Tentang CossFood', aboutBody1: 'CossFood ialah pembekal makanan borong berkualiti yang berpangkalan di Singapura untuk restoran, kafe, gerai penjaja, peruncit dan pelanggan F&B.', aboutBody2: 'Kami menyediakan mi, pau, produk tauhu, makanan sejuk beku dan bahan makanan harian untuk memudahkan pelanggan membuat pertanyaan.',
-                footerBrand: 'Pembekal makanan tempatan di Singapura.', footerProductsTitle: 'Produk Utama', footerProduct1: 'Mi segera pilihan', footerProduct2: 'Pelbagai Yee Mee', footerProduct3: 'Pau dan Tau Pok', footerContactTitle: 'Hubungi Kami', whatsappAsk: 'Pertanyaan WhatsApp: +65 8756 9015', islandDelivery: 'Penghantaran seluruh Singapura', footerDeliveryTitle: 'Waktu Penghantaran', footerDelivery1: 'Lori pagi: 09:00–17:00', footerDelivery2: 'Lori petang: 17:00–21:00', footerDelivery3: 'Pesanan sebelum 08:55: lori pagi', footerQrTitle: 'Hubungi melalui QR', wechatQrLabel: 'WeChat', whatsappQrLabel: 'WhatsApp', wechatQrAlt: 'Kod QR WeChat', whatsappQrAlt: 'Kod QR WhatsApp',
+                footerBrand: 'Pembekal makanan tempatan di Singapura.', footerProductsTitle: 'Produk Utama', footerProduct1: 'Mi segera pilihan', footerProduct2: 'Pelbagai Yee Mee', footerProduct3: 'Pau dan Tau Pok', footerContactTitle: 'Hubungi Kami', whatsappAsk: 'Pertanyaan WhatsApp: +65 8756 9015', islandDelivery: 'Penghantaran seluruh Singapura', visitorStatsLabel: 'Lawatan laman web', visitorTodayLabel: 'Lawatan hari ini', footerDeliveryTitle: 'Waktu Penghantaran', footerDelivery1: 'Lori pagi: 09:00–17:00', footerDelivery2: 'Lori petang: 17:00–21:00', footerDelivery3: 'Pesanan sebelum 08:55: lori pagi', footerQrTitle: 'Hubungi melalui QR', wechatQrLabel: 'WeChat', whatsappQrLabel: 'WhatsApp', wechatQrAlt: 'Kod QR WeChat', whatsappQrAlt: 'Kod QR WhatsApp',
                 brandLabel: 'Jenama', unitLabel: 'Unit', minimumLabel: 'Pesanan minimum', call: 'WeChat', whatsapp: 'WhatsApp', productCount: (shown, total) => `Menunjukkan ${shown} / ${total} produk`, noResult: 'Tiada produk yang sepadan. Cuba kata kunci lain.', allCategory: 'Semua', whatsappGeneral: 'Salam, saya ingin bertanya tentang produk dan penghantaran CossFood.', whatsappProduct: 'Salam, saya ingin bertanya tentang produk: '
             },
             en: {
@@ -526,7 +529,7 @@
                 catalogTitle: 'Product Catalogue', catalogIntro: 'Our company currently provides the products below. For other related products, please contact our team. Delivery is free for orders of $50 or more, excluding GST. For specifications, stock or delivery arrangements, please contact us by phone or WhatsApp.', searchPlaceholder: 'Search by product name, brand or code', searchLabel: 'Search products', categoryLabel: 'Product categories',
                 deliveryTitle: 'Delivery Schedule', delivery1Title: 'Islandwide Singapore', delivery1Body: 'Delivered by dedicated CossFood company drivers across Singapore.', delivery2Title: 'Morning Run 09:00–17:00', delivery2Body: 'Orders received before 08:55 are scheduled for the morning run.', delivery3Title: 'Evening Run 17:00–21:00', delivery3Body: 'For orders received from 09:00–17:00, specify evening or next morning delivery.',
                 aboutTitle: 'About CossFood', aboutBody1: 'CossFood is a quality food wholesaler based in Singapore, serving restaurants, cafés, hawker stalls, retailers and F&B customers.', aboutBody2: 'We supply noodles, buns, tofu products, frozen foods and everyday ingredients so customers can browse and enquire easily.',
-                footerBrand: 'A local food supplier in Singapore.', footerProductsTitle: 'Key Products', footerProduct1: 'Selected instant noodles', footerProduct2: 'Yee Mee range', footerProduct3: 'Buns and bean curd', footerContactTitle: 'Contact Us', whatsappAsk: 'WhatsApp Enquiry: +65 8756 9015', islandDelivery: 'Islandwide Singapore delivery', footerDeliveryTitle: 'Delivery Hours', footerDelivery1: 'Morning: 09:00–17:00', footerDelivery2: 'Evening: 17:00–21:00', footerDelivery3: 'Before 08:55: morning run', footerQrTitle: 'Scan to Contact', wechatQrLabel: 'WeChat', whatsappQrLabel: 'WhatsApp', wechatQrAlt: 'WeChat QR code', whatsappQrAlt: 'WhatsApp QR code',
+                footerBrand: 'A local food supplier in Singapore.', footerProductsTitle: 'Key Products', footerProduct1: 'Selected instant noodles', footerProduct2: 'Yee Mee range', footerProduct3: 'Buns and bean curd', footerContactTitle: 'Contact Us', whatsappAsk: 'WhatsApp Enquiry: +65 8756 9015', islandDelivery: 'Islandwide Singapore delivery', visitorStatsLabel: 'Website visits', visitorTodayLabel: 'Today\'s visits', footerDeliveryTitle: 'Delivery Hours', footerDelivery1: 'Morning: 09:00–17:00', footerDelivery2: 'Evening: 17:00–21:00', footerDelivery3: 'Before 08:55: morning run', footerQrTitle: 'Scan to Contact', wechatQrLabel: 'WeChat', whatsappQrLabel: 'WhatsApp', wechatQrAlt: 'WeChat QR code', whatsappQrAlt: 'WhatsApp QR code',
                 brandLabel: 'Brand', unitLabel: 'Unit', minimumLabel: 'Minimum order', call: 'WeChat', whatsapp: 'WhatsApp', productCount: (shown, total) => `Showing ${shown} of ${total} products`, noResult: 'No matching products found. Try another keyword.', allCategory: 'All', whatsappGeneral: 'Hello, I would like to enquire about CossFood products and delivery.', whatsappProduct: 'Hello, I would like to enquire about: '
             }
         };
@@ -547,6 +550,9 @@
         const enquiryStatus = document.getElementById('enquiry-status');
         const enquirySubmit = document.getElementById('enquiry-submit');
         const enquiryApiUrl = window.location.hostname.endsWith('github.io') ? 'https://cossfood.com/save-inquiry.php' : 'save-inquiry.php';
+        const visitorTotal = document.getElementById('visitor-total');
+        const visitorToday = document.getElementById('visitor-today');
+        const visitorStatsUrl = window.location.hostname.endsWith('github.io') ? 'https://cossfood.com/visitor-stats.php' : 'visitor-stats.php';
         const savedLanguage = localStorage.getItem('cossfood-language');
         let currentLanguage = ['zh', 'ms', 'en'].includes(savedLanguage) ? savedLanguage : 'zh';
         let activeCategory = '全部';
@@ -608,6 +614,24 @@
                 enquirySubmit.textContent = t().enquirySave;
             }
         });
+
+        async function recordVisit() {
+            try {
+                const response = await fetch(visitorStatsUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: '{}',
+                    cache: 'no-store',
+                    keepalive: true
+                });
+                const result = await response.json().catch(() => ({}));
+                if (!response.ok || !result.success) return;
+                visitorTotal.textContent = String(result.totalVisitors);
+                visitorToday.textContent = String(result.todayVisitors);
+            } catch (error) {
+                // Visitor statistics are supplementary and must not interrupt browsing.
+            }
+        }
 
         function renderCategories() {
             const categories = ['全部', ...new Set(products.map((product) => product.category))];
@@ -685,6 +709,7 @@
             applyLanguage();
         });
         applyLanguage();
+        recordVisit();
 
         const menuToggle = document.querySelector('.menu-toggle');
         const navLinks = document.querySelector('.nav-links');
