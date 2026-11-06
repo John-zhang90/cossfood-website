@@ -546,7 +546,7 @@
         const enquiryForm = document.getElementById('enquiry-form');
         const enquiryStatus = document.getElementById('enquiry-status');
         const enquirySubmit = document.getElementById('enquiry-submit');
-        const enquiryApiUrl = window.location.hostname.endsWith('github.io') ? 'https://cossfood.com/api/save-inquiry.php' : 'api/save-inquiry.php';
+        const enquiryApiUrl = window.location.hostname.endsWith('github.io') ? 'https://cossfood.com/save-inquiry.php' : 'save-inquiry.php';
         const savedLanguage = localStorage.getItem('cossfood-language');
         let currentLanguage = ['zh', 'ms', 'en'].includes(savedLanguage) ? savedLanguage : 'zh';
         let activeCategory = '全部';
