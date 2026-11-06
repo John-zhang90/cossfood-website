@@ -6,9 +6,11 @@ const root = path.resolve(__dirname, '..');
 const indexPath = path.join(root, 'index.html');
 const cpanelPath = path.join(root, '.cpanel.yml');
 const apiPath = path.join(root, 'api', 'save-inquiry.php');
+const pagesWorkflowPath = path.join(root, '.github', 'workflows', 'static.yml');
 const html = fs.readFileSync(indexPath, 'utf8');
 const cpanel = fs.readFileSync(cpanelPath, 'utf8');
 const api = fs.readFileSync(apiPath, 'utf8');
+const pagesWorkflow = fs.readFileSync(pagesWorkflowPath, 'utf8');
 
 function assert(condition, message) {
     if (!condition) throw new Error(message);
@@ -62,6 +64,10 @@ assert(api.includes("['序号', '名字', '地址', '电话', '配送时间段',
 assert(api.includes("dirname(__DIR__, 2)"), 'Customer data must be stored outside public_html');
 assert(api.includes('flock($lock, LOCK_EX)'), 'Customer storage must use a write lock');
 assert(api.includes('ZipArchive'), 'API should create a native Excel copy when available');
+assert(pagesWorkflow.includes('path: _site'), 'GitHub Pages must publish the prepared public site directory');
+assert(pagesWorkflow.includes('cp index.html _site/'), 'GitHub Pages artifact must include index.html');
+assert(pagesWorkflow.includes('cp -R image _site/'), 'GitHub Pages artifact must include image assets');
+assert(!pagesWorkflow.includes("path: '.'"), 'GitHub Pages must not publish the whole repository');
 
 for (const relativePath of ['image/WeChat_QRcode.jpeg', 'image/WhatsApp_QRcode.jpeg', 'image/WeChat_QRcode-transparent.png', 'image/WhatsApp_QRcode-transparent.png']) {
     const filePath = path.join(root, relativePath);
