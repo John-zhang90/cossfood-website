@@ -25,6 +25,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      - name: Validate PHP API syntax
+        run: php -l api/save-inquiry.php
       - name: Prepare public site
         run: |
           mkdir _site

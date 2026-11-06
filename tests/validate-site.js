@@ -67,6 +67,7 @@ assert(api.includes('ZipArchive'), 'API should create a native Excel copy when a
 assert(pagesWorkflow.includes('path: _site'), 'GitHub Pages must publish the prepared public site directory');
 assert(pagesWorkflow.includes('cp index.html _site/'), 'GitHub Pages artifact must include index.html');
 assert(pagesWorkflow.includes('cp -R image _site/'), 'GitHub Pages artifact must include image assets');
+assert(pagesWorkflow.includes('php -l api/save-inquiry.php'), 'GitHub Actions must validate PHP API syntax');
 assert(!pagesWorkflow.includes("path: '.'"), 'GitHub Pages must not publish the whole repository');
 
 for (const relativePath of ['image/WeChat_QRcode.jpeg', 'image/WhatsApp_QRcode.jpeg', 'image/WeChat_QRcode-transparent.png', 'image/WhatsApp_QRcode-transparent.png']) {
