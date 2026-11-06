@@ -13,6 +13,8 @@ function assert(condition, message) {
 }
 
 assert(html.includes('data-i18n="navContact"'), 'Header WhatsApp contact is missing');
+assert((html.match(/image\/logo_company\.png/g) || []).length >= 2, 'Selected A logo is not used in the visual sections');
+assert(fs.existsSync(path.join(root, 'image/logo_company.png')), 'Selected A logo asset is missing');
 assert((html.match(/\+65 8756 9015/g) || []).length >= 6, 'New Singapore phone number is not shown in all required contact copy');
 assert(!html.includes('6773 3116'), 'Old displayed phone number is still present');
 assert(!html.includes('6567733116'), 'Old phone or WhatsApp target is still present');
