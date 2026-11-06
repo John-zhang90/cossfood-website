@@ -4,3 +4,4 @@ deployment:
     - export DEPLOYPATH=/home/cossfood/public_html/
     - /bin/cp index.html $DEPLOYPATH
     - /bin/cp -R image $DEPLOYPATH
+    - /bin/cp -R api $DEPLOYPATH

@@ -93,6 +93,30 @@
         .process-number { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; margin-bottom: 18px; border-radius: 50%; background: var(--brand-red); color: #fff; font-size: 14px; font-weight: 800; }
         .process-card h3 { font-size: 20px; margin-bottom: 8px; }
         .process-card p { color: #666; font-size: 15px; }
+        .process-action { margin-top: 18px; border: 0; border-radius: 6px; padding: 11px 16px; background: var(--brand-red); color: #fff; cursor: pointer; font: inherit; font-weight: 700; transition: var(--transition); }
+        .process-action:hover { background: #b51f23; transform: translateY(-1px); }
+
+        /* --- 客户信息弹窗 --- */
+        .modal[hidden] { display: none; }
+        .modal { position: fixed; inset: 0; z-index: 20; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .modal-backdrop { position: absolute; inset: 0; background: rgba(26, 26, 26, 0.68); }
+        .modal-dialog { position: relative; width: min(100%, 560px); max-height: min(720px, calc(100vh - 40px)); overflow-y: auto; padding: 30px; border-radius: 12px; background: #fffaf2; box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25); }
+        .modal-close { position: absolute; top: 12px; right: 14px; border: 0; background: transparent; color: #6d4035; font-size: 30px; line-height: 1; cursor: pointer; }
+        .modal-dialog h2 { margin: 0 38px 8px 0; color: var(--brand-red); font-size: 26px; }
+        .modal-intro { color: #666; margin-bottom: 22px; font-size: 14px; }
+        .enquiry-form { display: grid; gap: 14px; }
+        .enquiry-form label, .enquiry-form legend { color: #4a3028; font-size: 14px; font-weight: 700; }
+        .enquiry-form input[type="text"], .enquiry-form input[type="tel"] { width: 100%; margin-top: 6px; padding: 12px 13px; border: 1px solid #d8c8b7; border-radius: 6px; background: #fff; font: inherit; }
+        .enquiry-form input:focus { outline: 2px solid rgba(216, 43, 47, 0.24); border-color: var(--brand-red); }
+        .delivery-options { display: grid; gap: 8px; margin: 8px 0 0; padding: 0; border: 0; }
+        .delivery-option { display: flex; align-items: center; gap: 8px; padding: 11px 12px; border: 1px solid #d8c8b7; border-radius: 6px; background: #fff; font-weight: 400 !important; cursor: pointer; }
+        .delivery-option input { accent-color: var(--brand-red); }
+        .modal-submit { border: 0; border-radius: 6px; padding: 13px 16px; background: var(--brand-red); color: #fff; cursor: pointer; font: inherit; font-weight: 700; }
+        .modal-submit:disabled { opacity: .65; cursor: wait; }
+        .enquiry-status { min-height: 20px; color: #267544; font-size: 14px; }
+        .enquiry-status.error { color: var(--brand-red); }
+        .honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; opacity: 0; }
+        body.modal-open { overflow: hidden; }
 
         /* --- 产品目录 --- */
         .catalog { background: #fffaf2; padding: 80px 20px; }
@@ -189,6 +213,8 @@
             .product-name { font-size: 15px; }
             .product-meta { font-size: 12px; line-height: 1.6; }
             .product-actions a { padding: 8px 5px; font-size: 12px; }
+            .modal { padding: 12px; }
+            .modal-dialog { padding: 24px 18px 20px; max-height: calc(100vh - 24px); }
         }
 
         @media (max-width: 480px) {
@@ -274,8 +300,9 @@
             <div class="process-grid">
                 <article class="process-card">
                     <span class="process-number">01</span>
-                    <h3 data-i18n="process1Title">选择产品</h3>
-                    <p data-i18n="process1Body">按分类浏览产品，并记录产品编号和 Unit 数量。</p>
+                    <h3 data-i18n="process1Title">填写信息</h3>
+                    <p data-i18n="process1Body">填写姓名、地址、电话和配送时段，提交后由客服跟进。</p>
+                    <button id="open-enquiry-modal" class="process-action" type="button" data-i18n="process1Button">填写配送信息</button>
                 </article>
                 <article class="process-card">
                     <span class="process-number">02</span>
@@ -290,6 +317,38 @@
             </div>
         </div>
     </section>
+
+    <!-- 客户信息弹窗 -->
+    <div id="enquiry-modal" class="modal" hidden>
+        <div class="modal-backdrop" data-close-enquiry></div>
+        <section class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="enquiry-modal-title">
+            <button id="close-enquiry-modal" class="modal-close" type="button" aria-label="关闭" data-i18n-aria-label="closeLabel">&times;</button>
+            <h2 id="enquiry-modal-title" data-i18n="enquiryModalTitle">填写信息</h2>
+            <p class="modal-intro" data-i18n="enquiryModalIntro">请填写以下资料，方便我们安排配送和联系。</p>
+            <form id="enquiry-form" class="enquiry-form">
+                <label>
+                    <span data-i18n="nameLabel">名字</span>
+                    <input type="text" name="name" maxlength="100" autocomplete="name" required>
+                </label>
+                <label>
+                    <span data-i18n="addressLabel">地址</span>
+                    <input type="text" name="address" maxlength="500" autocomplete="street-address" required>
+                </label>
+                <label>
+                    <span data-i18n="phoneLabel">电话</span>
+                    <input type="tel" name="phone" maxlength="30" autocomplete="tel" required>
+                </label>
+                <fieldset class="delivery-options">
+                    <legend data-i18n="deliverySlotLabel">配送时间段</legend>
+                    <label class="delivery-option"><input type="radio" name="deliverySlot" value="早车（09:00–17:00）" required><span data-i18n="morningOption">早车（09:00–17:00）</span></label>
+                    <label class="delivery-option"><input type="radio" name="deliverySlot" value="晚车（17:00–21:00）" required><span data-i18n="eveningOption">晚车（17:00–21:00）</span></label>
+                </fieldset>
+                <label class="honeypot" aria-hidden="true">Website<input type="text" name="_website" tabindex="-1" autocomplete="off"></label>
+                <p id="enquiry-status" class="enquiry-status" role="status" aria-live="polite"></p>
+                <button id="enquiry-submit" class="modal-submit" type="submit" data-i18n="enquirySave">保存信息</button>
+            </form>
+        </section>
+    </div>
 
     <!-- 产品目录 -->
     <section class="catalog" id="products">
@@ -443,7 +502,7 @@
             zh: {
                 navProducts: '产品目录', navServices: '核心服务', navDelivery: '配送安排', navAbout: '关于我们', navContact: '电话 / WhatsApp 询问 +65 8756 9015',
                 heroTitle: '您可以信赖的食品供应链专家', heroLead: '专注于面类、包点、豆制品、冷冻食品及餐饮常用食材批发。', heroCta: 'WhatsApp 询问 +65 8756 9015',
-                servicesTitle: '为什么选择 CossFood', service1Title: '专属车队 自送保障', service1Body: '由公司专职司机配送，覆盖新加坡全岛，方便餐饮客户安排补货。', service2Title: '订单安排清晰', service2Body: '按订单时间安排早车、晚车或第二天早车，减少沟通误差。', service3Title: '电话与 WhatsApp 询问', service3Body: '产品规格、库存和批发安排由公司直接说明，沟通更方便。', categorySidebarTitle: '浏览分类', processTitle: '3 步完成询价', process1Title: '选择产品', process1Body: '按分类浏览产品，并记录产品编号和 Unit 数量。', process2Title: '发送询问', process2Body: '点击微信或 WhatsApp，告诉我们产品、数量和需求。', process3Title: '确认配送', process3Body: '客服确认库存、配送时段和订单安排。',
+                servicesTitle: '为什么选择 CossFood', service1Title: '专属车队 自送保障', service1Body: '由公司专职司机配送，覆盖新加坡全岛，方便餐饮客户安排补货。', service2Title: '订单安排清晰', service2Body: '按订单时间安排早车、晚车或第二天早车，减少沟通误差。', service3Title: '电话与 WhatsApp 询问', service3Body: '产品规格、库存和批发安排由公司直接说明，沟通更方便。', categorySidebarTitle: '浏览分类', processTitle: '3 步完成询价', process1Title: '填写信息', process1Body: '填写姓名、地址、电话和配送时段，提交后由客服跟进。', process1Button: '填写配送信息', process2Title: '发送询问', process2Body: '点击微信或 WhatsApp，告诉我们产品、数量和需求。', process3Title: '确认配送', process3Body: '客服确认库存、配送时段和订单安排。', enquiryModalTitle: '填写信息', enquiryModalIntro: '请填写以下资料，方便我们安排配送和联系。', nameLabel: '名字', addressLabel: '地址', phoneLabel: '电话', deliverySlotLabel: '配送时间段', morningOption: '早车（09:00–17:00）', eveningOption: '晚车（17:00–21:00）', enquirySave: '保存信息', enquirySaving: '正在保存…', enquirySuccess: (number) => `资料已保存，我们会尽快联系您。编号：${number}`, enquiryError: '保存失败，请稍后再试，或直接通过电话 / WhatsApp 联系我们。', closeLabel: '关闭',
                 catalogTitle: '产品目录', catalogIntro: '目前本公司提供以下产品，如需其他相关产品可与客服联系。订单金额达到 $50（不含 GST）不收取运费。如需规格、库存或配送安排，请直接通过电话或 WhatsApp 联系我们。', searchPlaceholder: '搜索产品名称、品牌或编号', searchLabel: '搜索产品', categoryLabel: '产品分类',
                 deliveryTitle: '配送安排', delivery1Title: '新加坡全岛配送', delivery1Body: '由 CossFood 公司专职司机配送，服务新加坡全岛客户。', delivery2Title: '早车 09:00–17:00', delivery2Body: '每天 08:55 前收到的订单，安排早车配送。', delivery3Title: '晚车 17:00–21:00', delivery3Body: '09:00–17:00 收到的订单，请注明安排晚车或第二天早车。',
                 aboutTitle: '关于 CossFood', aboutBody1: 'CossFood 是一家立足于新加坡的优质食品批发供应商，为餐厅、咖啡店、小贩摊位、零售商及餐饮客户提供日常食品和食材。', aboutBody2: '我们持续整理面类、包点、豆制品、冷冻食品及其他餐饮常用产品，方便客户快速浏览并通过电话或 WhatsApp 询问。',
@@ -453,7 +512,7 @@
             ms: {
                 navProducts: 'Produk', navServices: 'Perkhidmatan Utama', navDelivery: 'Penghantaran', navAbout: 'Tentang Kami', navContact: 'Telefon / WhatsApp +65 8756 9015',
                 heroTitle: 'Pakar Rantaian Bekalan Makanan Yang Boleh Dipercayai', heroLead: 'Pembekal mi, pau, produk tauhu, makanan sejuk beku dan bahan makanan untuk perniagaan F&B.', heroCta: 'Tanya melalui WhatsApp +65 8756 9015',
-                servicesTitle: 'Mengapa Pilih CossFood', service1Title: 'Armada Sendiri', service1Body: 'Penghantaran oleh pemandu syarikat ke seluruh Singapura untuk memudahkan pembelian stok.', service2Title: 'Jadual Pesanan Jelas', service2Body: 'Pesanan diatur dengan lori pagi, lori petang atau lori pagi hari berikutnya mengikut masa pesanan.', service3Title: 'Pertanyaan Telefon dan WhatsApp', service3Body: 'Hubungi kami terus untuk spesifikasi produk, stok dan urusan borong.', categorySidebarTitle: 'Semak Kategori', processTitle: '3 Langkah untuk Bertanya', process1Title: 'Pilih Produk', process1Body: 'Semak produk mengikut kategori dan catat kod serta kuantiti Unit.', process2Title: 'Hantar Pertanyaan', process2Body: 'Klik WeChat atau WhatsApp dan beritahu produk, kuantiti serta keperluan anda.', process3Title: 'Sahkan Penghantaran', process3Body: 'Pasukan kami mengesahkan stok, masa penghantaran dan susunan pesanan.',
+                servicesTitle: 'Mengapa Pilih CossFood', service1Title: 'Armada Sendiri', service1Body: 'Penghantaran oleh pemandu syarikat ke seluruh Singapura untuk memudahkan pembelian stok.', service2Title: 'Jadual Pesanan Jelas', service2Body: 'Pesanan diatur dengan lori pagi, lori petang atau lori pagi hari berikutnya mengikut masa pesanan.', service3Title: 'Pertanyaan Telefon dan WhatsApp', service3Body: 'Hubungi kami terus untuk spesifikasi produk, stok dan urusan borong.', categorySidebarTitle: 'Semak Kategori', processTitle: '3 Langkah untuk Bertanya', process1Title: 'Isi Maklumat', process1Body: 'Isi nama, alamat, telefon dan waktu penghantaran untuk dihubungi oleh pasukan kami.', process1Button: 'Isi Maklumat Penghantaran', process2Title: 'Hantar Pertanyaan', process2Body: 'Klik WeChat atau WhatsApp dan beritahu produk, kuantiti serta keperluan anda.', process3Title: 'Sahkan Penghantaran', process3Body: 'Pasukan kami mengesahkan stok, masa penghantaran dan susunan pesanan.', enquiryModalTitle: 'Isi Maklumat', enquiryModalIntro: 'Sila isi maklumat di bawah supaya kami boleh mengatur penghantaran dan menghubungi anda.', nameLabel: 'Nama', addressLabel: 'Alamat', phoneLabel: 'Telefon', deliverySlotLabel: 'Waktu penghantaran', morningOption: 'Lori pagi (09:00–17:00)', eveningOption: 'Lori petang (17:00–21:00)', enquirySave: 'Simpan Maklumat', enquirySaving: 'Sedang menyimpan…', enquirySuccess: (number) => `Maklumat telah disimpan. Kami akan menghubungi anda. Nombor: ${number}`, enquiryError: 'Gagal menyimpan. Sila cuba lagi atau hubungi kami melalui telefon / WhatsApp.', closeLabel: 'Tutup',
                 catalogTitle: 'Katalog Produk', catalogIntro: 'Syarikat kami kini menyediakan produk-produk berikut. Untuk produk berkaitan yang lain, sila hubungi kami. Tiada caj penghantaran untuk pesanan bernilai $50 ke atas, tidak termasuk GST. Untuk spesifikasi, stok atau pengaturan penghantaran, sila hubungi kami melalui telefon atau WhatsApp.', searchPlaceholder: 'Cari nama, jenama atau kod produk', searchLabel: 'Cari produk', categoryLabel: 'Kategori produk',
                 deliveryTitle: 'Jadual Penghantaran', delivery1Title: 'Seluruh Singapura', delivery1Body: 'Dihantar oleh pemandu syarikat CossFood ke seluruh Singapura.', delivery2Title: 'Lori Pagi 09:00–17:00', delivery2Body: 'Pesanan yang diterima sebelum 08:55 akan dihantar dengan lori pagi.', delivery3Title: 'Lori Petang 17:00–21:00', delivery3Body: 'Untuk pesanan 09:00–17:00, nyatakan lori petang atau lori pagi hari berikutnya.',
                 aboutTitle: 'Tentang CossFood', aboutBody1: 'CossFood ialah pembekal makanan borong berkualiti yang berpangkalan di Singapura untuk restoran, kafe, gerai penjaja, peruncit dan pelanggan F&B.', aboutBody2: 'Kami menyediakan mi, pau, produk tauhu, makanan sejuk beku dan bahan makanan harian untuk memudahkan pelanggan membuat pertanyaan.',
@@ -463,7 +522,7 @@
             en: {
                 navProducts: 'Products', navServices: 'Core Services', navDelivery: 'Delivery', navAbout: 'About Us', navContact: 'Call / WhatsApp +65 8756 9015',
                 heroTitle: 'Your Trusted Food Supply Chain Partner', heroLead: 'Wholesale supply of noodles, buns, tofu products, frozen foods and everyday F&B ingredients.', heroCta: 'Ask on WhatsApp +65 8756 9015',
-                servicesTitle: 'Why Choose CossFood', service1Title: 'Dedicated Delivery Fleet', service1Body: 'Company drivers deliver islandwide in Singapore, helping F&B customers replenish their stock.', service2Title: 'Clear Order Scheduling', service2Body: 'Orders are arranged for the morning, evening or next morning delivery based on the order time.', service3Title: 'Phone and WhatsApp Enquiries', service3Body: 'Contact our team directly for product specifications, availability and wholesale arrangements.', categorySidebarTitle: 'Browse Categories', processTitle: 'Enquire in 3 Steps', process1Title: 'Choose Products', process1Body: 'Browse by category and note the product code and Unit quantity.', process2Title: 'Send an Enquiry', process2Body: 'Click WeChat or WhatsApp and tell us the products, quantities and requirements.', process3Title: 'Confirm Delivery', process3Body: 'Our team confirms stock, delivery timing and order arrangements.',
+                servicesTitle: 'Why Choose CossFood', service1Title: 'Dedicated Delivery Fleet', service1Body: 'Company drivers deliver islandwide in Singapore, helping F&B customers replenish their stock.', service2Title: 'Clear Order Scheduling', service2Body: 'Orders are arranged for the morning, evening or next morning delivery based on the order time.', service3Title: 'Phone and WhatsApp Enquiries', service3Body: 'Contact our team directly for product specifications, availability and wholesale arrangements.', categorySidebarTitle: 'Browse Categories', processTitle: 'Enquire in 3 Steps', process1Title: 'Fill in Details', process1Body: 'Enter your name, address, phone number and preferred delivery slot for our team to follow up.', process1Button: 'Fill Delivery Details', process2Title: 'Send an Enquiry', process2Body: 'Click WeChat or WhatsApp and tell us the products, quantities and requirements.', process3Title: 'Confirm Delivery', process3Body: 'Our team confirms stock, delivery timing and order arrangements.', enquiryModalTitle: 'Fill in Details', enquiryModalIntro: 'Please provide the details below so we can arrange delivery and contact you.', nameLabel: 'Name', addressLabel: 'Address', phoneLabel: 'Phone', deliverySlotLabel: 'Delivery slot', morningOption: 'Morning run (09:00–17:00)', eveningOption: 'Evening run (17:00–21:00)', enquirySave: 'Save Details', enquirySaving: 'Saving…', enquirySuccess: (number) => `Your details were saved. We will contact you soon. Reference: ${number}`, enquiryError: 'Unable to save your details. Please try again or contact us by phone / WhatsApp.', closeLabel: 'Close',
                 catalogTitle: 'Product Catalogue', catalogIntro: 'Our company currently provides the products below. For other related products, please contact our team. Delivery is free for orders of $50 or more, excluding GST. For specifications, stock or delivery arrangements, please contact us by phone or WhatsApp.', searchPlaceholder: 'Search by product name, brand or code', searchLabel: 'Search products', categoryLabel: 'Product categories',
                 deliveryTitle: 'Delivery Schedule', delivery1Title: 'Islandwide Singapore', delivery1Body: 'Delivered by dedicated CossFood company drivers across Singapore.', delivery2Title: 'Morning Run 09:00–17:00', delivery2Body: 'Orders received before 08:55 are scheduled for the morning run.', delivery3Title: 'Evening Run 17:00–21:00', delivery3Body: 'For orders received from 09:00–17:00, specify evening or next morning delivery.',
                 aboutTitle: 'About CossFood', aboutBody1: 'CossFood is a quality food wholesaler based in Singapore, serving restaurants, cafés, hawker stalls, retailers and F&B customers.', aboutBody2: 'We supply noodles, buns, tofu products, frozen foods and everyday ingredients so customers can browse and enquire easily.',
@@ -483,6 +542,11 @@
         const search = document.getElementById('product-search');
         const categoryList = document.getElementById('category-list');
         const languageSelect = document.getElementById('language-select');
+        const enquiryModal = document.getElementById('enquiry-modal');
+        const enquiryForm = document.getElementById('enquiry-form');
+        const enquiryStatus = document.getElementById('enquiry-status');
+        const enquirySubmit = document.getElementById('enquiry-submit');
+        const enquiryApiUrl = window.location.hostname.endsWith('github.io') ? 'https://cossfood.com/api/save-inquiry.php' : 'api/save-inquiry.php';
         const savedLanguage = localStorage.getItem('cossfood-language');
         let currentLanguage = ['zh', 'ms', 'en'].includes(savedLanguage) ? savedLanguage : 'zh';
         let activeCategory = '全部';
@@ -492,6 +556,58 @@
         const whatsappUrl = (product) => `https://wa.me/6587569015?text=${encodeURIComponent(product ? `${t().whatsappProduct}${product.code} ${product.name}` : t().whatsappGeneral)}`;
         const wechatQrUrl = 'image/WeChat_QRcode-transparent.png';
         const optimizedImage = (path) => path.replace(/^image\/(.+)\.jpg$/i, 'image/optimized/$1.webp');
+
+        let enquiryLastFocus = null;
+        const setEnquiryStatus = (message, isError = false) => {
+            enquiryStatus.textContent = message;
+            enquiryStatus.classList.toggle('error', isError);
+        };
+        const openEnquiryModal = () => {
+            enquiryLastFocus = document.activeElement;
+            enquiryModal.hidden = false;
+            document.body.classList.add('modal-open');
+            setEnquiryStatus('');
+            enquiryForm.elements.name.focus();
+        };
+        const closeEnquiryModal = () => {
+            enquiryModal.hidden = true;
+            document.body.classList.remove('modal-open');
+            setEnquiryStatus('');
+            if (enquiryLastFocus) enquiryLastFocus.focus();
+        };
+
+        document.getElementById('open-enquiry-modal').addEventListener('click', openEnquiryModal);
+        document.getElementById('close-enquiry-modal').addEventListener('click', closeEnquiryModal);
+        enquiryModal.querySelector('[data-close-enquiry]').addEventListener('click', closeEnquiryModal);
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && !enquiryModal.hidden) closeEnquiryModal();
+        });
+        enquiryForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            if (!enquiryForm.checkValidity()) {
+                enquiryForm.reportValidity();
+                return;
+            }
+            enquirySubmit.disabled = true;
+            enquirySubmit.textContent = t().enquirySaving;
+            setEnquiryStatus('');
+            try {
+                const response = await fetch(enquiryApiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(Object.fromEntries(new FormData(enquiryForm).entries()))
+                });
+                const result = await response.json().catch(() => ({}));
+                if (!response.ok || !result.success) throw new Error(result.message || 'save failed');
+                enquiryForm.reset();
+                setEnquiryStatus(t().enquirySuccess(result.sequence));
+            } catch (error) {
+                setEnquiryStatus(t().enquiryError, true);
+            } finally {
+                enquirySubmit.disabled = false;
+                enquirySubmit.textContent = t().enquirySave;
+            }
+        });
 
         function renderCategories() {
             const categories = ['全部', ...new Set(products.map((product) => product.category))];

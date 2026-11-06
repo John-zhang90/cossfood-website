@@ -5,8 +5,10 @@ const vm = require('vm');
 const root = path.resolve(__dirname, '..');
 const indexPath = path.join(root, 'index.html');
 const cpanelPath = path.join(root, '.cpanel.yml');
+const apiPath = path.join(root, 'api', 'save-inquiry.php');
 const html = fs.readFileSync(indexPath, 'utf8');
 const cpanel = fs.readFileSync(cpanelPath, 'utf8');
+const api = fs.readFileSync(apiPath, 'utf8');
 
 function assert(condition, message) {
     if (!condition) throw new Error(message);
@@ -24,6 +26,15 @@ assert(html.includes('.product-grid { grid-template-columns: repeat(2, minmax(0,
 assert(html.includes('data-i18n="categorySidebarTitle"'), 'Catalog sidebar title is missing');
 assert(html.includes('data-i18n="processTitle"'), 'Three-step enquiry section is missing');
 assert(html.includes('class="process-grid"'), 'Three-step enquiry layout is missing');
+assert(html.includes('data-i18n="process1Title">填写信息'), 'Step one must collect customer information');
+assert(html.includes('id="open-enquiry-modal"'), 'Step one enquiry button is missing');
+assert(html.includes('id="enquiry-modal"'), 'Customer information modal is missing');
+for (const field of ['name', 'address', 'phone', 'deliverySlot']) {
+    assert(html.includes(`name="${field}"`), `Enquiry form field is missing: ${field}`);
+}
+assert(html.includes('value="早车（09:00–17:00）"'), 'Morning delivery option is missing');
+assert(html.includes('value="晚车（17:00–21:00）"'), 'Evening delivery option is missing');
+assert(html.includes("const enquiryApiUrl"), 'Enquiry API URL is missing');
 assert((html.match(/\+65 8756 9015/g) || []).length >= 6, 'New Singapore phone number is not shown in all required contact copy');
 assert(!html.includes('6773 3116'), 'Old displayed phone number is still present');
 assert(!html.includes('6567733116'), 'Old phone or WhatsApp target is still present');
@@ -42,6 +53,15 @@ assert(html.includes('border-radius: 10px'), 'Footer QR cards are missing rounde
 assert(cpanel.includes('export DEPLOYPATH=/home/cossfood/public_html/'), 'cPanel deployment path is incorrect');
 assert(cpanel.includes('/bin/cp index.html $DEPLOYPATH'), 'cPanel deployment does not copy index.html');
 assert(cpanel.includes('/bin/cp -R image $DEPLOYPATH'), 'cPanel deployment does not copy the image directory');
+assert(cpanel.includes('/bin/cp -R api $DEPLOYPATH'), 'cPanel deployment does not copy the enquiry API');
+
+assert(fs.existsSync(apiPath), 'Enquiry API file is missing');
+assert(api.includes("'customer-inquiries.csv'"), 'Customer inquiry CSV storage is missing');
+assert(api.includes("'customer-inquiries.xlsx'"), 'Native Excel storage path is missing');
+assert(api.includes("['序号', '名字', '地址', '电话', '配送时间段', '时间']"), 'Customer information columns are incomplete');
+assert(api.includes("dirname(__DIR__, 2)"), 'Customer data must be stored outside public_html');
+assert(api.includes('flock($lock, LOCK_EX)'), 'Customer storage must use a write lock');
+assert(api.includes('ZipArchive'), 'API should create a native Excel copy when available');
 
 for (const relativePath of ['image/WeChat_QRcode.jpeg', 'image/WhatsApp_QRcode.jpeg', 'image/WeChat_QRcode-transparent.png', 'image/WhatsApp_QRcode-transparent.png']) {
     const filePath = path.join(root, relativePath);
