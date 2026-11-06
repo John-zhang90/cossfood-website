@@ -55,7 +55,7 @@ assert(html.includes('border-radius: 10px'), 'Footer QR cards are missing rounde
 assert(cpanel.includes('export DEPLOYPATH=/home/cossfood/public_html/'), 'cPanel deployment path is incorrect');
 assert(cpanel.includes('/bin/cp index.html $DEPLOYPATH'), 'cPanel deployment does not copy index.html');
 assert(cpanel.includes('/bin/cp -R image $DEPLOYPATH'), 'cPanel deployment does not copy the image directory');
-assert(cpanel.includes('/bin/cp -R api $DEPLOYPATH'), 'cPanel deployment does not copy the enquiry API');
+assert(cpanel.includes('/bin/cp api/save-inquiry.php $DEPLOYPATH/save-inquiry.php'), 'cPanel deployment does not copy the enquiry API to the public site root');
 
 assert(fs.existsSync(apiPath), 'Enquiry API file is missing');
 assert(api.includes("'customer-inquiries.csv'"), 'Customer inquiry CSV storage is missing');
