@@ -70,6 +70,14 @@
         }
         .hero-cta:hover { background: #FDD835; transform: scale(1.03); }
 
+        /* --- 快速产品分类 --- */
+        .quick-categories { background: var(--bg-light); border-bottom: 1px solid #eee2d2; padding: 18px 20px; }
+        .quick-categories-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 18px; }
+        .quick-category-title { color: #6d4035; font-size: 14px; font-weight: 700; white-space: nowrap; }
+        .quick-category-list { display: flex; gap: 8px; flex-wrap: wrap; }
+        .quick-category-btn { border: 1px solid #e0cfc3; background: #fff; color: #6d4035; padding: 8px 13px; border-radius: 999px; cursor: pointer; font: inherit; transition: var(--transition); }
+        .quick-category-btn:hover, .quick-category-btn:focus-visible { background: var(--brand-red); color: #fff; border-color: var(--brand-red); outline: none; }
+
         /* --- 核心优势/服务模块 --- */
         .services { max-width: 1200px; margin: 80px auto; padding: 0 20px; }
         .section-title { text-align: center; font-size: 32px; font-weight: 700; margin-bottom: 50px; position: relative; }
@@ -84,6 +92,15 @@
         .card h3 { font-size: 22px; margin-bottom: 15px; margin-top: 15px; }
         .card p { color: #666; font-size: 15px; }
         .icon { font-size: 40px; color: var(--brand-red); }
+
+        /* --- 三步询价流程 --- */
+        .order-process { background: #fff; padding: 0 20px 80px; }
+        .order-process-container { max-width: 1200px; margin: 0 auto; }
+        .process-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .process-card { position: relative; padding: 28px 26px 26px; border: 1px solid #eee2d2; border-radius: 10px; background: #fffaf2; }
+        .process-number { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; margin-bottom: 18px; border-radius: 50%; background: var(--brand-red); color: #fff; font-size: 14px; font-weight: 800; }
+        .process-card h3 { font-size: 20px; margin-bottom: 8px; }
+        .process-card p { color: #666; font-size: 15px; }
 
         /* --- 产品目录 --- */
         .catalog { background: #fffaf2; padding: 80px 20px; }
@@ -133,7 +150,7 @@
         .footer-col ul li a:hover { color: var(--white); }
         .footer-qr-list { display: flex; gap: 8px; flex-wrap: wrap; }
         .footer-qr-card { width: 96px; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px 6px 7px; color: #4a3028; font-size: 12px; text-align: center; background: #f1dfc7; border: 1px solid rgba(255,255,255,0.22); border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.16); }
-        .footer-qr-card img { width: 80px; height: 80px; padding: 3px; display: block; object-fit: contain; background: #fffaf2; border: 1px solid rgba(74,48,40,0.12); border-radius: 6px; }
+        .footer-qr-card img { width: 80px; height: 80px; display: block; object-fit: contain; background: transparent; border: 0; border-radius: 6px; }
         .copyright { text-align: center; margin-top: 30px; font-size: 13px; }
 
         /* --- 🎯 极致移动端适配响应式断点 (Responsive Media Queries) --- */
@@ -158,6 +175,11 @@
             .nav-links a { display: block; padding: 10px 0; }
             .nav-links .btn-order { text-align: center; white-space: normal; }
             .grid-3 { grid-template-columns: 1fr; }
+            .quick-categories-inner { display: block; }
+            .quick-category-title { display: block; margin-bottom: 9px; }
+            .quick-category-list { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
+            .quick-category-btn { flex: 0 0 auto; }
+            .process-grid { grid-template-columns: 1fr; }
             .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .footer-container { grid-template-columns: repeat(2, 1fr); }
             .catalog { padding: 56px 14px; }
@@ -226,6 +248,20 @@
         </div>
     </section>
 
+    <!-- 快速产品分类 -->
+    <section class="quick-categories" aria-label="快速产品分类" data-i18n-aria-label="quickCategoryAria">
+        <div class="quick-categories-inner">
+            <span class="quick-category-title" data-i18n="quickCategoryTitle">快速浏览分类</span>
+            <div class="quick-category-list">
+                <button class="quick-category-btn" type="button" data-category-filter="面类" data-i18n="quickCategoryNoodles">面类</button>
+                <button class="quick-category-btn" type="button" data-category-filter="包点与点心" data-i18n="quickCategoryBuns">馒头 / 包点</button>
+                <button class="quick-category-btn" type="button" data-category-filter="豆制品与火锅" data-i18n="quickCategoryTofu">豆卜 / 豆制品</button>
+                <button class="quick-category-btn" type="button" data-category-filter="其他" data-i18n="quickCategoryOthers">其他</button>
+                <button class="quick-category-btn" type="button" data-category-filter="海鲜与冷冻" data-i18n="quickCategorySeafood">海鲜 / 鱿鱼</button>
+            </div>
+        </div>
+    </section>
+
     <!-- 服务与优势 -->
     <section class="services" id="services">
         <h2 class="section-title" data-i18n="servicesTitle">为什么选择 CossFood</h2>
@@ -244,6 +280,30 @@
                 <div class="icon">📱</div>
                 <h3 data-i18n="service3Title">电话与 WhatsApp 询问</h3>
                 <p data-i18n="service3Body">产品规格、库存和批发安排由公司直接说明，沟通更方便。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 三步询价流程 -->
+    <section class="order-process" id="order-process">
+        <div class="order-process-container">
+            <h2 class="section-title" data-i18n="processTitle">3 步完成询价</h2>
+            <div class="process-grid">
+                <article class="process-card">
+                    <span class="process-number">01</span>
+                    <h3 data-i18n="process1Title">选择产品</h3>
+                    <p data-i18n="process1Body">按分类浏览产品，并记录产品编号和 Unit 数量。</p>
+                </article>
+                <article class="process-card">
+                    <span class="process-number">02</span>
+                    <h3 data-i18n="process2Title">发送询问</h3>
+                    <p data-i18n="process2Body">点击微信或 WhatsApp，告诉我们产品、数量和需求。</p>
+                </article>
+                <article class="process-card">
+                    <span class="process-number">03</span>
+                    <h3 data-i18n="process3Title">确认配送</h3>
+                    <p data-i18n="process3Body">客服确认库存、配送时段和订单安排。</p>
+                </article>
             </div>
         </div>
     </section>
@@ -332,12 +392,12 @@
             <div class="footer-col">
                 <h4 data-i18n="footerQrTitle">扫码联系</h4>
                 <div class="footer-qr-list">
-                    <a class="footer-qr-card" href="image/WeChat_QRcode.jpeg" target="_blank" rel="noopener">
-                        <img src="image/WeChat_QRcode.jpeg" alt="微信二维码" loading="lazy" decoding="async" data-i18n-alt="wechatQrAlt">
+                    <a class="footer-qr-card" href="image/WeChat_QRcode-transparent.png" target="_blank" rel="noopener">
+                        <img src="image/WeChat_QRcode-transparent.png" alt="微信二维码" loading="lazy" decoding="async" data-i18n-alt="wechatQrAlt">
                         <span data-i18n="wechatQrLabel">微信</span>
                     </a>
-                    <a class="footer-qr-card" href="image/WhatsApp_QRcode.jpeg" target="_blank" rel="noopener">
-                        <img src="image/WhatsApp_QRcode.jpeg" alt="WhatsApp 二维码" loading="lazy" decoding="async" data-i18n-alt="whatsappQrAlt">
+                    <a class="footer-qr-card" href="image/WhatsApp_QRcode-transparent.png" target="_blank" rel="noopener">
+                        <img src="image/WhatsApp_QRcode-transparent.png" alt="WhatsApp 二维码" loading="lazy" decoding="async" data-i18n-alt="whatsappQrAlt">
                         <span data-i18n="whatsappQrLabel">WhatsApp</span>
                     </a>
                 </div>
@@ -393,7 +453,7 @@
             zh: {
                 navProducts: '产品目录', navServices: '核心服务', navDelivery: '配送安排', navAbout: '关于我们', navContact: '电话 / WhatsApp 询问 +65 8756 9015',
                 heroTitle: '您可以信赖的食品供应链专家', heroLead: '专注于面类、包点、豆制品、冷冻食品及餐饮常用食材批发。', heroCta: 'WhatsApp 询问 +65 8756 9015',
-                servicesTitle: '为什么选择 CossFood', service1Title: '专属车队 自送保障', service1Body: '由公司专职司机配送，覆盖新加坡全岛，方便餐饮客户安排补货。', service2Title: '订单安排清晰', service2Body: '按订单时间安排早车、晚车或第二天早车，减少沟通误差。', service3Title: '电话与 WhatsApp 询问', service3Body: '产品规格、库存和批发安排由公司直接说明，沟通更方便。',
+                servicesTitle: '为什么选择 CossFood', service1Title: '专属车队 自送保障', service1Body: '由公司专职司机配送，覆盖新加坡全岛，方便餐饮客户安排补货。', service2Title: '订单安排清晰', service2Body: '按订单时间安排早车、晚车或第二天早车，减少沟通误差。', service3Title: '电话与 WhatsApp 询问', service3Body: '产品规格、库存和批发安排由公司直接说明，沟通更方便。', quickCategoryAria: '快速产品分类', quickCategoryTitle: '快速浏览分类', quickCategoryNoodles: '面类', quickCategoryBuns: '馒头 / 包点', quickCategoryTofu: '豆卜 / 豆制品', quickCategoryOthers: '其他', quickCategorySeafood: '海鲜 / 鱿鱼', processTitle: '3 步完成询价', process1Title: '选择产品', process1Body: '按分类浏览产品，并记录产品编号和 Unit 数量。', process2Title: '发送询问', process2Body: '点击微信或 WhatsApp，告诉我们产品、数量和需求。', process3Title: '确认配送', process3Body: '客服确认库存、配送时段和订单安排。',
                 catalogTitle: '产品目录', catalogIntro: '目前本公司提供以下产品，如需其他相关产品可与客服联系。订单金额达到 $50（不含 GST）不收取运费。如需规格、库存或配送安排，请直接通过电话或 WhatsApp 联系我们。', searchPlaceholder: '搜索产品名称、品牌或编号', searchLabel: '搜索产品', categoryLabel: '产品分类',
                 deliveryTitle: '配送安排', delivery1Title: '新加坡全岛配送', delivery1Body: '由 CossFood 公司专职司机配送，服务新加坡全岛客户。', delivery2Title: '早车 09:00–17:00', delivery2Body: '每天 08:55 前收到的订单，安排早车配送。', delivery3Title: '晚车 17:00–21:00', delivery3Body: '09:00–17:00 收到的订单，请注明安排晚车或第二天早车。',
                 aboutTitle: '关于 CossFood', aboutBody1: 'CossFood 是一家立足于新加坡的优质食品批发供应商，为餐厅、咖啡店、小贩摊位、零售商及餐饮客户提供日常食品和食材。', aboutBody2: '我们持续整理面类、包点、豆制品、冷冻食品及其他餐饮常用产品，方便客户快速浏览并通过电话或 WhatsApp 询问。',
@@ -403,7 +463,7 @@
             ms: {
                 navProducts: 'Produk', navServices: 'Perkhidmatan Utama', navDelivery: 'Penghantaran', navAbout: 'Tentang Kami', navContact: 'Telefon / WhatsApp +65 8756 9015',
                 heroTitle: 'Pakar Rantaian Bekalan Makanan Yang Boleh Dipercayai', heroLead: 'Pembekal mi, pau, produk tauhu, makanan sejuk beku dan bahan makanan untuk perniagaan F&B.', heroCta: 'Tanya melalui WhatsApp +65 8756 9015',
-                servicesTitle: 'Mengapa Pilih CossFood', service1Title: 'Armada Sendiri', service1Body: 'Penghantaran oleh pemandu syarikat ke seluruh Singapura untuk memudahkan pembelian stok.', service2Title: 'Jadual Pesanan Jelas', service2Body: 'Pesanan diatur dengan lori pagi, lori petang atau lori pagi hari berikutnya mengikut masa pesanan.', service3Title: 'Pertanyaan Telefon dan WhatsApp', service3Body: 'Hubungi kami terus untuk spesifikasi produk, stok dan urusan borong.',
+                servicesTitle: 'Mengapa Pilih CossFood', service1Title: 'Armada Sendiri', service1Body: 'Penghantaran oleh pemandu syarikat ke seluruh Singapura untuk memudahkan pembelian stok.', service2Title: 'Jadual Pesanan Jelas', service2Body: 'Pesanan diatur dengan lori pagi, lori petang atau lori pagi hari berikutnya mengikut masa pesanan.', service3Title: 'Pertanyaan Telefon dan WhatsApp', service3Body: 'Hubungi kami terus untuk spesifikasi produk, stok dan urusan borong.', quickCategoryAria: 'Kategori produk pantas', quickCategoryTitle: 'Lihat Kategori', quickCategoryNoodles: 'Mi', quickCategoryBuns: 'Mantou / Pau', quickCategoryTofu: 'Tau Pok / Tauhu', quickCategoryOthers: 'Lain-lain', quickCategorySeafood: 'Makanan Laut / Sotong', processTitle: '3 Langkah untuk Bertanya', process1Title: 'Pilih Produk', process1Body: 'Semak produk mengikut kategori dan catat kod serta kuantiti Unit.', process2Title: 'Hantar Pertanyaan', process2Body: 'Klik WeChat atau WhatsApp dan beritahu produk, kuantiti serta keperluan anda.', process3Title: 'Sahkan Penghantaran', process3Body: 'Pasukan kami mengesahkan stok, masa penghantaran dan susunan pesanan.',
                 catalogTitle: 'Katalog Produk', catalogIntro: 'Syarikat kami kini menyediakan produk-produk berikut. Untuk produk berkaitan yang lain, sila hubungi kami. Tiada caj penghantaran untuk pesanan bernilai $50 ke atas, tidak termasuk GST. Untuk spesifikasi, stok atau pengaturan penghantaran, sila hubungi kami melalui telefon atau WhatsApp.', searchPlaceholder: 'Cari nama, jenama atau kod produk', searchLabel: 'Cari produk', categoryLabel: 'Kategori produk',
                 deliveryTitle: 'Jadual Penghantaran', delivery1Title: 'Seluruh Singapura', delivery1Body: 'Dihantar oleh pemandu syarikat CossFood ke seluruh Singapura.', delivery2Title: 'Lori Pagi 09:00–17:00', delivery2Body: 'Pesanan yang diterima sebelum 08:55 akan dihantar dengan lori pagi.', delivery3Title: 'Lori Petang 17:00–21:00', delivery3Body: 'Untuk pesanan 09:00–17:00, nyatakan lori petang atau lori pagi hari berikutnya.',
                 aboutTitle: 'Tentang CossFood', aboutBody1: 'CossFood ialah pembekal makanan borong berkualiti yang berpangkalan di Singapura untuk restoran, kafe, gerai penjaja, peruncit dan pelanggan F&B.', aboutBody2: 'Kami menyediakan mi, pau, produk tauhu, makanan sejuk beku dan bahan makanan harian untuk memudahkan pelanggan membuat pertanyaan.',
@@ -413,7 +473,7 @@
             en: {
                 navProducts: 'Products', navServices: 'Core Services', navDelivery: 'Delivery', navAbout: 'About Us', navContact: 'Call / WhatsApp +65 8756 9015',
                 heroTitle: 'Your Trusted Food Supply Chain Partner', heroLead: 'Wholesale supply of noodles, buns, tofu products, frozen foods and everyday F&B ingredients.', heroCta: 'Ask on WhatsApp +65 8756 9015',
-                servicesTitle: 'Why Choose CossFood', service1Title: 'Dedicated Delivery Fleet', service1Body: 'Company drivers deliver islandwide in Singapore, helping F&B customers replenish their stock.', service2Title: 'Clear Order Scheduling', service2Body: 'Orders are arranged for the morning, evening or next morning delivery based on the order time.', service3Title: 'Phone and WhatsApp Enquiries', service3Body: 'Contact our team directly for product specifications, availability and wholesale arrangements.',
+                servicesTitle: 'Why Choose CossFood', service1Title: 'Dedicated Delivery Fleet', service1Body: 'Company drivers deliver islandwide in Singapore, helping F&B customers replenish their stock.', service2Title: 'Clear Order Scheduling', service2Body: 'Orders are arranged for the morning, evening or next morning delivery based on the order time.', service3Title: 'Phone and WhatsApp Enquiries', service3Body: 'Contact our team directly for product specifications, availability and wholesale arrangements.', quickCategoryAria: 'Quick product categories', quickCategoryTitle: 'Browse Categories', quickCategoryNoodles: 'Noodles', quickCategoryBuns: 'Mantou / Buns', quickCategoryTofu: 'Bean Curd / Tofu', quickCategoryOthers: 'Others', quickCategorySeafood: 'Seafood / Cuttlefish', processTitle: 'Enquire in 3 Steps', process1Title: 'Choose Products', process1Body: 'Browse by category and note the product code and Unit quantity.', process2Title: 'Send an Enquiry', process2Body: 'Click WeChat or WhatsApp and tell us the products, quantities and requirements.', process3Title: 'Confirm Delivery', process3Body: 'Our team confirms stock, delivery timing and order arrangements.',
                 catalogTitle: 'Product Catalogue', catalogIntro: 'Our company currently provides the products below. For other related products, please contact our team. Delivery is free for orders of $50 or more, excluding GST. For specifications, stock or delivery arrangements, please contact us by phone or WhatsApp.', searchPlaceholder: 'Search by product name, brand or code', searchLabel: 'Search products', categoryLabel: 'Product categories',
                 deliveryTitle: 'Delivery Schedule', delivery1Title: 'Islandwide Singapore', delivery1Body: 'Delivered by dedicated CossFood company drivers across Singapore.', delivery2Title: 'Morning Run 09:00–17:00', delivery2Body: 'Orders received before 08:55 are scheduled for the morning run.', delivery3Title: 'Evening Run 17:00–21:00', delivery3Body: 'For orders received from 09:00–17:00, specify evening or next morning delivery.',
                 aboutTitle: 'About CossFood', aboutBody1: 'CossFood is a quality food wholesaler based in Singapore, serving restaurants, cafés, hawker stalls, retailers and F&B customers.', aboutBody2: 'We supply noodles, buns, tofu products, frozen foods and everyday ingredients so customers can browse and enquire easily.',
@@ -440,7 +500,7 @@
         const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
         const t = () => translations[currentLanguage];
         const whatsappUrl = (product) => `https://wa.me/6587569015?text=${encodeURIComponent(product ? `${t().whatsappProduct}${product.code} ${product.name}` : t().whatsappGeneral)}`;
-        const wechatQrUrl = 'image/WeChat_QRcode.jpeg';
+        const wechatQrUrl = 'image/WeChat_QRcode-transparent.png';
         const optimizedImage = (path) => path.replace(/^image\/(.+)\.jpg$/i, 'image/optimized/$1.webp');
 
         function renderCategories() {
@@ -519,6 +579,13 @@
             applyLanguage();
         });
         applyLanguage();
+
+        document.querySelectorAll('.quick-category-btn').forEach((button) => button.addEventListener('click', () => {
+            activeCategory = button.dataset.categoryFilter;
+            renderCategories();
+            renderProducts();
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }));
 
         const menuToggle = document.querySelector('.menu-toggle');
         const navLinks = document.querySelector('.nav-links');
