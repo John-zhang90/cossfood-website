@@ -13,10 +13,14 @@ function assert(condition, message) {
 }
 
 assert(html.includes('data-i18n="navContact"'), 'Header WhatsApp contact is missing');
-assert((html.match(/\+65 6773 3116/g) || []).length >= 6, 'Singapore phone number is not shown in all required contact copy');
+assert((html.match(/\+65 8756 9015/g) || []).length >= 6, 'New Singapore phone number is not shown in all required contact copy');
+assert(!html.includes('6773 3116'), 'Old displayed phone number is still present');
+assert(!html.includes('6567733116'), 'Old phone or WhatsApp target is still present');
+assert(html.includes('https://wa.me/6587569015'), 'WhatsApp links do not use the new phone number');
+assert(html.includes('href="tel:+6587569015"'), 'Phone link does not use the new phone number');
 assert(html.includes('const wechatQrUrl = \'image/WeChat_QRcode.jpeg\';'), 'WeChat QR URL constant is missing');
 assert(html.includes('href="${wechatQrUrl}"'), 'Red product contact buttons do not use the WeChat QR code');
-assert(!html.includes('<a class="call" href="tel:+6567733116">'), 'Red product contact buttons still dial the phone directly');
+assert(!html.includes('<a class="call" href="tel:'), 'Red product contact buttons still dial the phone directly');
 assert(html.includes('image/WeChat_QRcode.jpeg'), 'WeChat QR code is not referenced');
 assert(html.includes('image/WhatsApp_QRcode.jpeg'), 'WhatsApp QR code is not referenced');
 assert(html.includes('data-i18n="footerQrTitle"'), 'Footer QR section title is missing');
