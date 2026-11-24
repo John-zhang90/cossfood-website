@@ -86,7 +86,8 @@ assert(visitorApi.includes('$needsReportWrite'), 'Visitor reports must only be r
 assert(visitorApi.includes('flock($lock, LOCK_EX)'), 'Visitor storage must use a write lock');
 assert(pagesWorkflow.includes('path: _site'), 'GitHub Pages must publish the prepared public site directory');
 assert(pagesWorkflow.includes('cp index.html _site/'), 'GitHub Pages artifact must include index.html');
-assert(pagesWorkflow.includes('cp -R image _site/'), 'GitHub Pages artifact must include image assets');
+assert(pagesWorkflow.includes('cp -R image/optimized _site/image/'), 'GitHub Pages artifact must include the optimized product images');
+assert(pagesWorkflow.includes("-name '*.jpg'"), 'GitHub Pages artifact must exclude the oversized original JPG files');
 assert(pagesWorkflow.includes('php -l api/save-inquiry.php'), 'GitHub Actions must validate the enquiry API syntax');
 assert(pagesWorkflow.includes('php -l api/visitor-stats.php'), 'GitHub Actions must validate the visitor API syntax');
 assert(pagesWorkflow.includes('node tests/validate-site.js'), 'GitHub Actions must run the site structure tests');
@@ -112,6 +113,11 @@ for (const relativePath of ['image/logo-option-a-classic.png', 'image/logo-optio
 const horizontalLogoPath = path.join(root, 'image/logo-horizontal.png');
 assert(fs.existsSync(horizontalLogoPath), 'Horizontal Logo asset is missing');
 assert(fs.statSync(horizontalLogoPath).size > 0, 'Empty horizontal Logo asset');
+
+for (const productImage of new Set([...html.matchAll(/image\/([^'"`\s]+\.jpg)/g)].map((match) => match[1]))) {
+    const optimizedPath = path.join(root, 'image/optimized', productImage.replace(/\.jpg$/i, '.webp'));
+    assert(fs.existsSync(optimizedPath), `Missing optimized webp for published product image: ${productImage}`);
+}
 
 const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
 assert(scriptMatch, 'Inline site script is missing');

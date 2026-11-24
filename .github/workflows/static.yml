@@ -37,7 +37,9 @@ jobs:
         run: |
           mkdir _site
           cp index.html _site/
-          cp -R image _site/
+          mkdir -p _site/image
+          cp -R image/optimized _site/image/
+          find image -maxdepth 1 -type f ! -name '*.jpg' -exec cp {} _site/image/ \;
       - name: Upload public site artifact
         uses: actions/upload-pages-artifact@v5
         with:
