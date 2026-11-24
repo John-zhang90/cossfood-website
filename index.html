@@ -709,60 +709,62 @@
         function setupGalleries() {
             grid.querySelectorAll('.product-media').forEach((media) => {
                 const product = products.find((item) => item.code === media.dataset.code);
-                if (!product || product.images.length < 2) return;
+                if (!product) return;
                 const image = media.querySelector('.product-image');
-                const counter = media.querySelector('.gallery-count');
                 const wrap = media.querySelector('.product-image-wrap');
-                let index = 0;
-                let startX = 0;
-                let startY = 0;
-                let swipeActive = false;
+                if (product.images.length > 1) {
+                    const counter = media.querySelector('.gallery-count');
+                    let index = 0;
+                    let startX = 0;
+                    let startY = 0;
+                    let swipeActive = false;
+                    const show = () => {
+                        image.src = encodeURI(product.images[index]);
+                        counter.textContent = `${index + 1} / ${product.images.length}`;
+                        wrap.classList.remove('zoomed');
+                    };
+                    const step = (delta) => {
+                        index = (index + delta + product.images.length) % product.images.length;
+                        show();
+                    };
+                    media.querySelector('[data-gallery="prev"]').addEventListener('click', () => step(-1));
+                    media.querySelector('[data-gallery="next"]').addEventListener('click', () => step(1));
+                    wrap.addEventListener('touchstart', (event) => {
+                        if (event.touches.length !== 1) return;
+                        swipeActive = true;
+                        startX = event.touches[0].clientX;
+                        startY = event.touches[0].clientY;
+                    }, { passive: true });
+                    wrap.addEventListener('touchend', (event) => {
+                        if (!swipeActive) return;
+                        swipeActive = false;
+                        const touch = event.changedTouches[0];
+                        const deltaX = touch.clientX - startX;
+                        const deltaY = touch.clientY - startY;
+                        if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY) * 1.4) step(deltaX < 0 ? 1 : -1);
+                    }, { passive: true });
+                    wrap.addEventListener('touchcancel', () => { swipeActive = false; }, { passive: true });
+                }
+                if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
                 let zoomTimer = null;
-                const show = () => {
-                    image.src = encodeURI(product.images[index]);
-                    counter.textContent = `${index + 1} / ${product.images.length}`;
-                };
-                const step = (delta) => {
-                    index = (index + delta + product.images.length) % product.images.length;
-                    show();
-                };
-                media.querySelector('[data-gallery="prev"]').addEventListener('click', () => step(-1));
-                media.querySelector('[data-gallery="next"]').addEventListener('click', () => step(1));
-                wrap.addEventListener('touchstart', (event) => {
-                    if (event.touches.length !== 1) return;
-                    swipeActive = true;
-                    startX = event.touches[0].clientX;
-                    startY = event.touches[0].clientY;
-                }, { passive: true });
-                wrap.addEventListener('touchend', (event) => {
-                    if (!swipeActive) return;
-                    swipeActive = false;
-                    const touch = event.changedTouches[0];
-                    const deltaX = touch.clientX - startX;
-                    const deltaY = touch.clientY - startY;
-                    if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY) * 1.4) step(deltaX < 0 ? 1 : -1);
-                }, { passive: true });
-                wrap.addEventListener('touchcancel', () => { swipeActive = false; }, { passive: true });
                 const aimZoom = (event) => {
                     const rect = wrap.getBoundingClientRect();
                     const x = Math.min(100, Math.max(0, ((event.clientX - rect.left) / rect.width) * 100));
                     const y = Math.min(100, Math.max(0, ((event.clientY - rect.top) / rect.height) * 100));
                     image.style.transformOrigin = `${x}% ${y}%`;
                 };
-                if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-                    wrap.addEventListener('mouseenter', (event) => {
-                        aimZoom(event);
-                        clearTimeout(zoomTimer);
-                        zoomTimer = setTimeout(() => wrap.classList.add('zoomed'), 2000);
-                    });
-                    wrap.addEventListener('mousemove', aimZoom);
-                    wrap.addEventListener('mouseleave', () => {
-                        clearTimeout(zoomTimer);
-                        zoomTimer = null;
-                        wrap.classList.remove('zoomed');
-                        image.style.transformOrigin = '50% 50%';
-                    });
-                }
+                wrap.addEventListener('mouseenter', (event) => {
+                    aimZoom(event);
+                    clearTimeout(zoomTimer);
+                    zoomTimer = setTimeout(() => wrap.classList.add('zoomed'), 2000);
+                });
+                wrap.addEventListener('mousemove', aimZoom);
+                wrap.addEventListener('mouseleave', () => {
+                    clearTimeout(zoomTimer);
+                    zoomTimer = null;
+                    wrap.classList.remove('zoomed');
+                    image.style.transformOrigin = '50% 50%';
+                });
             });
         }
 
