@@ -133,8 +133,13 @@ assert(html.includes('data-gallery="prev"'), 'Product gallery previous button is
 assert(html.includes('data-gallery="next"'), 'Product gallery next button is missing');
 assert(html.includes('gallery-count'), 'Product gallery image counter is missing');
 assert(html.includes('touchstart'), 'Product gallery swipe handling is missing');
-assert(html.includes("setTimeout(() => wrap.classList.add('zoomed'), 2000)"), 'Hover zoom after two seconds is missing');
-assert(html.includes('.product-image-wrap.zoomed .product-image { transform: scale(2.1); }'), 'Hover zoom CSS is missing');
+assert(html.includes('id="zoom-panel"'), 'Hover magnifier panel is missing');
+assert(html.includes('const ZOOM_FACTOR = 2.6'), 'Magnifier zoom factor is missing');
+assert(html.includes('function hideZoomPanel()'), 'Magnifier panel hide logic is missing');
+assert(!html.includes('.product-image-wrap.zoomed'), 'In-place image scaling must be replaced by the magnifier panel');
+assert(html.includes('id="lightbox"'), 'Full-screen image preview is missing');
+assert(html.includes('function openLightbox(product, index)'), 'Lightbox open logic is missing');
+assert(html.includes('.lightbox.zoomed .lightbox-img'), 'Lightbox zoom style is missing');
 assert(html.includes('@media (hover: none)'), 'Touch devices must hide the gallery buttons');
 assert(html.includes('data-i18n="languageLabel"'), 'Language selector label is missing');
 assert(html.includes("languageLabel: '语言'"), 'Chinese language label translation is missing');
