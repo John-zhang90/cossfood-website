@@ -55,7 +55,7 @@
 
         /* --- B2B 企业级 Hero Section --- */
         .hero { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); height: min(440px, calc(100vh - 78px)); background: var(--bg-light); }
-        .hero-left { position: relative; overflow: hidden; min-height: 0; display: grid; place-items: center; padding: 22px 30px; background: var(--bg-light); }
+        .hero-left { position: relative; overflow: hidden; min-height: 0; display: grid; place-items: center; padding: 0; background: var(--bg-light); }
         .hero-left img { width: 100%; height: 100%; min-height: 0; display: block; object-fit: contain; object-position: center; }
         .hero-right { 
             flex: 1; background: var(--brand-red); color: var(--white); 
@@ -188,7 +188,7 @@
         /* --- 🎯 极致移动端适配响应式断点 (Responsive Media Queries) --- */
         @media (max-width: 992px) {
             .hero { display: flex; flex-direction: column; height: auto; }
-            .hero-left { height: clamp(220px, 32vw, 300px); padding: 18px 34px; }
+            .hero-left { height: clamp(220px, 32vw, 300px); padding: 0; }
             .hero-right { padding: 40px 20px; text-align: center; }
             .hero-right h1 { font-size: 34px; }
             .hero-cta { align-self: center; width: 100%; max-width: 300px; }
@@ -232,7 +232,7 @@
         }
 
         @media (max-width: 480px) {
-            .hero-left { height: 180px; padding: 12px 18px; }
+            .hero-left { height: 180px; padding: 0; }
             .hero-right { padding: 38px 18px 42px; }
             .hero-right h1 { font-size: 29px; }
             .hero-right p { font-size: 15px; margin-bottom: 24px; }
