@@ -37,7 +37,8 @@
             max-width: 1200px; margin: 0 auto; padding: 15px 20px;
             display: flex; justify-content: space-between; align-items: center;
         }
-        .logo { display: inline-flex; align-items: center; text-decoration: none; font-size: 32px; font-weight: 800; color: var(--brand-red); text-transform: uppercase; letter-spacing: 1px; }
+        .logo { display: inline-flex; align-items: center; text-decoration: none; }
+        .logo img { height: 38px; width: auto; display: block; }
         .nav-links { display: flex; list-style: none; gap: 30px; align-items: center; }
         .nav-links a { text-decoration: none; color: var(--text-dark); font-weight: 500; transition: var(--transition); }
         .nav-links a:hover { color: var(--brand-red); }
@@ -198,7 +199,7 @@
 
         @media (max-width: 768px) {
             .nav-container { padding: 12px 16px; }
-            .logo { font-size: 28px; }
+            .logo img { height: 30px; }
             .menu-toggle { display: block; }
             .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; padding: 12px 20px 18px; box-shadow: 0 8px 14px rgba(0,0,0,0.08); flex-direction: column; align-items: stretch; gap: 8px; }
             .nav-links.open { display: flex; }
@@ -285,7 +286,7 @@
     <!-- 导航栏 -->
     <header>
         <div class="nav-container">
-            <a class="logo" href="#top" aria-label="CossFood Marketing Pte Ltd">CossFood</a>
+            <a class="logo" href="#top" aria-label="CossFood Marketing Pte Ltd"><img src="image/logo-wordmark.png" alt="CossFood Marketing Pte Ltd"></a>
             <button class="menu-toggle" type="button" aria-label="打开菜单" aria-expanded="false">☰</button>
             <ul class="nav-links">
                 <li><a href="#products" data-i18n="navProducts">产品目录</a></li>
@@ -517,40 +518,40 @@
 
     <script>
         const products = [
-            { code: 'B003', name: 'Mantou Plain (White)', category: '包点与点心', unit: 'PKT', brand: '—', images: ['image/optimized/B003 mantou_plain白馒头/mantou-bau-main.jpg', 'image/optimized/B003 mantou_plain白馒头/bau-detail-1.jpg', 'image/optimized/B003 mantou_plain白馒头/bau-detail-2.jpg'] },
-            { code: 'B004', name: 'Obasan Mantou Plain', category: '包点与点心', unit: 'PKT', brand: 'OBASAN', images: ['image/optimized/B004 obasan mantou plain欧巴桑馒头/obasan-mantou-main.jpg', 'image/optimized/B004 obasan mantou plain欧巴桑馒头/obasan-detail-1.jpg', 'image/optimized/B004 obasan mantou plain欧巴桑馒头/obasan-detail-2.jpg'] },
-            { code: 'B006', name: 'Soon Lee Mantou Plain', category: '包点与点心', unit: 'PKT', brand: 'SOON LEE', images: ['image/optimized/B006 soonlee mantou plain顺利白馒头/mantou-plain-main.jpg', 'image/optimized/B006 soonlee mantou plain顺利白馒头/soonlee-detail-1.jpg'] },
-            { code: 'B007', name: 'Mantou Cocoa', category: '包点与点心', unit: 'PKT', brand: 'SOON LEE', images: ['image/optimized/B007 mantou cocoa 可可馒头/soolee-coco-main.jpg', 'image/optimized/B007 mantou cocoa 可可馒头/coco-detail-1.jpg', 'image/optimized/B007 mantou cocoa 可可馒头/coco-detail-2.jpg'] },
-            { code: 'B008', name: 'Mantou Pandan', category: '包点与点心', unit: 'PKT', brand: 'SOON LEE', images: ['image/optimized/B008 mantou pandan 斑斓馒头/soonlee-pandan-main.jpg', 'image/optimized/B008 mantou pandan 斑斓馒头/pandan-detail-1.jpg', 'image/optimized/B008 mantou pandan 斑斓馒头/pandan-detail-2.jpg'] },
-            { code: 'B016', name: 'Lotus Leaf (Plain)', category: '包点与点心', unit: 'PKT', brand: 'SOON LEE', images: ['image/optimized/B016 lotus leaf (plain)荷叶包/soonlee-lotusplain-main.jpg', 'image/optimized/B016 lotus leaf (plain)荷叶包/lotusplain-detail-1.jpg', 'image/optimized/B016 lotus leaf (plain)荷叶包/lotusplain-detail-2.jpg'] },
-            { code: 'CC001', name: 'Sweeten Chin Chow', category: '甜品与凉粉', unit: 'PCS', brand: 'LO SAM', images: ['image/optimized/CC001 sweeten chin chow甜仙草/sweeten-chinchow-main.jpg', 'image/optimized/CC001 sweeten chin chow甜仙草/chinchow-detail-1.jpg'] },
-            { code: 'CC002', name: 'Chin Chow No Sugar', category: '甜品与凉粉', unit: 'PCS', brand: 'LO SAM', images: ['image/optimized/CC002 chin chow no sugar无糖仙草/original-chinchow-main.jpg', 'image/optimized/CC002 chin chow no sugar无糖仙草/originalchinchow-detail-1.jpg'] },
-            { code: 'CC003', name: 'Jelly Chin Chow 300g', category: '甜品与凉粉', unit: 'BOX', brand: 'LO SAM', images: ['image/optimized/CC003 jelly chin chow仙草冻/jelly-chinchow-main.jpg', 'image/optimized/CC003 jelly chin chow仙草冻/jelly-detail-1.jpg'] },
-            { code: 'CF002', name: 'Cuttlefish', category: '海鲜与冷冻', unit: 'CTN', brand: 'LHF', images: ['image/optimized/CF002 cuttlefish冰鲜鱿鱼/lhf-cuttlefish-main.jpg', 'image/optimized/CF002 cuttlefish冰鲜鱿鱼/cuttlefish-detail-1.jpg'] },
-            { code: 'CF004', name: 'Frozen Cut Squid 10kg (Sotong)', category: '海鲜与冷冻', unit: 'CTN', brand: 'LHF', images: ['image/optimized/CF004 frozen cut squid 10kg(sotong)冷冻切块鱿鱼/frozen-sotong-main.jpg'] },
-            { code: 'CF014', name: 'Flower Clam (Lala)', category: '海鲜与冷冻', unit: 'CTN', brand: 'COSS', images: ['image/optimized/CF014 flower clam (lala)花蛤/lala-main.jpg', 'image/optimized/CF014 flower clam (lala)花蛤/lala-detail-1.jpg'] },
-            { code: 'CS003', name: 'Vegetarian Char Siew (Mince)', category: '其他', unit: 'UNIT', brand: 'OBASAN', images: ['image/optimized/CS003 char stew vegetarian (mince)素叉烧/obasan-vegetarian-main.jpg', 'image/optimized/CS003 char stew vegetarian (mince)素叉烧/charwie-detail-1.jpg'] },
-            { code: 'G001', name: 'Garlic 1kg (Packet)', category: '蔬菜与调味', unit: 'PKT', brand: 'LHF', images: ['image/optimized/G001 garlic-1kg 蒜头碎（袋装 ）/garlic-packet-main.jpg'] },
-            { code: 'G003', name: 'Garlic 200g (Box)', category: '蔬菜与调味', unit: 'BOX', brand: 'LHF', images: ['image/optimized/G003 garlic 200g蒜头碎 （盒装）/garlic-box-main.jpg'] },
-            { code: 'N001', name: 'Clay Pot Yee Mee 375g', category: '面类', unit: 'PKT', brand: 'MEGAH MEE', images: ['image/optimized/N001 clay pot yee mee (375gm)砂煲伊面/claypot-375-main.jpg', 'image/optimized/N001 clay pot yee mee (375gm)砂煲伊面/claypot-detail-1.jpg', 'image/optimized/N001 clay pot yee mee (375gm)砂煲伊面/claypot-detail-2.jpg'] },
-            { code: 'N002', name: 'Megah Instant Noodle', category: '面类', unit: 'CTN', brand: 'FUDO', images: ['image/optimized/N002 megah instant noodle快熟面/megah-instant-main.jpg', 'image/optimized/N002 megah instant noodle快熟面/instant-detail-1.jpg', 'image/optimized/N002 megah instant noodle快熟面/instant-detail-2.jpg'] },
-            { code: 'N003', name: 'Canton Yee Mee 320g', category: '面类', unit: 'PKT', brand: 'MEGAH MEE', images: ['image/optimized/N003 canton yee mee 320g港式伊面/canton-320-main.jpg', 'image/optimized/N003 canton yee mee 320g港式伊面/canton-detail-1.jpg', 'image/optimized/N003 canton yee mee 320g港式伊面/canton-detail-2.jpg'] },
-            { code: 'N004', name: 'Sapo Mee Suah 330g', category: '面类', unit: 'PKT', brand: 'MEGAH MEE', images: ['image/optimized/N004 sapo mee suah 330g砂煲面线/sapo-330-main.jpg', 'image/optimized/N004 sapo mee suah 330g砂煲面线/sapo-detail-1.jpg', 'image/optimized/N004 sapo mee suah 330g砂煲面线/sapo-detail-2.jpg'] },
-            { code: 'N005', name: 'Fried Egg Noodle 1.5kg', category: '面类', unit: 'CTN', brand: 'MEGAH MEE', images: ['image/optimized/N005 fried egg noodle 1.5kg全旦面/fried-egg-main.jpg', 'image/optimized/N005 fried egg noodle 1.5kg全旦面/fried-egg-detail-1.jpg'] },
-            { code: 'N013', name: 'CF Claypot Yee Mee 375g', category: '面类', unit: 'PKT', brand: 'TEHKI', images: ['image/optimized/N013 CFclay pot yee mee (375gm)可思伊面/cfpot-375-main.jpg', 'image/optimized/N013 CFclay pot yee mee (375gm)可思伊面/cfpot-detail-1.jpg', 'image/optimized/N013 CFclay pot yee mee (375gm)可思伊面/cfpot-detail-2.jpg'] },
-            { code: 'N019', name: 'Shabu Shabu Noodles', category: '面类', unit: 'PKT', brand: 'MEGAH MEE', images: ['image/optimized/N019 shabu shabu noodles唰唰面/shabu-noodles-main.jpg', 'image/optimized/N019 shabu shabu noodles唰唰面/shabu-detail-1.jpg', 'image/optimized/N019 shabu shabu noodles唰唰面/shabu-detail-2.jpg'] },
-            { code: 'N020', name: 'Vitaman Instant Noodles', category: '面类', unit: 'CTN', brand: 'VITAMAN', images: ['image/optimized/N020 vitaman instant noodles维他快熟面/vitaman-instant-main.jpg', 'image/optimized/N020 vitaman instant noodles维他快熟面/vitaman-detail-1.jpg', 'image/optimized/N020 vitaman instant noodles维他快熟面/vitaman-detail-2.jpg'] },
-            { code: 'P001', name: 'Popiah Wrapper', category: '包点与点心', unit: 'CTN', brand: 'FABULOUS', images: ['image/optimized/P001 popiah wrapper薄饼皮/obasan-wrapper-main.jpg', 'image/optimized/P001 popiah wrapper薄饼皮/wrapper-detail-1.jpg', 'image/optimized/P001 popiah wrapper薄饼皮/wrapper-detail-2.jpg'] },
-            { code: 'TF002', name: 'Smooth Soy Tofu (Blue)', category: '豆制品与火锅', unit: 'BOX', brand: 'LO SAM', images: ['image/optimized/TF002 smooth soy tofu blue蓝豆腐/tofu-blue-main.jpg', 'image/optimized/TF002 smooth soy tofu blue蓝豆腐/blue-detail-1.jpg'] },
-            { code: 'TF003', name: 'Losam Premium Tofu', category: '豆制品与火锅', unit: 'BOX', brand: 'LO SAM', images: ['image/optimized/TF003 losam premium tofu老三豆腐/losam-tofu-main.jpg', 'image/optimized/TF003 losam premium tofu老三豆腐/losam-detail-1.jpg'] },
-            { code: 'TF012', name: 'Egg Tofu 100g (Loose Pack)', category: '豆制品与火锅', unit: 'PKT', brand: 'MSM', images: ['image/optimized/TF012 egg tofu (100gm) loose pack日本豆腐/egg-tofu-main.jpg', 'image/optimized/TF012 egg tofu (100gm) loose pack日本豆腐/egg-detail-1.jpg'] },
-            { code: 'TK005', name: 'Crispy Bean Curd', category: '豆制品与火锅', unit: 'PKT', brand: 'LO SAM', images: ['image/optimized/TK005 crispy bean curd脆皮腐竹/crispy-bean-main.jpg', 'image/optimized/TK005 crispy bean curd脆皮腐竹/crispy-detail-1.jpg', 'image/optimized/TK005 crispy bean curd脆皮腐竹/crispy-detail-2.jpg'] },
-            { code: 'TP001', name: 'Tau Pok (Obasan)', category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', images: ['image/optimized/TP001 tau pok (obasan)豆卜/taupok-obasan-main.jpg', 'image/optimized/TP001 tau pok (obasan)豆卜/taupok-detail-1.jpg'] },
-            { code: 'TP003', name: 'Tau Pok (Eng Soon)', category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', images: ['image/optimized/TP003 tau pok (eng soon)传统豆卜/taupok-engsoon-main.jpg', 'image/optimized/TP003 tau pok (eng soon)传统豆卜/engsoon-detail-1.jpg'] },
-            { code: 'TP004', name: 'Big Tau Li (25 pcs)', category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', images: ['image/optimized/TP004 big tau li (25 pcs)大豆粒/big-tauli-main.jpg'] },
-            { code: 'TP005', name: 'Small Tau Li (50 pcs)', category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', images: ['image/optimized/TP005 small tau li (50 pcs)小豆粒/small-tauli-main.jpg'] },
-            { code: 'TP006', name: 'Tau Bian', category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', images: ['image/optimized/TP006 tau bian豆边/tau-bian-main.jpg'] },
-            { code: 'Z001', name: 'Chee Cheong Fun 300g', category: '包点与点心', unit: 'CTN', brand: 'LO SAM', images: ['image/optimized/Z001 CHEE CHEONG FUN 300G/cheecheong-fun-main.jpg', 'image/optimized/Z001 CHEE CHEONG FUN 300G/fun-detail-1.jpg'] },
+            { code: 'B003', names: { en: 'Mantou Plain (White)', zh: '白馒头', ms: 'Mantou Kosong (Putih)' }, category: '包点与点心', unit: 'PKT', brand: '—', images: ['image/optimized/B003 mantou_plain白馒头/mantou-bau-main.jpg', 'image/optimized/B003 mantou_plain白馒头/bau-detail-1.jpg', 'image/optimized/B003 mantou_plain白馒头/bau-detail-2.jpg'] },
+            { code: 'B004', names: { en: 'Obasan Mantou Plain', zh: '欧巴桑白馒头', ms: 'Mantou Obasan Kosong' }, category: '包点与点心', unit: 'PKT', brand: 'OBASAN', images: ['image/optimized/B004 obasan mantou plain欧巴桑馒头/obasan-mantou-main.jpg', 'image/optimized/B004 obasan mantou plain欧巴桑馒头/obasan-detail-1.jpg', 'image/optimized/B004 obasan mantou plain欧巴桑馒头/obasan-detail-2.jpg'] },
+            { code: 'B006', names: { en: 'Soon Lee Mantou Plain', zh: '顺利白馒头', ms: 'Mantou Soon Lee Kosong' }, category: '包点与点心', unit: 'PKT', brand: 'SOON LEE', images: ['image/optimized/B006 soonlee mantou plain顺利白馒头/mantou-plain-main.jpg', 'image/optimized/B006 soonlee mantou plain顺利白馒头/soonlee-detail-1.jpg'] },
+            { code: 'B007', names: { en: 'Mantou Cocoa', zh: '可可馒头', ms: 'Mantou Koko' }, category: '包点与点心', unit: 'PKT', brand: 'SOON LEE', images: ['image/optimized/B007 mantou cocoa 可可馒头/soolee-coco-main.jpg', 'image/optimized/B007 mantou cocoa 可可馒头/coco-detail-1.jpg', 'image/optimized/B007 mantou cocoa 可可馒头/coco-detail-2.jpg'] },
+            { code: 'B008', names: { en: 'Mantou Pandan', zh: '斑斓馒头', ms: 'Mantou Pandan' }, category: '包点与点心', unit: 'PKT', brand: 'SOON LEE', images: ['image/optimized/B008 mantou pandan 斑斓馒头/soonlee-pandan-main.jpg', 'image/optimized/B008 mantou pandan 斑斓馒头/pandan-detail-1.jpg', 'image/optimized/B008 mantou pandan 斑斓馒头/pandan-detail-2.jpg'] },
+            { code: 'B016', names: { en: 'Lotus Leaf (Plain)', zh: '荷叶包（原味）', ms: 'Daun Teratai (Kosong)' }, category: '包点与点心', unit: 'PKT', brand: 'SOON LEE', images: ['image/optimized/B016 lotus leaf (plain)荷叶包/soonlee-lotusplain-main.jpg', 'image/optimized/B016 lotus leaf (plain)荷叶包/lotusplain-detail-1.jpg', 'image/optimized/B016 lotus leaf (plain)荷叶包/lotusplain-detail-2.jpg'] },
+            { code: 'CC001', names: { en: 'Sweeten Chin Chow', zh: '甜仙草', ms: 'Cincau Manis' }, category: '甜品与凉粉', unit: 'PCS', brand: 'LO SAM', images: ['image/optimized/CC001 sweeten chin chow甜仙草/sweeten-chinchow-main.jpg', 'image/optimized/CC001 sweeten chin chow甜仙草/chinchow-detail-1.jpg'] },
+            { code: 'CC002', names: { en: 'Chin Chow No Sugar', zh: '无糖仙草', ms: 'Cincau Tanpa Gula' }, category: '甜品与凉粉', unit: 'PCS', brand: 'LO SAM', images: ['image/optimized/CC002 chin chow no sugar无糖仙草/original-chinchow-main.jpg', 'image/optimized/CC002 chin chow no sugar无糖仙草/originalchinchow-detail-1.jpg'] },
+            { code: 'CC003', names: { en: 'Jelly Chin Chow 300g', zh: '仙草冻 300g', ms: 'Jeli Cincau 300g' }, category: '甜品与凉粉', unit: 'BOX', brand: 'LO SAM', images: ['image/optimized/CC003 jelly chin chow仙草冻/jelly-chinchow-main.jpg', 'image/optimized/CC003 jelly chin chow仙草冻/jelly-detail-1.jpg'] },
+            { code: 'CF002', names: { en: 'Cuttlefish', zh: '冰鲜鱿鱼', ms: 'Sotong Katak Segar' }, category: '海鲜与冷冻', unit: 'CTN', brand: 'LHF', images: ['image/optimized/CF002 cuttlefish冰鲜鱿鱼/lhf-cuttlefish-main.jpg', 'image/optimized/CF002 cuttlefish冰鲜鱿鱼/cuttlefish-detail-1.jpg'] },
+            { code: 'CF004', names: { en: 'Frozen Cut Squid 10kg (Sotong)', zh: '冷冻切块鱿鱼 10kg', ms: 'Sotong Potong Beku 10kg' }, category: '海鲜与冷冻', unit: 'CTN', brand: 'LHF', images: ['image/optimized/CF004 frozen cut squid 10kg(sotong)冷冻切块鱿鱼/frozen-sotong-main.jpg'] },
+            { code: 'CF014', names: { en: 'Flower Clam (Lala)', zh: '花蛤', ms: 'Lala' }, category: '海鲜与冷冻', unit: 'CTN', brand: 'COSS', images: ['image/optimized/CF014 flower clam (lala)花蛤/lala-main.jpg', 'image/optimized/CF014 flower clam (lala)花蛤/lala-detail-1.jpg'] },
+            { code: 'CS003', names: { en: 'Vegetarian Char Siew (Mince)', zh: '素叉烧（碎）', ms: 'Char Siew Vegetarian (Cincang)' }, category: '其他', unit: 'UNIT', brand: 'OBASAN', images: ['image/optimized/CS003 char stew vegetarian (mince)素叉烧/obasan-vegetarian-main.jpg', 'image/optimized/CS003 char stew vegetarian (mince)素叉烧/charwie-detail-1.jpg'] },
+            { code: 'G001', names: { en: 'Garlic 1kg (Packet)', zh: '蒜头碎 1kg（袋装）', ms: 'Bawang Putih Cincang 1kg (Paket)' }, category: '蔬菜与调味', unit: 'PKT', brand: 'LHF', images: ['image/optimized/G001 garlic-1kg 蒜头碎（袋装 ）/garlic-packet-main.jpg'] },
+            { code: 'G003', names: { en: 'Garlic 200g (Box)', zh: '蒜头碎 200g（盒装）', ms: 'Bawang Putih Cincang 200g (Kotak)' }, category: '蔬菜与调味', unit: 'BOX', brand: 'LHF', images: ['image/optimized/G003 garlic 200g蒜头碎 （盒装）/garlic-box-main.jpg'] },
+            { code: 'N001', names: { en: 'Clay Pot Yee Mee 375g', zh: '砂煲伊面 375g', ms: 'Yee Mee Periuk Tanah 375g' }, category: '面类', unit: 'PKT', brand: 'MEGAH MEE', images: ['image/optimized/N001 clay pot yee mee (375gm)砂煲伊面/claypot-375-main.jpg', 'image/optimized/N001 clay pot yee mee (375gm)砂煲伊面/claypot-detail-1.jpg', 'image/optimized/N001 clay pot yee mee (375gm)砂煲伊面/claypot-detail-2.jpg'] },
+            { code: 'N002', names: { en: 'Megah Instant Noodle', zh: 'Megah 快熟面', ms: 'Mi Segera Megah' }, category: '面类', unit: 'CTN', brand: 'FUDO', images: ['image/optimized/N002 megah instant noodle快熟面/megah-instant-main.jpg', 'image/optimized/N002 megah instant noodle快熟面/instant-detail-1.jpg', 'image/optimized/N002 megah instant noodle快熟面/instant-detail-2.jpg'] },
+            { code: 'N003', names: { en: 'Canton Yee Mee 320g', zh: '港式伊面 320g', ms: 'Yee Mee Kantonis 320g' }, category: '面类', unit: 'PKT', brand: 'MEGAH MEE', images: ['image/optimized/N003 canton yee mee 320g港式伊面/canton-320-main.jpg', 'image/optimized/N003 canton yee mee 320g港式伊面/canton-detail-1.jpg', 'image/optimized/N003 canton yee mee 320g港式伊面/canton-detail-2.jpg'] },
+            { code: 'N004', names: { en: 'Sapo Mee Suah 330g', zh: '砂煲面线 330g', ms: 'Mee Suah Sapo 330g' }, category: '面类', unit: 'PKT', brand: 'MEGAH MEE', images: ['image/optimized/N004 sapo mee suah 330g砂煲面线/sapo-330-main.jpg', 'image/optimized/N004 sapo mee suah 330g砂煲面线/sapo-detail-1.jpg', 'image/optimized/N004 sapo mee suah 330g砂煲面线/sapo-detail-2.jpg'] },
+            { code: 'N005', names: { en: 'Fried Egg Noodle 1.5kg', zh: '全旦面 1.5kg', ms: 'Mi Telur Goreng 1.5kg' }, category: '面类', unit: 'CTN', brand: 'MEGAH MEE', images: ['image/optimized/N005 fried egg noodle 1.5kg全旦面/fried-egg-main.jpg', 'image/optimized/N005 fried egg noodle 1.5kg全旦面/fried-egg-detail-1.jpg'] },
+            { code: 'N013', names: { en: 'CF Claypot Yee Mee 375g', zh: '可思砂煲伊面 375g', ms: 'Yee Mee Periuk Tanah CF 375g' }, category: '面类', unit: 'PKT', brand: 'TEHKI', images: ['image/optimized/N013 CFclay pot yee mee (375gm)可思伊面/cfpot-375-main.jpg', 'image/optimized/N013 CFclay pot yee mee (375gm)可思伊面/cfpot-detail-1.jpg', 'image/optimized/N013 CFclay pot yee mee (375gm)可思伊面/cfpot-detail-2.jpg'] },
+            { code: 'N019', names: { en: 'Shabu Shabu Noodles', zh: '唰唰面', ms: 'Mi Shabu Shabu' }, category: '面类', unit: 'PKT', brand: 'MEGAH MEE', images: ['image/optimized/N019 shabu shabu noodles唰唰面/shabu-noodles-main.jpg', 'image/optimized/N019 shabu shabu noodles唰唰面/shabu-detail-1.jpg', 'image/optimized/N019 shabu shabu noodles唰唰面/shabu-detail-2.jpg'] },
+            { code: 'N020', names: { en: 'Vitaman Instant Noodles', zh: '维他快熟面', ms: 'Mi Segera Vitaman' }, category: '面类', unit: 'CTN', brand: 'VITAMAN', images: ['image/optimized/N020 vitaman instant noodles维他快熟面/vitaman-instant-main.jpg', 'image/optimized/N020 vitaman instant noodles维他快熟面/vitaman-detail-1.jpg', 'image/optimized/N020 vitaman instant noodles维他快熟面/vitaman-detail-2.jpg'] },
+            { code: 'P001', names: { en: 'Popiah Wrapper', zh: '薄饼皮', ms: 'Kulit Popiah' }, category: '包点与点心', unit: 'CTN', brand: 'FABULOUS', images: ['image/optimized/P001 popiah wrapper薄饼皮/obasan-wrapper-main.jpg', 'image/optimized/P001 popiah wrapper薄饼皮/wrapper-detail-1.jpg', 'image/optimized/P001 popiah wrapper薄饼皮/wrapper-detail-2.jpg'] },
+            { code: 'TF002', names: { en: 'Smooth Soy Tofu (Blue)', zh: '蓝豆腐（滑豆奶豆腐）', ms: 'Tauhu Soya Lembut (Biru)' }, category: '豆制品与火锅', unit: 'BOX', brand: 'LO SAM', images: ['image/optimized/TF002 smooth soy tofu blue蓝豆腐/tofu-blue-main.jpg', 'image/optimized/TF002 smooth soy tofu blue蓝豆腐/blue-detail-1.jpg'] },
+            { code: 'TF003', names: { en: 'Losam Premium Tofu', zh: '老三豆腐（特级）', ms: 'Tauhu Premium Losam' }, category: '豆制品与火锅', unit: 'BOX', brand: 'LO SAM', images: ['image/optimized/TF003 losam premium tofu老三豆腐/losam-tofu-main.jpg', 'image/optimized/TF003 losam premium tofu老三豆腐/losam-detail-1.jpg'] },
+            { code: 'TF012', names: { en: 'Egg Tofu 100g (Loose Pack)', zh: '日本豆腐 100g（散装）', ms: 'Tauhu Telur 100g (Bungkusan Longgar)' }, category: '豆制品与火锅', unit: 'PKT', brand: 'MSM', images: ['image/optimized/TF012 egg tofu (100gm) loose pack日本豆腐/egg-tofu-main.jpg', 'image/optimized/TF012 egg tofu (100gm) loose pack日本豆腐/egg-detail-1.jpg'] },
+            { code: 'TK005', names: { en: 'Crispy Bean Curd', zh: '脆皮腐竹', ms: 'Fucuk Rangup' }, category: '豆制品与火锅', unit: 'PKT', brand: 'LO SAM', images: ['image/optimized/TK005 crispy bean curd脆皮腐竹/crispy-bean-main.jpg', 'image/optimized/TK005 crispy bean curd脆皮腐竹/crispy-detail-1.jpg', 'image/optimized/TK005 crispy bean curd脆皮腐竹/crispy-detail-2.jpg'] },
+            { code: 'TP001', names: { en: 'Tau Pok (Obasan)', zh: '豆卜（欧巴桑）', ms: 'Tau Pok (Obasan)' }, category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', images: ['image/optimized/TP001 tau pok (obasan)豆卜/taupok-obasan-main.jpg', 'image/optimized/TP001 tau pok (obasan)豆卜/taupok-detail-1.jpg'] },
+            { code: 'TP003', names: { en: 'Tau Pok (Eng Soon)', zh: '传统豆卜（Eng Soon）', ms: 'Tau Pok (Eng Soon)' }, category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', images: ['image/optimized/TP003 tau pok (eng soon)传统豆卜/taupok-engsoon-main.jpg', 'image/optimized/TP003 tau pok (eng soon)传统豆卜/engsoon-detail-1.jpg'] },
+            { code: 'TP004', names: { en: 'Big Tau Li (25 pcs)', zh: '大豆粒（25 粒）', ms: 'Tau Li Besar (25 biji)' }, category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', images: ['image/optimized/TP004 big tau li (25 pcs)大豆粒/big-tauli-main.jpg'] },
+            { code: 'TP005', names: { en: 'Small Tau Li (50 pcs)', zh: '小豆粒（50 粒）', ms: 'Tau Li Kecil (50 biji)' }, category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', images: ['image/optimized/TP005 small tau li (50 pcs)小豆粒/small-tauli-main.jpg'] },
+            { code: 'TP006', names: { en: 'Tau Bian', zh: '豆边', ms: 'Tau Bian' }, category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', images: ['image/optimized/TP006 tau bian豆边/tau-bian-main.jpg'] },
+            { code: 'Z001', names: { en: 'Chee Cheong Fun 300g', zh: '猪肠粉 300g', ms: 'Chee Cheong Fun 300g' }, category: '包点与点心', unit: 'CTN', brand: 'LO SAM', images: ['image/optimized/Z001 CHEE CHEONG FUN 300G/cheecheong-fun-main.jpg', 'image/optimized/Z001 CHEE CHEONG FUN 300G/fun-detail-1.jpg'] },
         ];
 
         // 默认展示顺序：面类 → 馒头/包点 → 豆卜及豆制品 → 其他 → 海鲜/鱿鱼
@@ -621,7 +622,8 @@
 
         const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
         const t = () => translations[currentLanguage];
-        const whatsappUrl = (product) => `https://wa.me/6587569015?text=${encodeURIComponent(product ? `${t().whatsappProduct}${product.code} ${product.name}` : t().whatsappGeneral)}`;
+        const productName = (product) => (product.names[currentLanguage] || product.names.en);
+        const whatsappUrl = (product) => `https://wa.me/6587569015?text=${encodeURIComponent(product ? `${t().whatsappProduct}${product.code} ${productName(product)}` : t().whatsappGeneral)}`;
         const wechatQrUrl = 'image/WeChat_QRcode-transparent.png';
 
         let enquiryLastFocus = null;
@@ -709,7 +711,7 @@
             const keyword = search.value.trim().toLowerCase();
             const filtered = products.filter((product) => {
                 const matchesCategory = activeCategory === '全部' || product.category === activeCategory;
-                const haystack = `${product.code} ${product.name} ${product.brand} ${product.category}`.toLowerCase();
+                const haystack = `${product.code} ${product.names.en} ${product.names.zh} ${product.names.ms} ${product.brand} ${product.category}`.toLowerCase();
                 return matchesCategory && haystack.includes(keyword);
             });
             count.textContent = t().productCount(filtered.length, products.length);
@@ -725,7 +727,7 @@
                 <article class="product-card">
                     <div class="product-media" data-code="${escapeHtml(product.code)}">
                         <div class="product-image-wrap">
-                            <img class="product-image" src="${encodeURI(images[0])}" alt="${escapeHtml(product.name)}" loading="lazy" decoding="async">
+                            <img class="product-image" src="${encodeURI(images[0])}" alt="${escapeHtml(productName(product))}" loading="lazy" decoding="async">
                         </div>
                         <button class="gallery-nav prev" type="button" data-gallery="prev" aria-label="${escapeHtml(t().prevImage)}"${singleImage ? ' hidden' : ''}>&#8249;</button>
                         <button class="gallery-nav next" type="button" data-gallery="next" aria-label="${escapeHtml(t().nextImage)}"${singleImage ? ' hidden' : ''}>&#8250;</button>
@@ -733,7 +735,7 @@
                     </div>
                     <div class="product-info">
                         <span class="product-code">${escapeHtml(product.code)}</span>
-                        <h3 class="product-name">${escapeHtml(product.name)}</h3>
+                        <h3 class="product-name">${escapeHtml(productName(product))}</h3>
                         <p class="product-meta">${escapeHtml(categoryLabel(product))}<br>${escapeHtml(t().brandLabel)}：${escapeHtml(product.brand)}<br>${escapeHtml(t().unitLabel)}：${escapeHtml(product.unit)}<br>${escapeHtml(t().minimumLabel)}：1 ${escapeHtml(product.unit)}</p>
                         <div class="product-actions">
                             <a class="call" href="${wechatQrUrl}" target="_blank" rel="noopener" aria-label="${escapeHtml(t().wechatQrAlt)}">${escapeHtml(t().call)}</a>
@@ -772,7 +774,7 @@
             const images = lightboxProduct.images;
             const hasMultiple = images.length > 1;
             lightboxImg.src = encodeURI(images[lightboxIndex]);
-            lightboxImg.alt = lightboxProduct.name;
+            lightboxImg.alt = productName(lightboxProduct);
             lightboxCount.textContent = `${lightboxIndex + 1} / ${images.length}`;
             lightboxCount.hidden = !hasMultiple;
             lightboxBox.querySelectorAll('.lightbox-nav').forEach((button) => { button.hidden = !hasMultiple; });

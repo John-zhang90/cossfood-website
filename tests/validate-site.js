@@ -45,7 +45,7 @@ assert(html.includes("const visitorStatsUrl"), 'Visitor statistics API URL is mi
 assert(!fs.existsSync(path.join(root, '.github', 'workflows', 'pages.yml')), 'Legacy Pages workflow must be removed so only the prepared _site is published');
 assert(pagesWorkflow.includes('branches: ["main"]'), 'GitHub Pages must deploy from the single main branch');
 assert(html.includes('setInterval(recordVisit, 300000)'), 'Visitor statistics should refresh every 5 minutes to limit server writes');
-assert(html.includes("name: 'Fried Egg Noodle 1.5kg'"), 'N005 pack size must match the package label (1.5kg)');
+assert(html.includes("en: 'Fried Egg Noodle 1.5kg'"), 'N005 pack size must match the package label (1.5kg)');
 assert(!html.includes('Fried Egg Noodle 3kg'), 'N005 still shows the wrong 3kg pack size');
 assert((html.match(/\.category-btn\.active, \.category-btn:hover/g) || []).length === 1, 'Duplicate category button CSS rule found');
 assert((html.match(/\+65 8756 9015/g) || []).length >= 6, 'New Singapore phone number is not shown in all required contact copy');
@@ -126,6 +126,19 @@ for (const relativePath of new Set(productImages)) {
 
 const multiImageEntries = (html.match(/images: \[[^\]]*'[^']+',/g) || []).length;
 assert(multiImageEntries >= 20, `Too few products have multiple images: ${multiImageEntries}`);
+
+const localizedNames = (html.match(/names: \{ en: /g) || []).length;
+assert(localizedNames === 34, `Every product needs en/zh/ms names, found ${localizedNames}`);
+assert(html.includes("zh: '白馒头'"), 'Chinese product names are missing');
+assert(html.includes("ms: 'Mantou Kosong (Putih)'"), 'Malay product names are missing');
+assert(html.includes("zh: '猪肠粉 300g'"), 'Chinese name for Z001 is missing');
+assert(html.includes('const productName = (product)'), 'Localized product name helper is missing');
+assert(html.includes('escapeHtml(productName(product))'), 'Product cards must render the localized name');
+
+const wordmarkPath = path.join(root, 'image/logo-wordmark.png');
+assert(fs.existsSync(wordmarkPath), 'Header wordmark asset is missing');
+assert(fs.statSync(wordmarkPath).size > 0, 'Header wordmark asset is empty');
+assert(html.includes('src="image/logo-wordmark.png"'), 'Header must use the original logo wordmark');
 assert(!fs.existsSync(path.join(root, 'image', 'N001 MEGAH MEE CLAYPOT YEE MEE 375KG.jpg')), 'Old flat product images must be removed');
 assert(!fs.existsSync(path.join(root, 'image', 'optimized', 'N001 MEGAH MEE CLAYPOT YEE MEE 375KG.webp')), 'Old optimized webp images must be removed');
 
