@@ -81,6 +81,8 @@ assert(visitorApi.includes("'visitor-stats.csv'"), 'Visitor CSV report storage i
 assert(visitorApi.includes("'visitor-stats.xlsx'"), 'Visitor Excel report storage is missing');
 assert(visitorApi.includes("['日期', '当日访问人数', '累计访问人数', '最后更新时间']"), 'Visitor report columns are incomplete');
 assert(visitorApi.includes("hash('sha256'"), 'Visitor identity must be anonymized');
+assert(visitorApi.includes('$storedTodayCount'), 'Stored daily count must be compared before rewriting the visitor report');
+assert(visitorApi.includes('$needsReportWrite'), 'Visitor reports must only be rewritten when the daily count changes');
 assert(visitorApi.includes('flock($lock, LOCK_EX)'), 'Visitor storage must use a write lock');
 assert(pagesWorkflow.includes('path: _site'), 'GitHub Pages must publish the prepared public site directory');
 assert(pagesWorkflow.includes('cp index.html _site/'), 'GitHub Pages artifact must include index.html');

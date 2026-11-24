@@ -163,21 +163,33 @@ foreach (readCsvRows($reportCsv) as $index => $row) {
     }
     $dailyCounts[(string) $row[0]] = max(0, (int) $row[1]);
 }
-$dailyCounts[$date] = $todayVisitors;
-ksort($dailyCounts);
-$reportRows = [['日期', '当日访问人数', '累计访问人数', '最后更新时间']];
+$storedTodayCount = $dailyCounts[$date] ?? null;
+$needsReportWrite = $storedTodayCount !== $todayVisitors || !is_file($reportCsv) || !is_file($reportXlsx);
+
 $totalVisitors = 0;
-foreach ($dailyCounts as $day => $count) {
-    $totalVisitors += $count;
-    $reportRows[] = [$day, $count, $totalVisitors, $day === $date ? $timestamp : ''];
+foreach ($dailyCounts as $storedCount) {
+    $totalVisitors += $storedCount;
 }
 
-if (!writeCsvRows($reportCsv, $reportRows)) {
-    flock($lock, LOCK_UN);
-    fclose($lock);
-    respond(500, ['success' => false, 'message' => 'Unable to save visitor report']);
+if ($needsReportWrite) {
+    $dailyCounts[$date] = $todayVisitors;
+    ksort($dailyCounts);
+    $reportRows = [['日期', '当日访问人数', '累计访问人数', '最后更新时间']];
+    $totalVisitors = 0;
+    foreach ($dailyCounts as $day => $count) {
+        $totalVisitors += $count;
+        $reportRows[] = [$day, $count, $totalVisitors, $day === $date ? $timestamp : ''];
+    }
+
+    if (!writeCsvRows($reportCsv, $reportRows)) {
+        flock($lock, LOCK_UN);
+        fclose($lock);
+        respond(500, ['success' => false, 'message' => 'Unable to save visitor report']);
+    }
+    $xlsxCreated = writeXlsx($reportXlsx, $reportRows, '每日访问统计');
+} else {
+    $xlsxCreated = is_file($reportXlsx);
 }
-$xlsxCreated = writeXlsx($reportXlsx, $reportRows, '每日访问统计');
 
 flock($lock, LOCK_UN);
 fclose($lock);
