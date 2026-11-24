@@ -1,0 +1,8 @@
+# OS / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local-only material that is not part of the website repo
+Samsung_A56_国际系统与新加坡使用指南.doc
+test_samsung_a56_guide.ps1
