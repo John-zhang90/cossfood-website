@@ -84,14 +84,15 @@ assert(visitorApi.includes("hash('sha256'"), 'Visitor identity must be anonymize
 assert(visitorApi.includes('$storedTodayCount'), 'Stored daily count must be compared before rewriting the visitor report');
 assert(visitorApi.includes('$needsReportWrite'), 'Visitor reports must only be rewritten when the daily count changes');
 assert(visitorApi.includes('flock($lock, LOCK_EX)'), 'Visitor storage must use a write lock');
-assert(pagesWorkflow.includes('path: _site'), 'GitHub Pages must publish the prepared public site directory');
-assert(pagesWorkflow.includes('cp index.html _site/'), 'GitHub Pages artifact must include index.html');
-assert(pagesWorkflow.includes('cp -R image/optimized _site/image/'), 'GitHub Pages artifact must include the optimized product images');
-assert(pagesWorkflow.includes("-name '*.jpg'"), 'GitHub Pages artifact must exclude the oversized original JPG files');
+assert(pagesWorkflow.includes('git push --force'), 'GitHub Actions must publish the site to the gh-pages branch');
+assert(pagesWorkflow.includes('gh-pages'), 'GitHub Actions must publish to the gh-pages branch');
+assert(pagesWorkflow.includes('cd _site'), 'GitHub Actions must publish the prepared site directory');
+assert(pagesWorkflow.includes('cp index.html _site/'), 'Published site must include index.html');
+assert(pagesWorkflow.includes('cp -R image/optimized _site/image/'), 'Published site must include the optimized product images');
+assert(pagesWorkflow.includes("-name '*.jpg'"), 'Published site must exclude the oversized original JPG files');
 assert(pagesWorkflow.includes('php -l api/save-inquiry.php'), 'GitHub Actions must validate the enquiry API syntax');
 assert(pagesWorkflow.includes('php -l api/visitor-stats.php'), 'GitHub Actions must validate the visitor API syntax');
 assert(pagesWorkflow.includes('node tests/validate-site.js'), 'GitHub Actions must run the site structure tests');
-assert(pagesWorkflow.includes('actions/upload-pages-artifact@v5'), 'GitHub Actions must use the current Pages artifact action');
 assert(!pagesWorkflow.includes("path: '.'"), 'GitHub Pages must not publish the whole repository');
 
 for (const relativePath of ['image/WeChat_QRcode.jpeg', 'image/WhatsApp_QRcode.jpeg', 'image/WeChat_QRcode-transparent.png', 'image/WhatsApp_QRcode-transparent.png']) {
