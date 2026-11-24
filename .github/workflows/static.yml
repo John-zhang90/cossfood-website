@@ -5,6 +5,7 @@ on:
   push:
     branches: ["main"]
   workflow_dispatch:
+
 permissions:
   contents: read
   pages: write
@@ -22,20 +23,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
       - name: Validate PHP API syntax
         run: |
           php -l api/save-inquiry.php
           php -l api/visitor-stats.php
+      - name: Validate site structure
+        run: node tests/validate-site.js
       - name: Prepare public site
         run: |
           mkdir _site
           cp index.html _site/
           cp -R image _site/
       - name: Upload public site artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: _site
       - name: Deploy to GitHub Pages

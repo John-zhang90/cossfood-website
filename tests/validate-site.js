@@ -89,6 +89,8 @@ assert(pagesWorkflow.includes('cp index.html _site/'), 'GitHub Pages artifact mu
 assert(pagesWorkflow.includes('cp -R image _site/'), 'GitHub Pages artifact must include image assets');
 assert(pagesWorkflow.includes('php -l api/save-inquiry.php'), 'GitHub Actions must validate the enquiry API syntax');
 assert(pagesWorkflow.includes('php -l api/visitor-stats.php'), 'GitHub Actions must validate the visitor API syntax');
+assert(pagesWorkflow.includes('node tests/validate-site.js'), 'GitHub Actions must run the site structure tests');
+assert(pagesWorkflow.includes('actions/upload-pages-artifact@v5'), 'GitHub Actions must use the current Pages artifact action');
 assert(!pagesWorkflow.includes("path: '.'"), 'GitHub Pages must not publish the whole repository');
 
 for (const relativePath of ['image/WeChat_QRcode.jpeg', 'image/WhatsApp_QRcode.jpeg', 'image/WeChat_QRcode-transparent.png', 'image/WhatsApp_QRcode-transparent.png']) {
