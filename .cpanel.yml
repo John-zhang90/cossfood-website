@@ -4,5 +4,6 @@ deployment:
     - export DEPLOYPATH=/home/cossfood/public_html/
     - /bin/cp index.html $DEPLOYPATH
     - /bin/cp -R image $DEPLOYPATH
+    - rm -f $DEPLOYPATH/image/optimized/*.7z
     - /bin/cp api/save-inquiry.php $DEPLOYPATH/save-inquiry.php
     - /bin/cp api/visitor-stats.php $DEPLOYPATH/visitor-stats.php

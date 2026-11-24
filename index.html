@@ -134,8 +134,19 @@
         .product-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
         .product-card { background: #fff; border: 1px solid #eee6dc; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; min-width: 0; transition: var(--transition); }
         .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(77, 34, 18, 0.12); }
-        .product-image-wrap { aspect-ratio: 1 / 1; background: #f3eee8; overflow: hidden; }
-        .product-image { width: 100%; height: 100%; display: block; object-fit: contain; }
+        .product-media { position: relative; }
+        .product-image-wrap { position: relative; aspect-ratio: 1 / 1; background: #f3eee8; overflow: hidden; touch-action: pan-y; cursor: zoom-in; }
+        .product-image { width: 100%; height: 100%; display: block; object-fit: contain; transition: transform .28s ease; transform-origin: 50% 50%; will-change: transform; }
+        .product-image-wrap.zoomed .product-image { transform: scale(2.1); }
+        .gallery-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 34px; height: 34px; border: 0; border-radius: 50%; padding: 0; background: rgba(26, 26, 26, 0.55); color: #fff; font-size: 20px; line-height: 1; cursor: pointer; opacity: 0; transition: opacity .2s ease, background .2s ease; display: grid; place-items: center; }
+        .gallery-nav:hover, .gallery-nav:focus-visible { opacity: 1; background: rgba(211, 47, 47, 0.92); }
+        .product-media:hover .gallery-nav, .product-media:focus-within .gallery-nav { opacity: 1; }
+        .gallery-nav.prev { left: 8px; }
+        .gallery-nav.next { right: 8px; }
+        .gallery-count { position: absolute; right: 8px; bottom: 8px; padding: 2px 8px; border-radius: 999px; background: rgba(26, 26, 26, 0.6); color: #fff; font-size: 11px; letter-spacing: .04em; }
+        .gallery-nav[hidden], .gallery-count[hidden] { display: none; }
+        .language-item { display: inline-flex; align-items: center; gap: 8px; }
+        .language-label { color: #6d4035; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
         .product-info { padding: 16px; display: flex; flex-direction: column; flex: 1; }
         .product-code { color: var(--brand-red); font-size: 12px; font-weight: 700; letter-spacing: .08em; }
         .product-name { font-size: 17px; line-height: 1.35; margin: 5px 0 8px; }
@@ -213,6 +224,8 @@
             .product-name { font-size: 15px; }
             .product-meta { font-size: 12px; line-height: 1.6; }
             .product-actions a { padding: 8px 5px; font-size: 12px; }
+            .gallery-nav { display: none; }
+            .language-item { justify-content: space-between; padding: 10px 0; }
             .modal { padding: 12px; }
             .modal-dialog { padding: 24px 18px 20px; max-height: calc(100vh - 24px); }
         }
@@ -232,6 +245,12 @@
         @media (max-width: 360px) {
             .product-grid { grid-template-columns: 1fr; }
         }
+
+        /* 触屏设备：用左右滑动切换产品图片，不显示切换按钮 */
+        @media (hover: none) {
+            .gallery-nav { display: none; }
+            .product-image-wrap { cursor: default; }
+        }
     </style>
 </head>
 <body id="top">
@@ -247,8 +266,8 @@
                 <li><a href="#delivery" data-i18n="navDelivery">配送安排</a></li>
                 <li><a href="#about" data-i18n="navAbout">关于我们</a></li>
                 <li><a id="header-whatsapp" href="https://wa.me/6587569015" class="btn-order" target="_blank" rel="noopener" data-i18n="navContact">电话 / WhatsApp 询问 +65 8756 9015</a></li>
-                <li>
-                    <label class="sr-only" for="language-select">Language</label>
+                <li class="language-item">
+                    <label class="language-label" for="language-select" data-i18n="languageLabel">Language</label>
                     <select id="language-select" class="language-select" aria-label="Language">
                         <option value="zh">中文</option>
                         <option value="ms">Bahasa Melayu</option>
@@ -459,35 +478,40 @@
 
     <script>
         const products = [
-            { code: 'B016', name: 'Lotus Leaf (Plain)', category: '包点与点心', unit: 'PKT', brand: 'SOON LEE', image: 'image/B016 LOTUS LEAF MIX.jpg' },
-            { code: 'CC001', name: 'Sweeten Chin Chow 560g', category: '甜品与凉粉', unit: 'PCS', brand: 'LO SAM', image: 'image/CC001 SWEETEN CHIN CHOW.jpg' },
-            { code: 'CC002', name: 'Chin Chow No Sugar 480g', category: '甜品与凉粉', unit: 'PCS', brand: 'LO SAM', image: 'image/CC002 CHIN CHOW NO SUGAR.jpg' },
-            { code: 'CC003', name: 'Jelly Chin Chow 300g', category: '甜品与凉粉', unit: 'BOX', brand: 'LO SAM', image: 'image/CC003 JELLY CHIN CHOW 300G.jpg' },
-            { code: 'CF002', name: 'Cuttlefish (A)', category: '海鲜与冷冻', unit: 'CTN', brand: 'LHF', image: 'image/CF002 CUTTLEFISH A 10KG.jpg' },
-            { code: 'CF014', name: 'Flower Clam (Lala)', category: '海鲜与冷冻', unit: 'CTN', brand: 'COSS', image: 'image/CF014 FLOWER CLAM 500G.jpg' },
-            { code: 'CF025', name: 'Sotong Rendam Cut EN 12PKT', category: '海鲜与冷冻', unit: 'CTN', brand: 'LHF', image: 'image/CF025 RENDAM CUT  12KG.jpg' },
-            { code: 'CS001', name: 'Vegetarian Char Siew 900g', category: '其他', unit: 'UNIT', brand: '—', image: 'image/CS001 VEGETARIAN CHAR SIEW 900G.jpg' },
-            { code: 'G001', name: 'Garlic 1kg', category: '蔬菜与调味', unit: 'PKT', brand: 'LHF', image: 'image/G001 GARLIC 1KG.jpg' },
-            { code: 'G003', name: 'Garlic 200g', category: '蔬菜与调味', unit: 'BOX', brand: 'LHF', image: 'image/G003 GARLIC 200G.jpg' },
-            { code: 'MIX-001', name: 'Mantou Plain Mix', category: '包点与点心', unit: 'UNIT', brand: '—', image: 'image/MANTOU PLAIN MIX.jpg' },
-            { code: 'N001', name: 'Clay Pot Yee Mee 375g', category: '面类', unit: 'PKT', brand: 'MEGAH MEE', image: 'image/N001 MEGAH MEE CLAYPOT YEE MEE 375KG.jpg' },
-            { code: 'N002', name: 'Mega Instant Noodle 600g', category: '面类', unit: 'CTN', brand: 'FUDO', image: 'image/N002 MEGAH MEE INSTANT NOODLE 600G.jpg' },
-            { code: 'N003', name: 'Canton Yee Mee 320g', category: '面类', unit: 'PKT', brand: 'MEGAH MEE', image: 'image/N003 MEGAH MEE CANTON YEE MEE 320G.jpg' },
-            { code: 'N004', name: 'Sapo Mee Suah 330g', category: '面类', unit: 'PKT', brand: 'MEGAH MEE', image: 'image/N004 MEGAH MEE SAPO MEE SUAH 330G.jpg' },
-            { code: 'N005', name: 'Fried Egg Noodle 1.5kg', category: '面类', unit: 'CTN', brand: 'MEGAH MEE', image: 'image/N005 FRIED EGG NOODLE 1.5KG.jpg' },
-            { code: 'N013', name: 'CF Claypot Yee Mee 375g', category: '面类', unit: 'PKT', brand: 'TEHKI', image: 'image/N013 CF CLAYPOT YEE MEE 375G.jpg' },
-            { code: 'N019', name: 'Shabu Shabu Noodles', category: '面类', unit: 'PKT', brand: 'MEGAH MEE', image: 'image/N019 MEGAH MEE SHABU SHABU NOODLES.jpg' },
-            { code: 'N020', name: 'Vitaman Instant Noodles 600g', category: '面类', unit: 'CTN', brand: 'VITAMAN', image: 'image/N020 VITAMAN INSTANT NOODLES  600G.jpg' },
-            { code: 'P001', name: 'Obasan Popiah Wrapper 20 Pieces', category: '包点与点心', unit: 'CTN', brand: 'FABULOUS', image: 'image/P001 OBASAN POPIAH WRAPPER 20PIECES.jpg' },
-            { code: 'TAU-LI', name: 'Tau Li 50g / 25g', category: '豆制品与火锅', unit: 'UNIT', brand: '—', image: 'image/SAMLL TAU LI50G(50 PCS) AND BIG TOU LI 25G(25 PCS).jpg' },
-            { code: 'STB-001', name: 'Steamboat Fish Beancurd 135g', category: '豆制品与火锅', unit: 'UNIT', brand: '—', image: 'image/STEAMBOAT FISH BEANCURD 135G.jpg' },
-            { code: 'TF002', name: 'Smooth Tofu 300g - Blue', category: '豆制品与火锅', unit: 'BOX', brand: 'LO SAM', image: 'image/TF002 SMOOTH TOFU 300G-BLUE.jpg' },
-            { code: 'TF003', name: 'Lo Sam Premium Tofu 300g', category: '豆制品与火锅', unit: 'BOX', brand: 'LO SAM', image: 'image/TF003 LOSAM PREMIUM TOFU 300G.jpg' },
-            { code: 'TF011', name: 'Egg Tofu (Chef)', category: '豆制品与火锅', unit: 'CTN', brand: 'MSM', image: 'image/TF011 EGG TOUFU(CHEF).jpg' },
-            { code: 'TK005', name: 'Crispy Bean Curd 176g', category: '豆制品与火锅', unit: 'PKT', brand: 'LO SAM', image: 'image/TK005 CRISPY BEANCURD 176G.jpg' },
-            { code: 'TP001', name: 'Tau Pok (Obasan) 150g', category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', image: 'image/TP001 TAU POK(OBASAN) 150G.jpg' },
-            { code: 'TP006', name: 'Tau Bian 500g', category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', image: 'image/TP006 SAMLL TAU LI-50 PCSPKT 500G.jpg' },
-            { code: 'Z001', name: 'Chee Cheong Fun 300g', category: '包点与点心', unit: 'CTN', brand: 'LO SAM', image: 'image/Z001 CHEE CHEONG FUN 300G.jpg' }
+            { code: 'B003', name: 'Mantou Plain (White)', category: '包点与点心', unit: 'PKT', brand: '—', images: ['image/optimized/B003 mantou_plain白馒头/mantou-bau-main.jpg', 'image/optimized/B003 mantou_plain白馒头/bau-detail-1.jpg', 'image/optimized/B003 mantou_plain白馒头/bau-detail-2.jpg'] },
+            { code: 'B004', name: 'Obasan Mantou Plain', category: '包点与点心', unit: 'PKT', brand: 'OBASAN', images: ['image/optimized/B004 obasan mantou plain欧巴桑馒头/obasan-mantou-main.jpg', 'image/optimized/B004 obasan mantou plain欧巴桑馒头/obasan-detail-1.jpg', 'image/optimized/B004 obasan mantou plain欧巴桑馒头/obasan-detail-2.jpg'] },
+            { code: 'B006', name: 'Soon Lee Mantou Plain', category: '包点与点心', unit: 'PKT', brand: 'SOON LEE', images: ['image/optimized/B006 soonlee mantou plain顺利白馒头/mantou-plain-main.jpg', 'image/optimized/B006 soonlee mantou plain顺利白馒头/soonlee-detail-1.jpg'] },
+            { code: 'B007', name: 'Mantou Cocoa', category: '包点与点心', unit: 'PKT', brand: 'SOON LEE', images: ['image/optimized/B007 mantou cocoa 可可馒头/soolee-coco-main.jpg', 'image/optimized/B007 mantou cocoa 可可馒头/coco-detail-1.jpg', 'image/optimized/B007 mantou cocoa 可可馒头/coco-detail-2.jpg'] },
+            { code: 'B008', name: 'Mantou Pandan', category: '包点与点心', unit: 'PKT', brand: 'SOON LEE', images: ['image/optimized/B008 mantou pandan 斑斓馒头/soonlee-pandan-main.jpg', 'image/optimized/B008 mantou pandan 斑斓馒头/pandan-detail-1.jpg', 'image/optimized/B008 mantou pandan 斑斓馒头/pandan-detail-2.jpg'] },
+            { code: 'B016', name: 'Lotus Leaf (Plain)', category: '包点与点心', unit: 'PKT', brand: 'SOON LEE', images: ['image/optimized/B016 lotus leaf (plain)荷叶包/soonlee-lotusplain-main.jpg', 'image/optimized/B016 lotus leaf (plain)荷叶包/lotusplain-detail-1.jpg', 'image/optimized/B016 lotus leaf (plain)荷叶包/lotusplain-detail-2.jpg'] },
+            { code: 'CC001', name: 'Sweeten Chin Chow', category: '甜品与凉粉', unit: 'PCS', brand: 'LO SAM', images: ['image/optimized/CC001 sweeten chin chow甜仙草/sweeten-chinchow-main.jpg', 'image/optimized/CC001 sweeten chin chow甜仙草/chinchow-detail-1.jpg'] },
+            { code: 'CC002', name: 'Chin Chow No Sugar', category: '甜品与凉粉', unit: 'PCS', brand: 'LO SAM', images: ['image/optimized/CC002 chin chow no sugar无糖仙草/original-chinchow-main.jpg', 'image/optimized/CC002 chin chow no sugar无糖仙草/originalchinchow-detail-1.jpg'] },
+            { code: 'CC003', name: 'Jelly Chin Chow 300g', category: '甜品与凉粉', unit: 'BOX', brand: 'LO SAM', images: ['image/optimized/CC003 jelly chin chow仙草冻/jelly-chinchow-main.jpg', 'image/optimized/CC003 jelly chin chow仙草冻/jelly-detail-1.jpg'] },
+            { code: 'CF002', name: 'Cuttlefish', category: '海鲜与冷冻', unit: 'CTN', brand: 'LHF', images: ['image/optimized/CF002 cuttlefish冰鲜鱿鱼/lhf-cuttlefish-main.jpg', 'image/optimized/CF002 cuttlefish冰鲜鱿鱼/cuttlefish-detail-1.jpg'] },
+            { code: 'CF004', name: 'Frozen Cut Squid 10kg (Sotong)', category: '海鲜与冷冻', unit: 'CTN', brand: 'LHF', images: ['image/optimized/CF004 frozen cut squid 10kg(sotong)冷冻切块鱿鱼/frozen-sotong-main.jpg'] },
+            { code: 'CF014', name: 'Flower Clam (Lala)', category: '海鲜与冷冻', unit: 'CTN', brand: 'COSS', images: ['image/optimized/CF014 flower clam (lala)花蛤/lala-main.jpg', 'image/optimized/CF014 flower clam (lala)花蛤/lala-detail-1.jpg'] },
+            { code: 'CS003', name: 'Vegetarian Char Siew (Mince)', category: '其他', unit: 'UNIT', brand: 'OBASAN', images: ['image/optimized/CS003 char stew vegetarian (mince)素叉烧/obasan-vegetarian-main.jpg', 'image/optimized/CS003 char stew vegetarian (mince)素叉烧/charwie-detail-1.jpg'] },
+            { code: 'G001', name: 'Garlic 1kg (Packet)', category: '蔬菜与调味', unit: 'PKT', brand: 'LHF', images: ['image/optimized/G001 garlic-1kg 蒜头碎（袋装 ）/garlic-packet-main.jpg'] },
+            { code: 'G003', name: 'Garlic 200g (Box)', category: '蔬菜与调味', unit: 'BOX', brand: 'LHF', images: ['image/optimized/G003 garlic 200g蒜头碎 （盒装）/garlic-box-main.jpg'] },
+            { code: 'N001', name: 'Clay Pot Yee Mee 375g', category: '面类', unit: 'PKT', brand: 'MEGAH MEE', images: ['image/optimized/N001 clay pot yee mee (375gm)砂煲伊面/claypot-375-main.jpg', 'image/optimized/N001 clay pot yee mee (375gm)砂煲伊面/claypot-detail-1.jpg', 'image/optimized/N001 clay pot yee mee (375gm)砂煲伊面/claypot-detail-2.jpg'] },
+            { code: 'N002', name: 'Megah Instant Noodle', category: '面类', unit: 'CTN', brand: 'FUDO', images: ['image/optimized/N002 megah instant noodle快熟面/megah-instant-main.jpg', 'image/optimized/N002 megah instant noodle快熟面/instant-detail-1.jpg', 'image/optimized/N002 megah instant noodle快熟面/instant-detail-2.jpg'] },
+            { code: 'N003', name: 'Canton Yee Mee 320g', category: '面类', unit: 'PKT', brand: 'MEGAH MEE', images: ['image/optimized/N003 canton yee mee 320g港式伊面/canton-320-main.jpg', 'image/optimized/N003 canton yee mee 320g港式伊面/canton-detail-1.jpg', 'image/optimized/N003 canton yee mee 320g港式伊面/canton-detail-2.jpg'] },
+            { code: 'N004', name: 'Sapo Mee Suah 330g', category: '面类', unit: 'PKT', brand: 'MEGAH MEE', images: ['image/optimized/N004 sapo mee suah 330g砂煲面线/sapo-330-main.jpg', 'image/optimized/N004 sapo mee suah 330g砂煲面线/sapo-detail-1.jpg', 'image/optimized/N004 sapo mee suah 330g砂煲面线/sapo-detail-2.jpg'] },
+            { code: 'N005', name: 'Fried Egg Noodle 1.5kg', category: '面类', unit: 'CTN', brand: 'MEGAH MEE', images: ['image/optimized/N005 fried egg noodle 1.5kg全旦面/fried-egg-main.jpg', 'image/optimized/N005 fried egg noodle 1.5kg全旦面/fried-egg-detail-1.jpg'] },
+            { code: 'N013', name: 'CF Claypot Yee Mee 375g', category: '面类', unit: 'PKT', brand: 'TEHKI', images: ['image/optimized/N013 CFclay pot yee mee (375gm)可思伊面/cfpot-375-main.jpg', 'image/optimized/N013 CFclay pot yee mee (375gm)可思伊面/cfpot-detail-1.jpg', 'image/optimized/N013 CFclay pot yee mee (375gm)可思伊面/cfpot-detail-2.jpg'] },
+            { code: 'N019', name: 'Shabu Shabu Noodles', category: '面类', unit: 'PKT', brand: 'MEGAH MEE', images: ['image/optimized/N019 shabu shabu noodles唰唰面/shabu-noodles-main.jpg', 'image/optimized/N019 shabu shabu noodles唰唰面/shabu-detail-1.jpg', 'image/optimized/N019 shabu shabu noodles唰唰面/shabu-detail-2.jpg'] },
+            { code: 'N020', name: 'Vitaman Instant Noodles', category: '面类', unit: 'CTN', brand: 'VITAMAN', images: ['image/optimized/N020 vitaman instant noodles维他快熟面/vitaman-instant-main.jpg', 'image/optimized/N020 vitaman instant noodles维他快熟面/vitaman-detail-1.jpg', 'image/optimized/N020 vitaman instant noodles维他快熟面/vitaman-detail-2.jpg'] },
+            { code: 'P001', name: 'Popiah Wrapper', category: '包点与点心', unit: 'CTN', brand: 'FABULOUS', images: ['image/optimized/P001 popiah wrapper薄饼皮/obasan-wrapper-main.jpg', 'image/optimized/P001 popiah wrapper薄饼皮/wrapper-detail-1.jpg', 'image/optimized/P001 popiah wrapper薄饼皮/wrapper-detail-2.jpg'] },
+            { code: 'TF002', name: 'Smooth Soy Tofu (Blue)', category: '豆制品与火锅', unit: 'BOX', brand: 'LO SAM', images: ['image/optimized/TF002 smooth soy tofu blue蓝豆腐/tofu-blue-main.jpg', 'image/optimized/TF002 smooth soy tofu blue蓝豆腐/blue-detail-1.jpg'] },
+            { code: 'TF003', name: 'Losam Premium Tofu', category: '豆制品与火锅', unit: 'BOX', brand: 'LO SAM', images: ['image/optimized/TF003 losam premium tofu老三豆腐/losam-tofu-main.jpg', 'image/optimized/TF003 losam premium tofu老三豆腐/losam-detail-1.jpg'] },
+            { code: 'TF012', name: 'Egg Tofu 100g (Loose Pack)', category: '豆制品与火锅', unit: 'PKT', brand: 'MSM', images: ['image/optimized/TF012 egg tofu (100gm) loose pack日本豆腐/egg-tofu-main.jpg', 'image/optimized/TF012 egg tofu (100gm) loose pack日本豆腐/egg-detail-1.jpg'] },
+            { code: 'TK005', name: 'Crispy Bean Curd', category: '豆制品与火锅', unit: 'PKT', brand: 'LO SAM', images: ['image/optimized/TK005 crispy bean curd脆皮腐竹/crispy-bean-main.jpg', 'image/optimized/TK005 crispy bean curd脆皮腐竹/crispy-detail-1.jpg', 'image/optimized/TK005 crispy bean curd脆皮腐竹/crispy-detail-2.jpg'] },
+            { code: 'TP001', name: 'Tau Pok (Obasan)', category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', images: ['image/optimized/TP001 tau pok (obasan)豆卜/taupok-obasan-main.jpg', 'image/optimized/TP001 tau pok (obasan)豆卜/taupok-detail-1.jpg'] },
+            { code: 'TP003', name: 'Tau Pok (Eng Soon)', category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', images: ['image/optimized/TP003 tau pok (eng soon)传统豆卜/taupok-engsoon-main.jpg', 'image/optimized/TP003 tau pok (eng soon)传统豆卜/engsoon-detail-1.jpg'] },
+            { code: 'TP004', name: 'Big Tau Li (25 pcs)', category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', images: ['image/optimized/TP004 big tau li (25 pcs)大豆粒/big-tauli-main.jpg'] },
+            { code: 'TP005', name: 'Small Tau Li (50 pcs)', category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', images: ['image/optimized/TP005 small tau li (50 pcs)小豆粒/small-tauli-main.jpg'] },
+            { code: 'TP006', name: 'Tau Bian', category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', images: ['image/optimized/TP006 tau bian豆边/tau-bian-main.jpg'] },
+            { code: 'Z001', name: 'Chee Cheong Fun 300g', category: '包点与点心', unit: 'CTN', brand: 'LO SAM', images: ['image/optimized/Z001 CHEE CHEONG FUN 300G/cheecheong-fun-main.jpg', 'image/optimized/Z001 CHEE CHEONG FUN 300G/fun-detail-1.jpg'] },
         ];
 
         // 默认展示顺序：面类 → 馒头/包点 → 豆卜及豆制品 → 其他 → 海鲜/鱿鱼
@@ -504,7 +528,7 @@
             zh: {
                 navProducts: '产品目录', navServices: '核心服务', navDelivery: '配送安排', navAbout: '关于我们', navContact: '电话 / WhatsApp 询问 +65 8756 9015',
                 heroTitle: '您可以信赖的食品供应链专家', heroLead: '专注于面类、包点、豆制品、冷冻食品及餐饮常用食材批发。', heroCta: 'WhatsApp 询问 +65 8756 9015',
-                servicesTitle: '为什么选择 CossFood', service1Title: '专属车队 自送保障', service1Body: '由公司专职司机配送，覆盖新加坡全岛，方便餐饮客户安排补货。', service2Title: '订单安排清晰', service2Body: '按订单时间安排早车、晚车或第二天早车，减少沟通误差。', service3Title: '电话与 WhatsApp 询问', service3Body: '产品规格、库存和批发安排由公司直接说明，沟通更方便。', categorySidebarTitle: '浏览分类', processTitle: '3 步完成询价', process1Title: '填写信息', process1Body: '填写姓名、地址、电话和配送时段，提交后由客服跟进。', process1Button: '填写配送信息', process2Title: '发送询问', process2Body: '点击微信或 WhatsApp，告诉我们产品、数量和需求。', process3Title: '确认配送', process3Body: '客服确认库存、配送时段和订单安排。', enquiryModalTitle: '填写信息', enquiryModalIntro: '请填写以下资料，方便我们安排配送和联系。', nameLabel: '名字', addressLabel: '地址', phoneLabel: '电话', deliverySlotLabel: '配送时间段', morningOption: '早车（09:00–17:00）', eveningOption: '晚车（17:00–21:00）', enquirySave: '保存信息', enquirySaving: '正在保存…', enquirySuccess: (number) => `资料已保存，我们会尽快联系您。编号：${number}`, enquiryError: '保存失败，请稍后再试，或直接通过电话 / WhatsApp 联系我们。', closeLabel: '关闭',
+                servicesTitle: '为什么选择 CossFood', service1Title: '专属车队 自送保障', service1Body: '由公司专职司机配送，覆盖新加坡全岛，方便餐饮客户安排补货。', service2Title: '订单安排清晰', service2Body: '按订单时间安排早车、晚车或第二天早车，减少沟通误差。', service3Title: '电话与 WhatsApp 询问', service3Body: '产品规格、库存和批发安排由公司直接说明，沟通更方便。', categorySidebarTitle: '浏览分类', processTitle: '3 步完成询价', process1Title: '填写信息', process1Body: '填写姓名、地址、电话和配送时段，提交后由客服跟进。', process1Button: '填写配送信息', process2Title: '发送询问', process2Body: '点击微信或 WhatsApp，告诉我们产品、数量和需求。', process3Title: '确认配送', process3Body: '客服确认库存、配送时段和订单安排。', enquiryModalTitle: '填写信息', enquiryModalIntro: '请填写以下资料，方便我们安排配送和联系。', nameLabel: '名字', addressLabel: '地址', phoneLabel: '电话', deliverySlotLabel: '配送时间段', morningOption: '早车（09:00–17:00）', eveningOption: '晚车（17:00–21:00）', enquirySave: '保存信息', enquirySaving: '正在保存…', enquirySuccess: (number) => `资料已保存，我们会尽快联系您。编号：${number}`, enquiryError: '保存失败，请稍后再试，或直接通过电话 / WhatsApp 联系我们。', closeLabel: '关闭', languageLabel: '语言', prevImage: '上一张图片', nextImage: '下一张图片',
                 catalogTitle: '产品目录', catalogIntro: '目前本公司提供以下产品，如需其他相关产品可与客服联系。订单金额达到 $50（不含 GST）不收取运费。如需规格、库存或配送安排，请直接通过电话或 WhatsApp 联系我们。', searchPlaceholder: '搜索产品名称、品牌或编号', searchLabel: '搜索产品', categoryLabel: '产品分类',
                 deliveryTitle: '配送安排', delivery1Title: '新加坡全岛配送', delivery1Body: '由 CossFood 公司专职司机配送，服务新加坡全岛客户。', delivery2Title: '早车 09:00–17:00', delivery2Body: '每天 08:55 前收到的订单，安排早车配送。', delivery3Title: '晚车 17:00–21:00', delivery3Body: '09:00–17:00 收到的订单，请注明安排晚车或第二天早车。',
                 aboutTitle: '关于 CossFood', aboutBody1: 'CossFood 是一家立足于新加坡的优质食品批发供应商，为餐厅、咖啡店、小贩摊位、零售商及餐饮客户提供日常食品和食材。', aboutBody2: '我们持续整理面类、包点、豆制品、冷冻食品及其他餐饮常用产品，方便客户快速浏览并通过电话或 WhatsApp 询问。',
@@ -514,7 +538,7 @@
             ms: {
                 navProducts: 'Produk', navServices: 'Perkhidmatan Utama', navDelivery: 'Penghantaran', navAbout: 'Tentang Kami', navContact: 'Telefon / WhatsApp +65 8756 9015',
                 heroTitle: 'Pakar Rantaian Bekalan Makanan Yang Boleh Dipercayai', heroLead: 'Pembekal mi, pau, produk tauhu, makanan sejuk beku dan bahan makanan untuk perniagaan F&B.', heroCta: 'Tanya melalui WhatsApp +65 8756 9015',
-                servicesTitle: 'Mengapa Pilih CossFood', service1Title: 'Armada Sendiri', service1Body: 'Penghantaran oleh pemandu syarikat ke seluruh Singapura untuk memudahkan pembelian stok.', service2Title: 'Jadual Pesanan Jelas', service2Body: 'Pesanan diatur dengan lori pagi, lori petang atau lori pagi hari berikutnya mengikut masa pesanan.', service3Title: 'Pertanyaan Telefon dan WhatsApp', service3Body: 'Hubungi kami terus untuk spesifikasi produk, stok dan urusan borong.', categorySidebarTitle: 'Semak Kategori', processTitle: '3 Langkah untuk Bertanya', process1Title: 'Isi Maklumat', process1Body: 'Isi nama, alamat, telefon dan waktu penghantaran untuk dihubungi oleh pasukan kami.', process1Button: 'Isi Maklumat Penghantaran', process2Title: 'Hantar Pertanyaan', process2Body: 'Klik WeChat atau WhatsApp dan beritahu produk, kuantiti serta keperluan anda.', process3Title: 'Sahkan Penghantaran', process3Body: 'Pasukan kami mengesahkan stok, masa penghantaran dan susunan pesanan.', enquiryModalTitle: 'Isi Maklumat', enquiryModalIntro: 'Sila isi maklumat di bawah supaya kami boleh mengatur penghantaran dan menghubungi anda.', nameLabel: 'Nama', addressLabel: 'Alamat', phoneLabel: 'Telefon', deliverySlotLabel: 'Waktu penghantaran', morningOption: 'Lori pagi (09:00–17:00)', eveningOption: 'Lori petang (17:00–21:00)', enquirySave: 'Simpan Maklumat', enquirySaving: 'Sedang menyimpan…', enquirySuccess: (number) => `Maklumat telah disimpan. Kami akan menghubungi anda. Nombor: ${number}`, enquiryError: 'Gagal menyimpan. Sila cuba lagi atau hubungi kami melalui telefon / WhatsApp.', closeLabel: 'Tutup',
+                servicesTitle: 'Mengapa Pilih CossFood', service1Title: 'Armada Sendiri', service1Body: 'Penghantaran oleh pemandu syarikat ke seluruh Singapura untuk memudahkan pembelian stok.', service2Title: 'Jadual Pesanan Jelas', service2Body: 'Pesanan diatur dengan lori pagi, lori petang atau lori pagi hari berikutnya mengikut masa pesanan.', service3Title: 'Pertanyaan Telefon dan WhatsApp', service3Body: 'Hubungi kami terus untuk spesifikasi produk, stok dan urusan borong.', categorySidebarTitle: 'Semak Kategori', processTitle: '3 Langkah untuk Bertanya', process1Title: 'Isi Maklumat', process1Body: 'Isi nama, alamat, telefon dan waktu penghantaran untuk dihubungi oleh pasukan kami.', process1Button: 'Isi Maklumat Penghantaran', process2Title: 'Hantar Pertanyaan', process2Body: 'Klik WeChat atau WhatsApp dan beritahu produk, kuantiti serta keperluan anda.', process3Title: 'Sahkan Penghantaran', process3Body: 'Pasukan kami mengesahkan stok, masa penghantaran dan susunan pesanan.', enquiryModalTitle: 'Isi Maklumat', enquiryModalIntro: 'Sila isi maklumat di bawah supaya kami boleh mengatur penghantaran dan menghubungi anda.', nameLabel: 'Nama', addressLabel: 'Alamat', phoneLabel: 'Telefon', deliverySlotLabel: 'Waktu penghantaran', morningOption: 'Lori pagi (09:00–17:00)', eveningOption: 'Lori petang (17:00–21:00)', enquirySave: 'Simpan Maklumat', enquirySaving: 'Sedang menyimpan…', enquirySuccess: (number) => `Maklumat telah disimpan. Kami akan menghubungi anda. Nombor: ${number}`, enquiryError: 'Gagal menyimpan. Sila cuba lagi atau hubungi kami melalui telefon / WhatsApp.', closeLabel: 'Tutup', languageLabel: 'Bahasa', prevImage: 'Imej sebelumnya', nextImage: 'Imej seterusnya',
                 catalogTitle: 'Katalog Produk', catalogIntro: 'Syarikat kami kini menyediakan produk-produk berikut. Untuk produk berkaitan yang lain, sila hubungi kami. Tiada caj penghantaran untuk pesanan bernilai $50 ke atas, tidak termasuk GST. Untuk spesifikasi, stok atau pengaturan penghantaran, sila hubungi kami melalui telefon atau WhatsApp.', searchPlaceholder: 'Cari nama, jenama atau kod produk', searchLabel: 'Cari produk', categoryLabel: 'Kategori produk',
                 deliveryTitle: 'Jadual Penghantaran', delivery1Title: 'Seluruh Singapura', delivery1Body: 'Dihantar oleh pemandu syarikat CossFood ke seluruh Singapura.', delivery2Title: 'Lori Pagi 09:00–17:00', delivery2Body: 'Pesanan yang diterima sebelum 08:55 akan dihantar dengan lori pagi.', delivery3Title: 'Lori Petang 17:00–21:00', delivery3Body: 'Untuk pesanan 09:00–17:00, nyatakan lori petang atau lori pagi hari berikutnya.',
                 aboutTitle: 'Tentang CossFood', aboutBody1: 'CossFood ialah pembekal makanan borong berkualiti yang berpangkalan di Singapura untuk restoran, kafe, gerai penjaja, peruncit dan pelanggan F&B.', aboutBody2: 'Kami menyediakan mi, pau, produk tauhu, makanan sejuk beku dan bahan makanan harian untuk memudahkan pelanggan membuat pertanyaan.',
@@ -524,7 +548,7 @@
             en: {
                 navProducts: 'Products', navServices: 'Core Services', navDelivery: 'Delivery', navAbout: 'About Us', navContact: 'Call / WhatsApp +65 8756 9015',
                 heroTitle: 'Your Trusted Food Supply Chain Partner', heroLead: 'Wholesale supply of noodles, buns, tofu products, frozen foods and everyday F&B ingredients.', heroCta: 'Ask on WhatsApp +65 8756 9015',
-                servicesTitle: 'Why Choose CossFood', service1Title: 'Dedicated Delivery Fleet', service1Body: 'Company drivers deliver islandwide in Singapore, helping F&B customers replenish their stock.', service2Title: 'Clear Order Scheduling', service2Body: 'Orders are arranged for the morning, evening or next morning delivery based on the order time.', service3Title: 'Phone and WhatsApp Enquiries', service3Body: 'Contact our team directly for product specifications, availability and wholesale arrangements.', categorySidebarTitle: 'Browse Categories', processTitle: 'Enquire in 3 Steps', process1Title: 'Fill in Details', process1Body: 'Enter your name, address, phone number and preferred delivery slot for our team to follow up.', process1Button: 'Fill Delivery Details', process2Title: 'Send an Enquiry', process2Body: 'Click WeChat or WhatsApp and tell us the products, quantities and requirements.', process3Title: 'Confirm Delivery', process3Body: 'Our team confirms stock, delivery timing and order arrangements.', enquiryModalTitle: 'Fill in Details', enquiryModalIntro: 'Please provide the details below so we can arrange delivery and contact you.', nameLabel: 'Name', addressLabel: 'Address', phoneLabel: 'Phone', deliverySlotLabel: 'Delivery slot', morningOption: 'Morning run (09:00–17:00)', eveningOption: 'Evening run (17:00–21:00)', enquirySave: 'Save Details', enquirySaving: 'Saving…', enquirySuccess: (number) => `Your details were saved. We will contact you soon. Reference: ${number}`, enquiryError: 'Unable to save your details. Please try again or contact us by phone / WhatsApp.', closeLabel: 'Close',
+                servicesTitle: 'Why Choose CossFood', service1Title: 'Dedicated Delivery Fleet', service1Body: 'Company drivers deliver islandwide in Singapore, helping F&B customers replenish their stock.', service2Title: 'Clear Order Scheduling', service2Body: 'Orders are arranged for the morning, evening or next morning delivery based on the order time.', service3Title: 'Phone and WhatsApp Enquiries', service3Body: 'Contact our team directly for product specifications, availability and wholesale arrangements.', categorySidebarTitle: 'Browse Categories', processTitle: 'Enquire in 3 Steps', process1Title: 'Fill in Details', process1Body: 'Enter your name, address, phone number and preferred delivery slot for our team to follow up.', process1Button: 'Fill Delivery Details', process2Title: 'Send an Enquiry', process2Body: 'Click WeChat or WhatsApp and tell us the products, quantities and requirements.', process3Title: 'Confirm Delivery', process3Body: 'Our team confirms stock, delivery timing and order arrangements.', enquiryModalTitle: 'Fill in Details', enquiryModalIntro: 'Please provide the details below so we can arrange delivery and contact you.', nameLabel: 'Name', addressLabel: 'Address', phoneLabel: 'Phone', deliverySlotLabel: 'Delivery slot', morningOption: 'Morning run (09:00–17:00)', eveningOption: 'Evening run (17:00–21:00)', enquirySave: 'Save Details', enquirySaving: 'Saving…', enquirySuccess: (number) => `Your details were saved. We will contact you soon. Reference: ${number}`, enquiryError: 'Unable to save your details. Please try again or contact us by phone / WhatsApp.', closeLabel: 'Close', languageLabel: 'Language', prevImage: 'Previous image', nextImage: 'Next image',
                 catalogTitle: 'Product Catalogue', catalogIntro: 'Our company currently provides the products below. For other related products, please contact our team. Delivery is free for orders of $50 or more, excluding GST. For specifications, stock or delivery arrangements, please contact us by phone or WhatsApp.', searchPlaceholder: 'Search by product name, brand or code', searchLabel: 'Search products', categoryLabel: 'Product categories',
                 deliveryTitle: 'Delivery Schedule', delivery1Title: 'Islandwide Singapore', delivery1Body: 'Delivered by dedicated CossFood company drivers across Singapore.', delivery2Title: 'Morning Run 09:00–17:00', delivery2Body: 'Orders received before 08:55 are scheduled for the morning run.', delivery3Title: 'Evening Run 17:00–21:00', delivery3Body: 'For orders received from 09:00–17:00, specify evening or next morning delivery.',
                 aboutTitle: 'About CossFood', aboutBody1: 'CossFood is a quality food wholesaler based in Singapore, serving restaurants, cafés, hawker stalls, retailers and F&B customers.', aboutBody2: 'We supply noodles, buns, tofu products, frozen foods and everyday ingredients so customers can browse and enquire easily.',
@@ -560,7 +584,6 @@
         const t = () => translations[currentLanguage];
         const whatsappUrl = (product) => `https://wa.me/6587569015?text=${encodeURIComponent(product ? `${t().whatsappProduct}${product.code} ${product.name}` : t().whatsappGeneral)}`;
         const wechatQrUrl = 'image/WeChat_QRcode-transparent.png';
-        const optimizedImage = (path) => path.replace(/^image\/(.+)\.jpg$/i, 'image/optimized/$1.webp');
 
         let enquiryLastFocus = null;
         const setEnquiryStatus = (message, isError = false) => {
@@ -655,10 +678,18 @@
                 return;
             }
             const categoryLabel = (product) => categoryLabels[currentLanguage][product.category] || product.category;
-            grid.innerHTML = filtered.map((product) => `
+            grid.innerHTML = filtered.map((product) => {
+                const images = product.images;
+                const singleImage = images.length < 2;
+                return `
                 <article class="product-card">
-                    <div class="product-image-wrap">
-                        <img class="product-image" src="${encodeURI(optimizedImage(product.image))}" alt="${escapeHtml(product.name)}" loading="lazy" decoding="async">
+                    <div class="product-media" data-code="${escapeHtml(product.code)}">
+                        <div class="product-image-wrap">
+                            <img class="product-image" src="${encodeURI(images[0])}" alt="${escapeHtml(product.name)}" loading="lazy" decoding="async">
+                        </div>
+                        <button class="gallery-nav prev" type="button" data-gallery="prev" aria-label="${escapeHtml(t().prevImage)}"${singleImage ? ' hidden' : ''}>&#8249;</button>
+                        <button class="gallery-nav next" type="button" data-gallery="next" aria-label="${escapeHtml(t().nextImage)}"${singleImage ? ' hidden' : ''}>&#8250;</button>
+                        <span class="gallery-count"${singleImage ? ' hidden' : ''}>1 / ${images.length}</span>
                     </div>
                     <div class="product-info">
                         <span class="product-code">${escapeHtml(product.code)}</span>
@@ -669,7 +700,70 @@
                             <a class="whatsapp" href="${whatsappUrl(product)}" target="_blank" rel="noopener">${escapeHtml(t().whatsapp)}</a>
                         </div>
                     </div>
-                </article>`).join('');
+                </article>`;
+            }).join('');
+            setupGalleries();
+        }
+
+        // 每个产品 1-3 张图片：桌面端点击左右按钮切换，触屏端左右滑动切换，悬停 2 秒放大
+        function setupGalleries() {
+            grid.querySelectorAll('.product-media').forEach((media) => {
+                const product = products.find((item) => item.code === media.dataset.code);
+                if (!product || product.images.length < 2) return;
+                const image = media.querySelector('.product-image');
+                const counter = media.querySelector('.gallery-count');
+                const wrap = media.querySelector('.product-image-wrap');
+                let index = 0;
+                let startX = 0;
+                let startY = 0;
+                let swipeActive = false;
+                let zoomTimer = null;
+                const show = () => {
+                    image.src = encodeURI(product.images[index]);
+                    counter.textContent = `${index + 1} / ${product.images.length}`;
+                };
+                const step = (delta) => {
+                    index = (index + delta + product.images.length) % product.images.length;
+                    show();
+                };
+                media.querySelector('[data-gallery="prev"]').addEventListener('click', () => step(-1));
+                media.querySelector('[data-gallery="next"]').addEventListener('click', () => step(1));
+                wrap.addEventListener('touchstart', (event) => {
+                    if (event.touches.length !== 1) return;
+                    swipeActive = true;
+                    startX = event.touches[0].clientX;
+                    startY = event.touches[0].clientY;
+                }, { passive: true });
+                wrap.addEventListener('touchend', (event) => {
+                    if (!swipeActive) return;
+                    swipeActive = false;
+                    const touch = event.changedTouches[0];
+                    const deltaX = touch.clientX - startX;
+                    const deltaY = touch.clientY - startY;
+                    if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY) * 1.4) step(deltaX < 0 ? 1 : -1);
+                }, { passive: true });
+                wrap.addEventListener('touchcancel', () => { swipeActive = false; }, { passive: true });
+                const aimZoom = (event) => {
+                    const rect = wrap.getBoundingClientRect();
+                    const x = Math.min(100, Math.max(0, ((event.clientX - rect.left) / rect.width) * 100));
+                    const y = Math.min(100, Math.max(0, ((event.clientY - rect.top) / rect.height) * 100));
+                    image.style.transformOrigin = `${x}% ${y}%`;
+                };
+                if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+                    wrap.addEventListener('mouseenter', (event) => {
+                        aimZoom(event);
+                        clearTimeout(zoomTimer);
+                        zoomTimer = setTimeout(() => wrap.classList.add('zoomed'), 2000);
+                    });
+                    wrap.addEventListener('mousemove', aimZoom);
+                    wrap.addEventListener('mouseleave', () => {
+                        clearTimeout(zoomTimer);
+                        zoomTimer = null;
+                        wrap.classList.remove('zoomed');
+                        image.style.transformOrigin = '50% 50%';
+                    });
+                }
+            });
         }
 
         function applyLanguage() {

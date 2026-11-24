@@ -66,6 +66,7 @@ assert(html.includes('border-radius: 10px'), 'Footer QR cards are missing rounde
 assert(cpanel.includes('export DEPLOYPATH=/home/cossfood/public_html/'), 'cPanel deployment path is incorrect');
 assert(cpanel.includes('/bin/cp index.html $DEPLOYPATH'), 'cPanel deployment does not copy index.html');
 assert(cpanel.includes('/bin/cp -R image $DEPLOYPATH'), 'cPanel deployment does not copy the image directory');
+assert(cpanel.includes('rm -f $DEPLOYPATH/image/optimized/*.7z'), 'cPanel deployment must exclude the local image archive');
 assert(cpanel.includes('/bin/cp api/save-inquiry.php $DEPLOYPATH/save-inquiry.php'), 'cPanel deployment does not copy the enquiry API to the public site root');
 assert(cpanel.includes('/bin/cp api/visitor-stats.php $DEPLOYPATH/visitor-stats.php'), 'cPanel deployment does not copy the visitor statistics API');
 
@@ -88,8 +89,8 @@ assert(pagesWorkflow.includes('git push --force'), 'GitHub Actions must publish 
 assert(pagesWorkflow.includes('gh-pages'), 'GitHub Actions must publish to the gh-pages branch');
 assert(pagesWorkflow.includes('cd _site'), 'GitHub Actions must publish the prepared site directory');
 assert(pagesWorkflow.includes('cp index.html _site/'), 'Published site must include index.html');
-assert(pagesWorkflow.includes('cp -R image/optimized _site/image/'), 'Published site must include the optimized product images');
-assert(pagesWorkflow.includes("-name '*.jpg'"), 'Published site must exclude the oversized original JPG files');
+assert(pagesWorkflow.includes('cp -R image/optimized _site/image/'), 'Published site must include the product image folders');
+assert(pagesWorkflow.includes('rm -f _site/image/optimized/*.7z'), 'Published site must exclude the local image archive');
 assert(pagesWorkflow.includes('php -l api/save-inquiry.php'), 'GitHub Actions must validate the enquiry API syntax');
 assert(pagesWorkflow.includes('php -l api/visitor-stats.php'), 'GitHub Actions must validate the visitor API syntax');
 assert(pagesWorkflow.includes('node tests/validate-site.js'), 'GitHub Actions must run the site structure tests');
@@ -115,10 +116,29 @@ const horizontalLogoPath = path.join(root, 'image/logo-horizontal.png');
 assert(fs.existsSync(horizontalLogoPath), 'Horizontal Logo asset is missing');
 assert(fs.statSync(horizontalLogoPath).size > 0, 'Empty horizontal Logo asset');
 
-for (const productImage of new Set([...html.matchAll(/image\/([^'"`\s]+\.jpg)/g)].map((match) => match[1]))) {
-    const optimizedPath = path.join(root, 'image/optimized', productImage.replace(/\.jpg$/i, '.webp'));
-    assert(fs.existsSync(optimizedPath), `Missing optimized webp for published product image: ${productImage}`);
+const productImages = [...html.matchAll(/'(image\/optimized\/[^']+\.(?:jpg|jpeg|png|webp))'/g)].map((match) => match[1]);
+assert(productImages.length >= 60, 'Product catalogue must reference the new multi-image folders');
+for (const relativePath of new Set(productImages)) {
+    const filePath = path.join(root, ...relativePath.split('/'));
+    assert(fs.existsSync(filePath), `Missing product image: ${relativePath}`);
+    assert(fs.statSync(filePath).size > 0, `Empty product image: ${relativePath}`);
 }
+
+const multiImageEntries = (html.match(/images: \[[^\]]*'[^']+',/g) || []).length;
+assert(multiImageEntries >= 20, `Too few products have multiple images: ${multiImageEntries}`);
+assert(!fs.existsSync(path.join(root, 'image', 'N001 MEGAH MEE CLAYPOT YEE MEE 375KG.jpg')), 'Old flat product images must be removed');
+assert(!fs.existsSync(path.join(root, 'image', 'optimized', 'N001 MEGAH MEE CLAYPOT YEE MEE 375KG.webp')), 'Old optimized webp images must be removed');
+
+assert(html.includes('data-gallery="prev"'), 'Product gallery previous button is missing');
+assert(html.includes('data-gallery="next"'), 'Product gallery next button is missing');
+assert(html.includes('gallery-count'), 'Product gallery image counter is missing');
+assert(html.includes('touchstart'), 'Product gallery swipe handling is missing');
+assert(html.includes("setTimeout(() => wrap.classList.add('zoomed'), 2000)"), 'Hover zoom after two seconds is missing');
+assert(html.includes('.product-image-wrap.zoomed .product-image { transform: scale(2.1); }'), 'Hover zoom CSS is missing');
+assert(html.includes('@media (hover: none)'), 'Touch devices must hide the gallery buttons');
+assert(html.includes('data-i18n="languageLabel"'), 'Language selector label is missing');
+assert(html.includes("languageLabel: '语言'"), 'Chinese language label translation is missing');
+assert(html.includes("languageLabel: 'Language'"), 'English language label translation is missing');
 
 const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
 assert(scriptMatch, 'Inline site script is missing');

@@ -1,3 +1,6 @@
+# Local-only image archives
+*.7z
+
 # OS / editor noise
 .DS_Store
 Thumbs.db

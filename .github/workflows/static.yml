@@ -32,7 +32,8 @@ jobs:
           cp index.html _site/
           mkdir -p _site/image
           cp -R image/optimized _site/image/
-          find image -maxdepth 1 -type f ! -name '*.jpg' -exec cp {} _site/image/ \;
+          find image -maxdepth 1 -type f -exec cp {} _site/image/ \;
+          rm -f _site/image/optimized/*.7z
       - name: Publish to gh-pages
         run: |
           cd _site
