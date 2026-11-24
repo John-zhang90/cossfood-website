@@ -130,7 +130,6 @@
         .category-btn.active, .category-btn:hover { background: var(--brand-red); color: #fff; border-color: var(--brand-red); }
         .catalog-tools { margin-bottom: 18px; }
         .search-box { width: 100%; padding: 13px 16px; border: 1px solid #ddd; border-radius: 6px; font: inherit; background: #fff; }
-        .category-btn.active, .category-btn:hover { background: var(--brand-red); color: #fff; border-color: var(--brand-red); }
         .product-count { color: #666; font-size: 14px; margin-bottom: 18px; }
         .product-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
         .product-card { background: #fff; border: 1px solid #eee6dc; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; min-width: 0; transition: var(--transition); }
@@ -475,7 +474,7 @@
             { code: 'N002', name: 'Mega Instant Noodle 600g', category: '面类', unit: 'CTN', brand: 'FUDO', image: 'image/N002 MEGAH MEE INSTANT NOODLE 600G.jpg' },
             { code: 'N003', name: 'Canton Yee Mee 320g', category: '面类', unit: 'PKT', brand: 'MEGAH MEE', image: 'image/N003 MEGAH MEE CANTON YEE MEE 320G.jpg' },
             { code: 'N004', name: 'Sapo Mee Suah 330g', category: '面类', unit: 'PKT', brand: 'MEGAH MEE', image: 'image/N004 MEGAH MEE SAPO MEE SUAH 330G.jpg' },
-            { code: 'N005', name: 'Fried Egg Noodle 3kg', category: '面类', unit: 'CTN', brand: 'MEGAH MEE', image: 'image/N005 FRIED EGG NOODLE 1.5KG.jpg' },
+            { code: 'N005', name: 'Fried Egg Noodle 1.5kg', category: '面类', unit: 'CTN', brand: 'MEGAH MEE', image: 'image/N005 FRIED EGG NOODLE 1.5KG.jpg' },
             { code: 'N013', name: 'CF Claypot Yee Mee 375g', category: '面类', unit: 'PKT', brand: 'TEHKI', image: 'image/N013 CF CLAYPOT YEE MEE 375G.jpg' },
             { code: 'N019', name: 'Shabu Shabu Noodles', category: '面类', unit: 'PKT', brand: 'MEGAH MEE', image: 'image/N019 MEGAH MEE SHABU SHABU NOODLES.jpg' },
             { code: 'N020', name: 'Vitaman Instant Noodles 600g', category: '面类', unit: 'CTN', brand: 'VITAMAN', image: 'image/N020 VITAMAN INSTANT NOODLES  600G.jpg' },
@@ -710,7 +709,7 @@
         });
         applyLanguage();
         recordVisit();
-        setInterval(recordVisit, 60000);
+        setInterval(recordVisit, 300000);
 
         const menuToggle = document.querySelector('.menu-toggle');
         const navLinks = document.querySelector('.nav-links');
