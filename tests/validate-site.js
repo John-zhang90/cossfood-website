@@ -149,7 +149,8 @@ assert(html.includes('touchstart'), 'Product gallery swipe handling is missing')
 assert(html.includes('id="zoom-panel"'), 'Hover magnifier panel is missing');
 assert(html.includes('.zoom-lens'), 'Magnifier lens frame is missing');
 assert(html.includes("lens.className = 'zoom-lens'"), 'Magnifier lens is not attached to product images');
-assert(html.includes('window.innerWidth >= 1280 ? 400 : 320'), 'Magnifier panel size is missing');
+assert(html.includes('window.innerWidth >= 1440 ? 440 : window.innerWidth >= 1280 ? 400 : 340'), 'Magnifier panel size is missing');
+assert(html.includes('requestAnimationFrame(() =>'), 'Magnifier movement is not frame-throttled');
 assert(html.includes('function hideZoomPanel()'), 'Magnifier panel hide logic is missing');
 assert(!html.includes('.product-image-wrap.zoomed'), 'In-place image scaling must be replaced by the magnifier panel');
 assert(html.includes('id="lightbox"'), 'Full-screen image preview is missing');
