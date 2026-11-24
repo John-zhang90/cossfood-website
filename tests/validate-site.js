@@ -128,10 +128,14 @@ const multiImageEntries = (html.match(/images: \[[^\]]*'[^']+',/g) || []).length
 assert(multiImageEntries >= 20, `Too few products have multiple images: ${multiImageEntries}`);
 
 const localizedNames = (html.match(/names: \{ en: /g) || []).length;
-assert(localizedNames === 34, `Every product needs en/zh/ms names, found ${localizedNames}`);
+assert(localizedNames === 33, `Every product needs en/zh/ms names, found ${localizedNames}`);
 assert(html.includes("zh: '白馒头'"), 'Chinese product names are missing');
 assert(html.includes("ms: 'Mantou Kosong (Putih)'"), 'Malay product names are missing');
 assert(html.includes("zh: '猪肠粉 300g'"), 'Chinese name for Z001 is missing');
+assert(!html.includes("code: 'TP003'"), 'TP003 must stay delisted');
+assert(/code: 'B003'[^\n]*brand: 'OBASAN'/.test(html), 'B003 brand must be OBASAN');
+assert(/code: 'CS003'[^\n]*brand: 'WILLING'/.test(html), 'CS003 brand must be WILLING');
+assert(/code: 'CF014'[^\n]*brand: 'LHF'/.test(html), 'CF014 brand must be LHF');
 assert(html.includes('const productName = (product)'), 'Localized product name helper is missing');
 assert(html.includes('escapeHtml(productName(product))'), 'Product cards must render the localized name');
 
