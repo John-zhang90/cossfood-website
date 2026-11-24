@@ -135,10 +135,10 @@ assert(html.includes("zh: '猪肠粉 300g'"), 'Chinese name for Z001 is missing'
 assert(html.includes('const productName = (product)'), 'Localized product name helper is missing');
 assert(html.includes('escapeHtml(productName(product))'), 'Product cards must render the localized name');
 
-const wordmarkPath = path.join(root, 'image/logo-wordmark.png');
+const wordmarkPath = path.join(root, 'image/logo-header.png');
 assert(fs.existsSync(wordmarkPath), 'Header wordmark asset is missing');
 assert(fs.statSync(wordmarkPath).size > 0, 'Header wordmark asset is empty');
-assert(html.includes('src="image/logo-wordmark.png"'), 'Header must use the original logo wordmark');
+assert(html.includes('src="image/logo-header.png"'), 'Header must use the original logo wordmark');
 assert(!fs.existsSync(path.join(root, 'image', 'N001 MEGAH MEE CLAYPOT YEE MEE 375KG.jpg')), 'Old flat product images must be removed');
 assert(!fs.existsSync(path.join(root, 'image', 'optimized', 'N001 MEGAH MEE CLAYPOT YEE MEE 375KG.webp')), 'Old optimized webp images must be removed');
 
@@ -147,7 +147,9 @@ assert(html.includes('data-gallery="next"'), 'Product gallery next button is mis
 assert(html.includes('gallery-count'), 'Product gallery image counter is missing');
 assert(html.includes('touchstart'), 'Product gallery swipe handling is missing');
 assert(html.includes('id="zoom-panel"'), 'Hover magnifier panel is missing');
-assert(html.includes('const ZOOM_FACTOR = 2.6'), 'Magnifier zoom factor is missing');
+assert(html.includes('.zoom-lens'), 'Magnifier lens frame is missing');
+assert(html.includes("lens.className = 'zoom-lens'"), 'Magnifier lens is not attached to product images');
+assert(html.includes('window.innerWidth >= 1280 ? 400 : 320'), 'Magnifier panel size is missing');
 assert(html.includes('function hideZoomPanel()'), 'Magnifier panel hide logic is missing');
 assert(!html.includes('.product-image-wrap.zoomed'), 'In-place image scaling must be replaced by the magnifier panel');
 assert(html.includes('id="lightbox"'), 'Full-screen image preview is missing');

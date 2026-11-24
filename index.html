@@ -38,13 +38,14 @@
             display: flex; justify-content: space-between; align-items: center;
         }
         .logo { display: inline-flex; align-items: center; text-decoration: none; }
-        .logo img { height: 38px; width: auto; display: block; }
-        .nav-links { display: flex; list-style: none; gap: 30px; align-items: center; }
-        .nav-links a { text-decoration: none; color: var(--text-dark); font-weight: 500; transition: var(--transition); }
+        .logo img { height: 30px; width: auto; display: block; }
+        .nav-links { display: flex; list-style: none; gap: 24px; align-items: center; }
+        .nav-links li { white-space: nowrap; }
+        .nav-links a { text-decoration: none; color: var(--text-dark); font-weight: 500; white-space: nowrap; transition: var(--transition); }
         .nav-links a:hover { color: var(--brand-red); }
         .btn-order { 
             background: var(--brand-yellow); color: #000 !important; 
-            padding: 8px 18px; border-radius: 4px; font-weight: 600 !important; 
+            padding: 8px 14px; border-radius: 4px; font-size: 13px; font-weight: 600 !important; 
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         .btn-order:hover { background: #FDD835; transform: translateY(-1px); }
@@ -199,7 +200,7 @@
 
         @media (max-width: 768px) {
             .nav-container { padding: 12px 16px; }
-            .logo img { height: 30px; }
+            .logo img { height: 26px; }
             .menu-toggle { display: block; }
             .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; padding: 12px 20px 18px; box-shadow: 0 8px 14px rgba(0,0,0,0.08); flex-direction: column; align-items: stretch; gap: 8px; }
             .nav-links.open { display: flex; }
@@ -246,8 +247,9 @@
             .product-grid { grid-template-columns: 1fr; }
         }
 
-        /* 放大镜小窗：鼠标悬停时在卡片旁边跟随显示 2.6 倍细节 */
-        .zoom-panel { position: fixed; z-index: 80; width: 260px; height: 260px; border: 1px solid #eee2d2; border-radius: 10px; background: #fff; box-shadow: 0 14px 34px rgba(26, 26, 26, 0.22); overflow: hidden; pointer-events: none; opacity: 0; transition: opacity .18s ease; }
+        /* 放大镜：图片上出现取景框，右侧固定大图弹窗显示放大细节（参考淘宝/京东） */
+        .zoom-lens { position: absolute; top: 0; left: 0; display: none; border: 1px solid rgba(255, 255, 255, 0.9); background: rgba(255, 255, 255, 0.22); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.16); pointer-events: none; z-index: 3; }
+        .zoom-panel { position: fixed; z-index: 80; border: 1px solid #eee2d2; border-radius: 8px; background: #fff; box-shadow: 0 18px 40px rgba(26, 26, 26, 0.24); overflow: hidden; pointer-events: none; opacity: 0; transition: opacity .15s ease; }
         .zoom-panel.show { opacity: 1; }
         .zoom-panel img { position: absolute; max-width: none; max-height: none; user-select: none; }
 
@@ -270,8 +272,10 @@
 
         /* 手机与窄屏：不显示放大镜小窗和预览层左右按钮，靠滑动操作 */
         @media (max-width: 768px), (hover: none) {
-            .zoom-panel { display: none; }
             .lightbox-nav { display: none; }
+        }
+        @media (max-width: 1023px), (hover: none) {
+            .zoom-panel { display: none; }
         }
 
         /* 触屏设备：用左右滑动切换产品图片，不显示切换按钮 */
@@ -286,7 +290,7 @@
     <!-- 导航栏 -->
     <header>
         <div class="nav-container">
-            <a class="logo" href="#top" aria-label="CossFood Marketing Pte Ltd"><img src="image/logo-wordmark.png" alt="CossFood Marketing Pte Ltd"></a>
+            <a class="logo" href="#top" aria-label="CossFood Marketing Pte Ltd"><img src="image/logo-header.png" alt="CossFood Marketing Pte Ltd"></a>
             <button class="menu-toggle" type="button" aria-label="打开菜单" aria-expanded="false">☰</button>
             <ul class="nav-links">
                 <li><a href="#products" data-i18n="navProducts">产品目录</a></li>
@@ -747,18 +751,18 @@
             setupGalleries();
         }
 
-        // 产品图交互：桌面端悬停出现放大镜小窗，触屏端左右滑动切换，点击图片打开大图预览
+        // 产品图交互：桌面端悬停出现放大镜取景框 + 右侧固定放大弹窗，触屏端滑动切换，点击看大图
         const zoomPanel = document.getElementById('zoom-panel');
         const zoomPanelImage = zoomPanel.querySelector('img');
-        const ZOOM_FACTOR = 2.6;
-        const ZOOM_PANEL_SIZE = 260;
 
         function hideZoomPanel() {
             zoomPanel.classList.remove('show');
             zoomPanel.hidden = true;
+            document.querySelectorAll('.zoom-lens').forEach((lens) => { lens.style.display = 'none'; });
         }
 
         window.addEventListener('scroll', hideZoomPanel, { passive: true });
+        window.addEventListener('resize', hideZoomPanel);
 
         let lightboxBox = null;
         let lightboxImg = null;
@@ -905,38 +909,57 @@
                     openLightbox(product, index);
                 });
                 if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+                const lens = document.createElement('div');
+                lens.className = 'zoom-lens';
+                wrap.appendChild(lens);
+                let lensSize = 120;
                 const moveZoom = (event) => {
-                    if (!image.naturalWidth || !image.naturalHeight) return;
+                    if (zoomPanel.hidden || !image.naturalWidth || !image.naturalHeight) return;
                     const rect = wrap.getBoundingClientRect();
                     const fit = Math.min(rect.width / image.naturalWidth, rect.height / image.naturalHeight);
                     const shownWidth = image.naturalWidth * fit;
                     const shownHeight = image.naturalHeight * fit;
                     const offsetX = (rect.width - shownWidth) / 2;
                     const offsetY = (rect.height - shownHeight) / 2;
-                    const px = Math.min(1, Math.max(0, (event.clientX - rect.left - offsetX) / shownWidth));
-                    const py = Math.min(1, Math.max(0, (event.clientY - rect.top - offsetY) / shownHeight));
-                    const blownWidth = shownWidth * ZOOM_FACTOR;
-                    const blownHeight = shownHeight * ZOOM_FACTOR;
-                    zoomPanelImage.style.width = `${Math.round(blownWidth)}px`;
-                    zoomPanelImage.style.height = `${Math.round(blownHeight)}px`;
-                    zoomPanelImage.style.left = `${Math.round(ZOOM_PANEL_SIZE / 2 - px * blownWidth)}px`;
-                    zoomPanelImage.style.top = `${Math.round(ZOOM_PANEL_SIZE / 2 - py * blownHeight)}px`;
-                    let left = rect.right + 16;
-                    if (left + ZOOM_PANEL_SIZE > window.innerWidth - 8) left = rect.left - ZOOM_PANEL_SIZE - 16;
-                    if (left < 8) left = Math.min(window.innerWidth - ZOOM_PANEL_SIZE - 8, rect.left);
-                    let top = event.clientY - ZOOM_PANEL_SIZE / 2;
-                    top = Math.min(window.innerHeight - ZOOM_PANEL_SIZE - 8, Math.max(8, top));
+                    let lensLeft = event.clientX - rect.left - lensSize / 2;
+                    let lensTop = event.clientY - rect.top - lensSize / 2;
+                    lensLeft = Math.min(offsetX + shownWidth - lensSize, Math.max(offsetX, lensLeft));
+                    lensTop = Math.min(offsetY + shownHeight - lensSize, Math.max(offsetY, lensTop));
+                    lens.style.left = `${Math.round(lensLeft)}px`;
+                    lens.style.top = `${Math.round(lensTop)}px`;
+                    const panelSize = parseFloat(zoomPanel.style.width) || 400;
+                    const scale = panelSize / lensSize;
+                    zoomPanelImage.style.width = `${Math.round(shownWidth * scale)}px`;
+                    zoomPanelImage.style.height = `${Math.round(shownHeight * scale)}px`;
+                    zoomPanelImage.style.left = `${Math.round(-(lensLeft - offsetX) * scale)}px`;
+                    zoomPanelImage.style.top = `${Math.round(-(lensTop - offsetY) * scale)}px`;
+                };
+                const enterZoom = (event) => {
+                    if (window.innerWidth < 1024 || !image.naturalWidth) return;
+                    const rect = wrap.getBoundingClientRect();
+                    const fit = Math.min(rect.width / image.naturalWidth, rect.height / image.naturalHeight);
+                    const shown = Math.min(image.naturalWidth * fit, image.naturalHeight * fit);
+                    lensSize = Math.round(Math.max(84, Math.min(170, shown * 0.6)));
+                    lens.style.width = `${lensSize}px`;
+                    lens.style.height = `${lensSize}px`;
+                    lens.style.display = 'block';
+                    const panelSize = window.innerWidth >= 1280 ? 400 : 320;
+                    zoomPanel.style.width = `${panelSize}px`;
+                    zoomPanel.style.height = `${panelSize}px`;
+                    let left = rect.right + 20;
+                    if (left + panelSize > window.innerWidth - 12) left = rect.left - panelSize - 20;
+                    if (left < 12) left = window.innerWidth - panelSize - 12;
+                    const top = Math.max(12, Math.min(window.innerHeight - panelSize - 12, rect.top));
                     zoomPanel.style.left = `${Math.round(left)}px`;
                     zoomPanel.style.top = `${Math.round(top)}px`;
-                };
-                wrap.addEventListener('mouseenter', (event) => {
                     zoomPanelImage.src = image.currentSrc || image.src;
                     zoomPanel.hidden = false;
                     zoomPanel.classList.add('show');
                     moveZoom(event);
-                });
+                };
+                wrap.addEventListener('mouseenter', enterZoom);
                 wrap.addEventListener('mousemove', moveZoom);
-                wrap.addEventListener('mouseleave', hideZoomPanel);
+                wrap.addEventListener('mouseleave', () => { lens.style.display = 'none'; hideZoomPanel(); });
             });
         }
 
