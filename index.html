@@ -55,7 +55,7 @@
         .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
         /* --- B2B 企业级 Hero Section --- */
-        .hero { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); height: min(440px, calc(100vh - 78px)); background: var(--bg-light); }
+        .hero { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); height: min(400px, calc(100vh - 78px)); background: var(--bg-light); }
         .hero-left { position: relative; overflow: hidden; min-height: 0; display: grid; place-items: center; padding: 24px 30px; background: var(--bg-light); }
         .hero-left img { width: 100%; height: auto; max-height: 100%; min-height: 0; display: block; object-fit: contain; object-position: center; }
         .hero-right { 
@@ -63,8 +63,8 @@
             display: flex; flex-direction: column; justify-content: center; 
             padding: clamp(32px, 5vw, 72px); position: relative;
         }
-        .hero-right h1 { font-size: clamp(34px, 4vw, 48px); font-weight: 800; line-height: 1.2; margin-bottom: 20px; }
-        .hero-right p { font-size: clamp(16px, 1.6vw, 18px); margin-bottom: 35px; opacity: 0.9; }
+        .hero-right h1 { font-size: clamp(28px, 3.3vw, 42px); font-weight: 800; line-height: 1.25; margin-bottom: 18px; text-wrap: balance; }
+        .hero-right p { font-size: clamp(16px, 1.6vw, 18px); margin-bottom: 35px; opacity: 0.9; text-wrap: balance; }
         .hero-cta { 
             align-self: flex-start; background: var(--brand-yellow); color: #000; 
             text-decoration: none; padding: 15px 40px; font-size: 18px; 
@@ -189,6 +189,8 @@
         /* --- 🎯 极致移动端适配响应式断点 (Responsive Media Queries) --- */
         /* 平板/小笔记本：先压缩导航间距与字号，保证马来语等长文案也不挤压 logo */
         @media (max-width: 1279px) {
+            .hero { height: min(340px, calc(100vh - 78px)); }
+            .hero-left { padding: 14px 18px; }
             .nav-container { gap: 24px; }
             .logo img { height: 36px; }
             .nav-links { gap: 12px; }
@@ -261,8 +263,8 @@
             .hero-left { padding: 16px 14px; }
         .hero-left img { width: 100%; }
             .hero-right { padding: 38px 18px 42px; }
-            .hero-right h1 { font-size: 29px; }
-            .hero-right p { font-size: 15px; margin-bottom: 24px; }
+            .hero-right h1 { font-size: 27px; }
+            .hero-right p { font-size: 14px; line-height: 1.65; margin-bottom: 22px; }
             .hero-cta { max-width: none; padding: 12px 14px; font-size: 15px; }
             .services { margin: 56px auto; padding: 0 14px; }
             .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }

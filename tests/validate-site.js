@@ -21,7 +21,7 @@ function assert(condition, message) {
 assert(html.includes('data-i18n="navContact"'), 'Header WhatsApp contact is missing');
 assert(html.includes('image/logo-about.svg'), 'About section must use the redrawn vector logo');
 assert(fs.existsSync(path.join(root, 'image/logo-about.svg')), 'About vector logo asset is missing');
-assert(html.includes('height: min(440px, calc(100vh - 78px))'), 'Hero section is still too tall on desktop');
+assert(html.includes('height: min(400px, calc(100vh - 78px))'), 'Hero section is still too tall on desktop');
 assert(html.includes('object-fit: contain; object-position: center'), 'Hero logo is not fitted without grey cropping margins');
 assert(html.includes('image/logo-hero.svg'), 'Hero vector logo is missing');
 assert(html.includes('grid-template-columns: 220px minmax(0, 1fr)'), 'Desktop catalog sidebar is missing');
