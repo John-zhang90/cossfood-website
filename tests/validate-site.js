@@ -19,11 +19,11 @@ function assert(condition, message) {
 }
 
 assert(html.includes('data-i18n="navContact"'), 'Header WhatsApp contact is missing');
-assert(html.includes('image/logo_company.png'), 'Selected A logo is not used in the about section');
-assert(fs.existsSync(path.join(root, 'image/logo_company.png')), 'Selected A logo asset is missing');
+assert(html.includes('image/logo-about.svg'), 'About section must use the redrawn vector logo');
+assert(fs.existsSync(path.join(root, 'image/logo-about.svg')), 'About vector logo asset is missing');
 assert(html.includes('height: min(440px, calc(100vh - 78px))'), 'Hero section is still too tall on desktop');
 assert(html.includes('object-fit: contain; object-position: center'), 'Hero logo is not fitted without grey cropping margins');
-assert(html.includes('image/logo-horizontal.png'), 'Horizontal hero logo is missing');
+assert(html.includes('image/logo-hero.svg'), 'Hero vector logo is missing');
 assert(html.includes('grid-template-columns: 220px minmax(0, 1fr)'), 'Desktop catalog sidebar is missing');
 assert(html.includes('.category-list { display: flex; flex-wrap: nowrap; gap: 8px; overflow-x: auto'), 'Mobile category browser is not horizontally scrollable');
 assert(html.includes('.product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }'), 'Mobile product grid is not optimized for two-column browsing');
@@ -112,9 +112,15 @@ for (const relativePath of ['image/logo-option-a-classic.png', 'image/logo-optio
     assert(fs.statSync(filePath).size > 0, `Empty Logo candidate: ${relativePath}`);
 }
 
-const horizontalLogoPath = path.join(root, 'image/logo-horizontal.png');
-assert(fs.existsSync(horizontalLogoPath), 'Horizontal Logo asset is missing');
-assert(fs.statSync(horizontalLogoPath).size > 0, 'Empty horizontal Logo asset');
+const vectorLogoPaths = ['image/logo-header.svg', 'image/logo-hero.svg', 'image/logo-about.svg'];
+for (const relativePath of vectorLogoPaths) {
+    const filePath = path.join(root, ...relativePath.split('/'));
+    assert(fs.existsSync(filePath), `Missing vector logo: ${relativePath}`);
+    assert(fs.statSync(filePath).size > 0, `Empty vector logo: ${relativePath}`);
+    const svg = fs.readFileSync(filePath, 'utf8');
+    assert(svg.startsWith('<svg') && svg.includes('<path'), `Logo must be a crisp vector drawing: ${relativePath}`);
+    assert(!svg.includes('data:image/png;base64'), `Logo must not embed a raster screenshot: ${relativePath}`);
+}
 
 const productImages = [...html.matchAll(/'(image\/optimized\/[^']+\.(?:jpg|jpeg|png|webp))'/g)].map((match) => match[1]);
 assert(productImages.length >= 60, 'Product catalogue must reference the new multi-image folders');
@@ -139,10 +145,10 @@ assert(/code: 'CF014'[^\n]*brand: 'LHF'/.test(html), 'CF014 brand must be LHF');
 assert(html.includes('const productName = (product)'), 'Localized product name helper is missing');
 assert(html.includes('escapeHtml(productName(product))'), 'Product cards must render the localized name');
 
-const wordmarkPath = path.join(root, 'image/logo-header.png');
+const wordmarkPath = path.join(root, 'image/logo-header.svg');
 assert(fs.existsSync(wordmarkPath), 'Header wordmark asset is missing');
 assert(fs.statSync(wordmarkPath).size > 0, 'Header wordmark asset is empty');
-assert(html.includes('src="image/logo-header.png"'), 'Header must use the original logo wordmark');
+assert(html.includes('src="image/logo-header.svg"'), 'Header must use the redrawn vector wordmark');
 assert(!fs.existsSync(path.join(root, 'image', 'N001 MEGAH MEE CLAYPOT YEE MEE 375KG.jpg')), 'Old flat product images must be removed');
 assert(!fs.existsSync(path.join(root, 'image', 'optimized', 'N001 MEGAH MEE CLAYPOT YEE MEE 375KG.webp')), 'Old optimized webp images must be removed');
 

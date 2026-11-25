@@ -11,6 +11,7 @@
         :root {
             --brand-red: #D32F2F;    /* 品牌主红 */
             --brand-yellow: #FFEB3B; /* 快捷订货主黄 */
+            --brand-green: #A7CE3B;  /* LOGO 绿 */
             --text-dark: #212121;    /* 现代暗黑文字 */
             --bg-light: #fffaf2;     /* 品牌暖白背景 */
             --white: #FFFFFF;
@@ -55,8 +56,8 @@
 
         /* --- B2B 企业级 Hero Section --- */
         .hero { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); height: min(440px, calc(100vh - 78px)); background: var(--bg-light); }
-        .hero-left { position: relative; overflow: hidden; min-height: 0; display: grid; place-items: center; padding: 0; background: var(--bg-light); }
-        .hero-left img { width: 100%; height: 100%; min-height: 0; display: block; object-fit: contain; object-position: center; }
+        .hero-left { position: relative; overflow: hidden; min-height: 0; display: grid; place-items: center; padding: 22px 30px; background: var(--brand-green); }
+        .hero-left img { width: 100%; height: auto; max-height: 100%; min-height: 0; display: block; object-fit: contain; object-position: center; }
         .hero-right { 
             flex: 1; background: var(--brand-red); color: var(--white); 
             display: flex; flex-direction: column; justify-content: center; 
@@ -68,7 +69,7 @@
             align-self: flex-start; background: var(--brand-yellow); color: #000; 
             text-decoration: none; padding: 15px 40px; font-size: 18px; 
             font-weight: 700; border-radius: 4px; transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-align: center; white-space: nowrap;
         }
         .hero-cta:hover { background: #FDD835; transform: scale(1.03); }
 
@@ -164,7 +165,7 @@
         .about-text { flex: 1; }
         .about-text p { margin-bottom: 15px; color: #444; }
         .about-img { flex: 1; height: 350px; padding: 18px; border-radius: 10px; overflow: hidden; background: var(--bg-light); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .about-img img { width: 100%; height: 100%; display: block; object-fit: contain; }
+        .about-img img { width: 100%; height: auto; max-height: 100%; display: block; object-fit: contain; }
 
         /* --- 页脚区块 --- */
         footer { background: #1A1A1A; color: rgba(255,255,255,0.7); padding: 60px 20px 20px; font-size: 14px; }
@@ -212,7 +213,7 @@
 
         @media (max-width: 992px) {
             .hero { display: flex; flex-direction: column; height: auto; }
-            .hero-left { height: clamp(220px, 32vw, 300px); padding: 0; }
+            .hero-left { height: clamp(230px, 32vw, 300px); padding: 16px 24px; }
             .hero-right { padding: 40px 20px; text-align: center; }
             .hero-right h1 { font-size: 34px; }
             .hero-cta { align-self: center; width: 100%; max-width: 300px; }
@@ -256,11 +257,11 @@
         }
 
         @media (max-width: 480px) {
-            .hero-left { height: 180px; padding: 0; }
+            .hero-left { height: 196px; padding: 12px 18px; }
             .hero-right { padding: 38px 18px 42px; }
             .hero-right h1 { font-size: 29px; }
             .hero-right p { font-size: 15px; margin-bottom: 24px; }
-            .hero-cta { max-width: none; padding: 13px 12px; font-size: 16px; }
+            .hero-cta { max-width: none; padding: 12px 14px; font-size: 15px; }
             .services { margin: 56px auto; padding: 0 14px; }
             .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
             .footer-container { grid-template-columns: 1fr; }
@@ -314,7 +315,7 @@
     <!-- 导航栏 -->
     <header>
         <div class="nav-container">
-            <a class="logo" href="#top" aria-label="CossFood Marketing Pte Ltd"><img src="image/logo-header.png" alt="CossFood Marketing Pte Ltd"></a>
+            <a class="logo" href="#top" aria-label="CossFood Marketing Pte Ltd"><img src="image/logo-header.svg" alt="CossFood Marketing Pte Ltd"></a>
             <button class="menu-toggle" type="button" aria-label="打开菜单" aria-expanded="false">☰</button>
             <ul class="nav-links">
                 <li><a href="#products" data-i18n="navProducts">产品目录</a></li>
@@ -337,7 +338,7 @@
     <!-- Hero Section (左图右红B2B经典布局) -->
     <section class="hero">
         <div class="hero-left" title="CossFood 产品展示">
-            <img src="image/logo-horizontal.png" alt="CossFood 公司 Logo" fetchpriority="high">
+            <img src="image/logo-hero.svg" alt="CossFood 公司 Logo" fetchpriority="high">
         </div>
         <div class="hero-right">
             <h1>CossFood<br><span data-i18n="heroTitle">您可以信赖的食品供应链专家</span></h1>
@@ -477,7 +478,7 @@
                 <p data-i18n="aboutBody2">我们持续整理面类、包点、豆制品、冷冻食品及其他餐饮常用产品，方便客户快速浏览并通过电话或 WhatsApp 询问。</p>
             </div>
             <div class="about-img" title="CossFood 产品与配送">
-                <img src="image/logo_company.png" alt="CossFood 公司 Logo">
+                <img src="image/logo-about.svg" alt="CossFood 公司 Logo">
             </div>
         </div>
     </section>
