@@ -21,9 +21,12 @@ function assert(condition, message) {
 assert(html.includes('data-i18n="navContact"'), 'Header WhatsApp contact is missing');
 assert(html.includes('image/logo-about.svg'), 'About section must use the redrawn vector logo');
 assert(fs.existsSync(path.join(root, 'image/logo-about.svg')), 'About vector logo asset is missing');
-assert(html.includes('height: min(400px, calc(100vh - 78px))'), 'Hero section is still too tall on desktop');
+assert(html.includes('height: min(360px, calc(100vh - 78px))'), 'Hero section is still too tall on desktop');
 assert(html.includes('object-fit: contain; object-position: center'), 'Hero logo is not fitted without grey cropping margins');
 assert(html.includes('image/logo-hero.svg'), 'Hero vector logo is missing');
+assert(html.includes('.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr)'), 'Hero cards must be two equal-width columns');
+assert(html.includes('margin: 24px 30px; border-radius: 40px; overflow: hidden;'), 'Hero right card must use the same rounded plate form as the logo');
+assert(html.includes('.about-img { flex: 1; min-width: 0; height: auto; padding: 0; border-radius: 40px'), 'About plate must be a rounded card without an extra white frame');
 assert(html.includes('grid-template-columns: 220px minmax(0, 1fr)'), 'Desktop catalog sidebar is missing');
 assert(html.includes('.category-list { display: flex; flex-wrap: nowrap; gap: 8px; overflow-x: auto'), 'Mobile category browser is not horizontally scrollable');
 assert(html.includes('.product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }'), 'Mobile product grid is not optimized for two-column browsing');
