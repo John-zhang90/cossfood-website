@@ -565,6 +565,9 @@
             { code: 'B007', names: { en: 'Mantou Cocoa', zh: '可可馒头', ms: 'Mantou Koko' }, category: '包点与点心', unit: 'PKT', brand: 'SOON LEE', images: ['image/optimized/B007 mantou cocoa 可可馒头/soolee-coco-main.jpg', 'image/optimized/B007 mantou cocoa 可可馒头/coco-detail-1.jpg', 'image/optimized/B007 mantou cocoa 可可馒头/coco-detail-2.jpg'] },
             { code: 'B008', names: { en: 'Mantou Pandan', zh: '斑斓馒头', ms: 'Mantou Pandan' }, category: '包点与点心', unit: 'PKT', brand: 'SOON LEE', images: ['image/optimized/B008 mantou pandan 斑斓馒头/soonlee-pandan-main.jpg', 'image/optimized/B008 mantou pandan 斑斓馒头/pandan-detail-1.jpg', 'image/optimized/B008 mantou pandan 斑斓馒头/pandan-detail-2.jpg'] },
             { code: 'B016', names: { en: 'Lotus Leaf (Plain)', zh: '荷叶包（原味）', ms: 'Daun Teratai (Kosong)' }, category: '包点与点心', unit: 'PKT', brand: 'SOON LEE', images: ['image/optimized/B016 lotus leaf (plain)荷叶包/soonlee-lotusplain-main.jpg', 'image/optimized/B016 lotus leaf (plain)荷叶包/lotusplain-detail-1.jpg', 'image/optimized/B016 lotus leaf (plain)荷叶包/lotusplain-detail-2.jpg'] },
+            { id: 'new-fruitveg', code: '', names: { en: 'Fruit & Vegetable Mantou 180g', zh: '果蔬小馒头 180g', ms: 'Mantou Buah dan Sayur 180g' }, category: '包点与点心', unit: 'PKT', brand: 'OBASAN', images: ['image/optimized/fruit vegetable mantou 180g果蔬小馒头/obasan-fruitveg-main.jpg'] },
+            { id: 'new-lotus-big', code: '', names: { en: 'Lotus Leaf Bun (Large) 400g', zh: '荷叶包（大）400g', ms: 'Pau Daun Teratai (Besar) 400g' }, category: '包点与点心', unit: 'PKT', brand: 'OBASAN', images: ['image/optimized/lotus leaf 400g荷叶包(大）/obasan-lotusleaf-main.jpg', 'image/optimized/lotus leaf 400g荷叶包(大）/obasan-lotusleaf-detail-1.jpg', 'image/optimized/lotus leaf 400g荷叶包(大）/obasan-lotusleaf-detail-2.jpg'] },
+            { id: 'new-brownsugar', code: '', names: { en: 'Brown Sugar Mantou 130g', zh: '红糖馒头 130g', ms: 'Mantou Gula Perang 130g' }, category: '包点与点心', unit: 'PKT', brand: 'OBASAN', images: ['image/optimized/brown sugar mantou 130g红馒头/obasan-brownsugar-main.jpg'] },
             { code: 'CC001', names: { en: 'Sweeten Chin Chow', zh: '甜仙草', ms: 'Cincau Manis' }, category: '甜品与凉粉', unit: 'PCS', brand: 'LO SAM', images: ['image/optimized/CC001 sweeten chin chow甜仙草/sweeten-chinchow-main.jpg', 'image/optimized/CC001 sweeten chin chow甜仙草/chinchow-detail-1.jpg'] },
             { code: 'CC002', names: { en: 'Chin Chow No Sugar', zh: '无糖仙草', ms: 'Cincau Tanpa Gula' }, category: '甜品与凉粉', unit: 'PCS', brand: 'LO SAM', images: ['image/optimized/CC002 chin chow no sugar无糖仙草/original-chinchow-main.jpg', 'image/optimized/CC002 chin chow no sugar无糖仙草/originalchinchow-detail-1.jpg'] },
             { code: 'CC003', names: { en: 'Jelly Chin Chow 300g', zh: '仙草冻 300g', ms: 'Jeli Cincau 300g' }, category: '甜品与凉粉', unit: 'BOX', brand: 'LO SAM', images: ['image/optimized/CC003 jelly chin chow仙草冻/jelly-chinchow-main.jpg', 'image/optimized/CC003 jelly chin chow仙草冻/jelly-detail-1.jpg'] },
@@ -663,7 +666,11 @@
         const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
         const t = () => translations[currentLanguage];
         const productName = (product) => (product.names[currentLanguage] || product.names.en);
-        const whatsappUrl = (product) => `https://wa.me/6587569015?text=${encodeURIComponent(product ? `${t().whatsappProduct}${product.code} ${productName(product)}` : t().whatsappGeneral)}`;
+        const whatsappUrl = (product) => {
+            if (!product) return `https://wa.me/6587569015?text=${encodeURIComponent(t().whatsappGeneral)}`;
+            const reference = product.code ? `${product.code} ${productName(product)}` : productName(product);
+            return `https://wa.me/6587569015?text=${encodeURIComponent(`${t().whatsappProduct}${reference}`)}`;
+        };
         const wechatQrUrl = 'image/WeChat_QRcode-transparent.png';
 
         let enquiryLastFocus = null;
@@ -765,7 +772,7 @@
                 const singleImage = images.length < 2;
                 return `
                 <article class="product-card">
-                    <div class="product-media" data-code="${escapeHtml(product.code)}">
+                    <div class="product-media" data-key="${escapeHtml(product.id || product.code)}">
                         <div class="product-image-wrap">
                             <img class="product-image" src="${encodeURI(images[0])}" alt="${escapeHtml(productName(product))}" loading="lazy" decoding="async">
                         </div>
@@ -774,7 +781,7 @@
                         <span class="gallery-count"${singleImage ? ' hidden' : ''}>1 / ${images.length}</span>
                     </div>
                     <div class="product-info">
-                        <span class="product-code">${escapeHtml(product.code)}</span>
+                        ${product.code ? `<span class="product-code">${escapeHtml(product.code)}</span>` : ''}
                         <h3 class="product-name">${escapeHtml(productName(product))}</h3>
                         <p class="product-meta">${escapeHtml(categoryLabel(product))}<br>${escapeHtml(t().brandLabel)}：${escapeHtml(product.brand)}<br>${escapeHtml(t().unitLabel)}：${escapeHtml(product.unit)}<br>${escapeHtml(t().minimumLabel)}：1 ${escapeHtml(product.unit)}</p>
                         <div class="product-actions">
@@ -1020,7 +1027,7 @@
 
         function setupGalleries() {
             grid.querySelectorAll('.product-media').forEach((media) => {
-                const product = products.find((item) => item.code === media.dataset.code);
+                const product = products.find((item) => (item.id || item.code) === media.dataset.key);
                 if (!product) return;
                 const image = media.querySelector('.product-image');
                 const wrap = media.querySelector('.product-image-wrap');

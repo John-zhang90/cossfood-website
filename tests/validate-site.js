@@ -137,10 +137,22 @@ const multiImageEntries = (html.match(/images: \[[^\]]*'[^']+',/g) || []).length
 assert(multiImageEntries >= 20, `Too few products have multiple images: ${multiImageEntries}`);
 
 const localizedNames = (html.match(/names: \{ en: /g) || []).length;
-assert(localizedNames === 33, `Every product needs en/zh/ms names, found ${localizedNames}`);
+assert(localizedNames === 36, `Every product needs en/zh/ms names, found ${localizedNames}`);
 assert(html.includes("zh: '白馒头'"), 'Chinese product names are missing');
 assert(html.includes("ms: 'Mantou Kosong (Putih)'"), 'Malay product names are missing');
 assert(html.includes("zh: '猪肠粉 300g'"), 'Chinese name for Z001 is missing');
+assert(html.includes("zh: '果蔬小馒头 180g'"), 'New fruit vegetable mantou Chinese name is missing');
+assert(html.includes("en: 'Fruit & Vegetable Mantou 180g'"), 'New fruit vegetable mantou English name is missing');
+assert(html.includes("ms: 'Mantou Buah dan Sayur 180g'"), 'New fruit vegetable mantou Malay name is missing');
+assert(html.includes("zh: '荷叶包（大）400g'"), 'New large lotus leaf bun Chinese name is missing');
+assert(html.includes("en: 'Lotus Leaf Bun (Large) 400g'"), 'New large lotus leaf bun English name is missing');
+assert(html.includes("ms: 'Pau Daun Teratai (Besar) 400g'"), 'New large lotus leaf bun Malay name is missing');
+assert(html.includes("zh: '红糖馒头 130g'"), 'New brown sugar mantou Chinese name is missing');
+assert(html.includes("en: 'Brown Sugar Mantou 130g'"), 'New brown sugar mantou English name is missing');
+assert(html.includes("ms: 'Mantou Gula Perang 130g'"), 'New brown sugar mantou Malay name is missing');
+assert(/id: 'new-fruitveg', code: ''/.test(html), 'Fruit vegetable mantou must ship without a temporary code');
+assert(/id: 'new-lotus-big', code: ''/.test(html), 'Large lotus leaf bun must ship without a temporary code');
+assert(/id: 'new-brownsugar', code: ''/.test(html), 'Brown sugar mantou must ship without a temporary code');
 assert(!html.includes("code: 'TP003'"), 'TP003 must stay delisted');
 assert(/code: 'B003'[^\n]*brand: 'OBASAN'/.test(html), 'B003 brand must be OBASAN');
 assert(/code: 'CS003'[^\n]*brand: 'WILLING'/.test(html), 'CS003 brand must be WILLING');
