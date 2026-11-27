@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="zh-SG">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CossFood | 新加坡优质的食品批发供应商</title>
+    <meta name="description" content="CossFood专注于新加坡本地食品批发，主营精选快熟面、伊面。拥有自送车队，每日9AM开始配送，支持多种方式结算。">
+    
+    <style>
+        /* --- 核心变量与原子复位 --- */
+        :root {
+            --brand-red: #D32F2F;    /* 品牌主红 */
+            --brand-yellow: #FFEB3B; /* 快捷订货主黄 */
+            --brand-green: #A7CE3B;  /* LOGO 绿 */
+            --text-dark: #212121;    /* 现代暗黑文字 */
+            --bg-light: #fffaf2;     /* 品牌暖白背景 */
+            --white: #FFFFFF;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: var(--text-dark); 
+            line-height: 1.6;
+            background-color: var(--white);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- 导航栏 (Sticky Header) --- */
+        header {
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .nav-container {
+            max-width: 1280px; margin: 0 auto; padding: 12px 20px;
+            display: flex; justify-content: space-between; align-items: center; gap: 32px;
+        }
+        .logo { display: inline-flex; align-items: center; text-decoration: none; flex: 0 0 auto; }
+        .logo img { height: 42px; width: auto; display: block; image-rendering: -webkit-optimize-contrast; }
+        .nav-links { display: flex; list-style: none; gap: 20px; align-items: center; flex: 0 0 auto; }
+        .nav-links li { white-space: nowrap; }
+        .nav-links a { text-decoration: none; color: var(--text-dark); font-size: 15px; font-weight: 500; white-space: nowrap; transition: var(--transition); }
+        .nav-links a:hover { color: var(--brand-red); }
+        .btn-order { 
+            background: var(--brand-yellow); color: #000 !important; 
+            padding: 8px 14px; border-radius: 4px; font-size: 13px; font-weight: 600 !important; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .btn-order:hover { background: #FDD835; transform: translateY(-1px); }
+        .menu-toggle { display: none; border: 0; background: transparent; color: var(--brand-red); font-size: 28px; line-height: 1; cursor: pointer; }
+        .language-select { border: 1px solid #ddd; border-radius: 4px; background: #fff; color: var(--text-dark); padding: 8px 28px 8px 10px; font: inherit; cursor: pointer; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+        /* --- B2B 企业级 Hero Section --- */
+        .hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); height: min(320px, calc(100vh - 78px)); background: var(--bg-light); }
+        .hero-left { position: relative; overflow: hidden; min-height: 0; display: grid; place-items: center; padding: 24px 40px; margin: 24px 30px; border-radius: 40px; background: var(--brand-green); }
+        .hero-left img { width: 100%; height: 100%; min-height: 0; display: block; object-fit: contain; object-position: center; }
+        .hero-right { 
+            flex: 1; background: var(--brand-red); color: var(--white); 
+            display: flex; flex-direction: column; justify-content: center; 
+            padding: clamp(24px, 2.9vw, 44px); position: relative;
+            margin: 24px 30px; border-radius: 40px; overflow: hidden;
+        }
+        .hero-right h1 { font-size: clamp(25px, 2.7vw, 40px); font-weight: 800; line-height: 1.15; margin-bottom: 14px; text-wrap: balance; }
+        .hero-right p { font-size: clamp(15px, 1.5vw, 17px); margin-bottom: 26px; opacity: 0.9; text-wrap: balance; }
+        .hero-cta { 
+            align-self: flex-start; background: var(--brand-yellow); color: #000; 
+            text-decoration: none; padding: 13px 36px; font-size: 17px; 
+            font-weight: 700; border-radius: 4px; transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-align: center; white-space: nowrap;
+        }
+        .hero-cta:hover { background: #FDD835; transform: scale(1.03); }
+
+        /* --- 核心优势/服务模块 --- */
+        .services { max-width: 1200px; margin: 80px auto; padding: 0 20px; }
+        .section-title { text-align: center; font-size: 32px; font-weight: 700; margin-bottom: 50px; position: relative; }
+        .section-title::after { content:''; display:block; width:50px; height:4px; background:var(--brand-red); margin:10px auto 0; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .card { 
+            background: var(--white); padding: 40px 30px; border-radius: 6px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: center; 
+            transition: var(--transition); border-top: 4px solid transparent;
+        }
+        .card:hover { transform: translateY(-5px); border-top-color: var(--brand-red); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .card h3 { font-size: 22px; margin-bottom: 15px; margin-top: 15px; }
+        .card p { color: #666; font-size: 15px; }
+        .icon { font-size: 40px; color: var(--brand-red); }
+
+        /* --- 三步询价流程 --- */
+        .order-process { background: #fff; padding: 0 20px 80px; }
+        .order-process-container { max-width: 1200px; margin: 0 auto; }
+        .process-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .process-card { position: relative; padding: 28px 26px 26px; border: 1px solid #eee2d2; border-radius: 10px; background: #fffaf2; }
+        .process-number { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; margin-bottom: 18px; border-radius: 50%; background: var(--brand-red); color: #fff; font-size: 14px; font-weight: 800; }
+        .process-card h3 { font-size: 20px; margin-bottom: 8px; }
+        .process-card p { color: #666; font-size: 15px; }
+        .process-action { margin-top: 18px; border: 0; border-radius: 6px; padding: 11px 16px; background: var(--brand-red); color: #fff; cursor: pointer; font: inherit; font-weight: 700; transition: var(--transition); }
+        .process-action:hover { background: #b51f23; transform: translateY(-1px); }
+
+        /* --- 客户信息弹窗 --- */
+        .modal[hidden] { display: none; }
+        .modal { position: fixed; inset: 0; z-index: 20; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .modal-backdrop { position: absolute; inset: 0; background: rgba(26, 26, 26, 0.68); }
+        .modal-dialog { position: relative; width: min(100%, 560px); max-height: min(720px, calc(100vh - 40px)); overflow-y: auto; padding: 30px; border-radius: 12px; background: #fffaf2; box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25); }
+        .modal-close { position: absolute; top: 12px; right: 14px; border: 0; background: transparent; color: #6d4035; font-size: 30px; line-height: 1; cursor: pointer; }
+        .modal-dialog h2 { margin: 0 38px 8px 0; color: var(--brand-red); font-size: 26px; }
+        .modal-intro { color: #666; margin-bottom: 22px; font-size: 14px; }
+        .enquiry-form { display: grid; gap: 14px; }
+        .enquiry-form label, .enquiry-form legend { color: #4a3028; font-size: 14px; font-weight: 700; }
+        .enquiry-form input[type="text"], .enquiry-form input[type="tel"] { width: 100%; margin-top: 6px; padding: 12px 13px; border: 1px solid #d8c8b7; border-radius: 6px; background: #fff; font: inherit; }
+        .enquiry-form input:focus { outline: 2px solid rgba(216, 43, 47, 0.24); border-color: var(--brand-red); }
+        .delivery-options { display: grid; gap: 8px; margin: 8px 0 0; padding: 0; border: 0; }
+        .delivery-option { display: flex; align-items: center; gap: 8px; padding: 11px 12px; border: 1px solid #d8c8b7; border-radius: 6px; background: #fff; font-weight: 400 !important; cursor: pointer; }
+        .delivery-option input { accent-color: var(--brand-red); }
+        .modal-submit { border: 0; border-radius: 6px; padding: 13px 16px; background: var(--brand-red); color: #fff; cursor: pointer; font: inherit; font-weight: 700; }
+        .modal-submit:disabled { opacity: .65; cursor: wait; }
+        .enquiry-status { min-height: 20px; color: #267544; font-size: 14px; }
+        .enquiry-status.error { color: var(--brand-red); }
+        .honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; opacity: 0; }
+        body.modal-open { overflow: hidden; }
+
+        /* --- 产品目录 --- */
+        .catalog { background: #fffaf2; padding: 80px 20px; }
+        .catalog-container { max-width: 1200px; margin: 0 auto; }
+        .catalog-intro { max-width: 680px; margin: -25px auto 30px; text-align: center; color: #666; }
+        .catalog-layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 28px; align-items: start; }
+        .category-sidebar { position: sticky; top: 96px; padding: 18px; background: #fff; border: 1px solid #eee2d2; border-radius: 10px; box-shadow: 0 5px 15px rgba(77, 34, 18, 0.06); }
+        .category-sidebar h3 { color: #6d4035; font-size: 18px; margin-bottom: 12px; }
+        .category-list { display: grid; gap: 6px; }
+        .category-btn { width: 100%; border: 1px solid transparent; background: transparent; color: #6d4035; padding: 10px 12px; border-radius: 6px; cursor: pointer; font: inherit; text-align: left; transition: var(--transition); }
+        .category-btn.active, .category-btn:hover { background: var(--brand-red); color: #fff; border-color: var(--brand-red); }
+        .catalog-tools { margin-bottom: 18px; }
+        .search-box { width: 100%; padding: 13px 16px; border: 1px solid #ddd; border-radius: 6px; font: inherit; background: #fff; }
+        .product-count { color: #666; font-size: 14px; margin-bottom: 18px; }
+        .product-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
+        .product-card { background: #fff; border: 1px solid #eee6dc; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; min-width: 0; transition: var(--transition); }
+        .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(77, 34, 18, 0.12); }
+        .product-media { position: relative; }
+        .product-image-wrap { position: relative; aspect-ratio: 1 / 1; background: #f3eee8; overflow: hidden; touch-action: pan-y; cursor: zoom-in; }
+        .product-image { width: 100%; height: 100%; display: block; object-fit: contain; }
+        .gallery-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 34px; height: 34px; border: 0; border-radius: 50%; padding: 0; background: rgba(26, 26, 26, 0.55); color: #fff; font-size: 20px; line-height: 1; cursor: pointer; opacity: 0; transition: opacity .2s ease, background .2s ease; display: grid; place-items: center; }
+        .gallery-nav:hover, .gallery-nav:focus-visible { opacity: 1; background: rgba(211, 47, 47, 0.92); }
+        .product-media:hover .gallery-nav, .product-media:focus-within .gallery-nav { opacity: 1; }
+        .gallery-nav.prev { left: 8px; }
+        .gallery-nav.next { right: 8px; }
+        .gallery-count { position: absolute; right: 8px; bottom: 8px; padding: 2px 8px; border-radius: 999px; background: rgba(26, 26, 26, 0.6); color: #fff; font-size: 11px; letter-spacing: .04em; }
+        .gallery-nav[hidden], .gallery-count[hidden] { display: none; }
+        .language-item { display: inline-flex; align-items: center; gap: 8px; }
+        .language-label { color: #6d4035; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+        .product-info { padding: 16px; display: flex; flex-direction: column; flex: 1; }
+        .product-code { color: var(--brand-red); font-size: 12px; font-weight: 700; letter-spacing: .08em; }
+        .product-name { font-size: 17px; line-height: 1.35; margin: 5px 0 8px; }
+        .product-meta { color: #666; font-size: 13px; line-height: 1.7; margin-bottom: 14px; }
+        .product-actions { display: flex; gap: 8px; margin-top: auto; }
+        .product-actions a { flex: 1; text-align: center; text-decoration: none; padding: 9px 8px; border-radius: 5px; font-size: 13px; font-weight: 700; }
+        .product-actions .call { background: var(--brand-red); color: #fff; }
+        .product-actions .whatsapp { background: #1f9d55; color: #fff; }
+        .empty-state { padding: 36px; color: #666; text-align: center; background: #fff; border: 1px dashed #ddd; border-radius: 8px; grid-column: 1 / -1; }
+
+        /* --- 关于我们与闭环声明 --- */
+        .about { background: var(--bg-light); padding: 80px 20px; }
+        .about-container { max-width: 1200px; margin: 0 auto; display: flex; gap: 50px; align-items: center; }
+        .about-text { flex: 1; }
+        .about-text p { margin-bottom: 15px; color: #444; }
+        .about-img { flex: 1; min-width: 0; height: auto; padding: 0; border-radius: 40px; overflow: hidden; background: transparent; box-shadow: none; }
+        .about-img img { width: 100%; height: auto; display: block; }
+
+        /* --- 页脚区块 --- */
+        footer { background: #1A1A1A; color: rgba(255,255,255,0.7); padding: 60px 20px 20px; font-size: 14px; }
+        .footer-container { 
+            max-width: 1200px; margin: 0 auto; 
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 32px;
+            border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 40px;
+        }
+        .footer-col h4 { color: var(--white); font-size: 16px; margin-bottom: 20px; }
+        .footer-brand-title { color: var(--white); font-size: 30px; font-weight: 800; letter-spacing: 1px; margin-bottom: 12px; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col ul li a { color: rgba(255,255,255,0.7); text-decoration: none; transition: var(--transition); }
+        .footer-col ul li a:hover { color: var(--white); }
+        .visitor-stat strong { color: #fff; font-size: 16px; }
+        .footer-qr-list { display: flex; gap: 8px; flex-wrap: wrap; }
+        .footer-qr-card { width: 96px; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px 6px 7px; color: #4a3028; font-size: 12px; text-align: center; background: #f1dfc7; border: 1px solid rgba(255,255,255,0.22); border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.16); }
+        .footer-qr-card img { width: 80px; height: 80px; display: block; object-fit: contain; background: transparent; border: 0; border-radius: 6px; }
+        .copyright { text-align: center; margin-top: 30px; font-size: 13px; }
+
+        /* --- 🎯 极致移动端适配响应式断点 (Responsive Media Queries) --- */
+        /* 平板/小笔记本：先压缩导航间距与字号，保证马来语等长文案也不挤压 logo */
+        @media (max-width: 1279px) {
+            .hero { height: min(300px, calc(100vh - 78px)); }
+            .hero-left { padding: 20px 32px; margin: 18px 24px; border-radius: 34px; }
+            .hero-right { margin: 18px 24px; border-radius: 34px; padding: 26px 22px; }
+            .nav-container { gap: 24px; }
+            .logo img { height: 36px; }
+            .nav-links { gap: 12px; }
+            .nav-links a { font-size: 13.5px; }
+            .btn-order { padding: 7px 10px; font-size: 12.5px; }
+            .language-label { display: none; }
+            .language-select { padding: 7px 18px 7px 8px; font-size: 13px; }
+        }
+
+        /* 窄屏改用汉堡菜单，避免导航溢出 */
+        @media (max-width: 1080px) {
+            .nav-container { padding: 12px 16px; }
+            .logo img { height: 38px; }
+            .menu-toggle { display: block; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; padding: 12px 20px 18px; box-shadow: 0 8px 14px rgba(0,0,0,0.08); flex-direction: column; align-items: stretch; gap: 8px; }
+            .nav-links.open { display: flex; }
+            .nav-links a { display: block; padding: 10px 0; font-size: 15px; }
+            .nav-links .btn-order { text-align: center; white-space: normal; padding: 10px 14px; font-size: 13px; }
+            .language-label { display: inline; }
+            .language-select { padding: 8px 24px 8px 10px; font-size: 14px; }
+            .hero { display: flex; flex-direction: column; height: auto; }
+            .hero-left { padding: 16px 22px; margin: 0 auto 8px; width: min(calc(100% - 40px), 560px); border-radius: 30px; }
+            .hero-left img { width: min(100%, 480px); height: auto; }
+            .hero-right { margin: 0 auto 22px; width: min(calc(100% - 40px), 560px); border-radius: 30px; padding: 24px 20px; text-align: center; }
+            .hero-right h1 { font-size: 32px; }
+            .hero-cta { align-self: center; width: 100%; max-width: 320px; }
+        }
+
+        @media (max-width: 992px) {
+            .hero { display: flex; flex-direction: column; height: auto; }
+            .hero-left { height: auto; padding: 16px 22px; }
+            .hero-left img { width: min(100%, 480px); height: auto; max-height: none; }
+            .hero-right { padding: 24px 20px; text-align: center; }
+            .hero-right h1 { font-size: 34px; }
+            .hero-cta { align-self: center; width: 100%; max-width: 300px; }
+            .grid-3 { grid-template-columns: repeat(2, 1fr); }
+            .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .about-container { flex-direction: column-reverse; gap: 30px; }
+            .about-img { width: 100%; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container { padding: 12px 16px; }
+            .logo img { height: 34px; }
+            .menu-toggle { display: block; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; padding: 12px 20px 18px; box-shadow: 0 8px 14px rgba(0,0,0,0.08); flex-direction: column; align-items: stretch; gap: 8px; }
+            .nav-links.open { display: flex; }
+            .nav-links a { display: block; padding: 10px 0; }
+            .nav-links .btn-order { text-align: center; white-space: normal; }
+            .grid-3 { grid-template-columns: 1fr; }
+            .process-grid { grid-template-columns: 1fr; }
+            .catalog-layout { display: block; }
+            .category-sidebar { position: static; margin-bottom: 16px; padding: 14px; }
+            .category-sidebar h3 { margin-bottom: 9px; }
+            .category-list { display: flex; flex-wrap: nowrap; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
+            .category-btn { width: auto; flex: 0 0 auto; white-space: nowrap; text-align: center; }
+            .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .footer-container { grid-template-columns: repeat(2, 1fr); }
+            .catalog { padding: 56px 14px; }
+            .catalog-tools { display: block; }
+            .search-box { width: 100%; min-width: 0; margin-bottom: 12px; }
+            .category-list { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; }
+            .category-btn { flex: 0 0 auto; }
+            .product-grid { gap: 14px; }
+            .product-info { padding: 12px; }
+            .product-name { font-size: 15px; }
+            .product-meta { font-size: 12px; line-height: 1.6; }
+            .product-actions a { padding: 8px 5px; font-size: 12px; }
+            .gallery-nav { display: none; }
+            .language-item { justify-content: space-between; padding: 10px 0; }
+            .modal { padding: 12px; }
+            .modal-dialog { padding: 24px 18px 20px; max-height: calc(100vh - 24px); }
+        }
+
+        @media (max-width: 480px) {
+            .hero-left { padding: 12px 16px; width: min(calc(100% - 32px), 560px); border-radius: 26px; }
+            .hero-left img { width: 100%; height: auto; }
+            .hero-right { padding: 20px 16px 22px; width: min(calc(100% - 32px), 560px); border-radius: 26px; }
+            .hero-right h1 { font-size: 22px; }
+            .hero-right p { font-size: 14px; line-height: 1.6; margin-bottom: 16px; }
+            .hero-cta { max-width: none; padding: 12px 14px; font-size: 15px; }
+            .services { margin: 56px auto; padding: 0 14px; }
+            .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+            .footer-container { grid-template-columns: 1fr; }
+            .section-title { font-size: 26px; }
+        }
+
+        @media (max-width: 360px) {
+            .product-grid { grid-template-columns: 1fr; }
+        }
+
+        /* 放大镜：图片上出现取景框，右侧固定大图弹窗显示放大细节（参考淘宝/京东） */
+        .zoom-lens { position: absolute; top: 0; left: 0; display: none; border: 1px solid rgba(255, 255, 255, 0.95); border-radius: 3px; background: rgba(255, 255, 255, 0.18); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.16), 0 6px 16px rgba(0, 0, 0, 0.18); pointer-events: none; z-index: 3; will-change: transform; }
+        .zoom-panel { position: fixed; z-index: 80; border: 1px solid #e6ddcf; border-radius: 10px; background: #fff; box-shadow: 0 24px 56px rgba(20, 20, 20, 0.3); overflow: hidden; pointer-events: none; opacity: 0; transform: scale(0.97); transition: opacity .16s ease, transform .16s ease; }
+        .zoom-panel.show { opacity: 1; transform: scale(1); }
+        .zoom-panel img { position: absolute; top: 0; left: 0; max-width: none; max-height: none; user-select: none; -webkit-user-drag: none; will-change: transform; }
+        .product-image-wrap.zooming { cursor: crosshair; }
+
+        /* 大图预览层：触屏点击图片打开，支持左右滑动切换、双击放大 */
+        .lightbox { position: fixed; inset: 0; z-index: 2000; background: rgba(12, 12, 12, 0.92); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .lightbox[hidden] { display: none; }
+        .lightbox-img { max-width: 92vw; max-height: 88vh; object-fit: contain; cursor: zoom-in; touch-action: none; user-select: none; -webkit-user-drag: none; transition: transform .18s ease-out; will-change: transform; }
+        .lightbox.zoomed .lightbox-img { cursor: grab; }
+        .lightbox-close { position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; border: 1px solid rgba(255, 255, 255, 0.35); border-radius: 50%; background: rgba(0, 0, 0, 0.55); color: #fff; font-size: 24px; line-height: 1; cursor: pointer; z-index: 2; backdrop-filter: blur(4px); }
+        .lightbox-close:hover { background: rgba(211, 47, 47, 0.92); }
+        .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 42px; height: 42px; border: 1px solid rgba(255, 255, 255, 0.35); border-radius: 50%; background: rgba(0, 0, 0, 0.55); color: #fff; font-size: 22px; line-height: 1; cursor: pointer; display: grid; place-items: center; z-index: 2; backdrop-filter: blur(4px); }
+        .lightbox-nav.prev { left: 16px; }
+        .lightbox-nav.next { right: 16px; }
+        .lightbox-nav[hidden] { display: none; }
+        .lightbox-nav:hover { background: rgba(211, 47, 47, 0.92); }
+        .lightbox-count { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); padding: 4px 12px; border-radius: 999px; background: rgba(0, 0, 0, 0.55); color: #fff; font-size: 13px; letter-spacing: .06em; z-index: 2; }
+        .lightbox-count[hidden] { display: none; }
+        body.lightbox-open { overflow: hidden; }
+
+        /* 手机与窄屏：不显示放大镜小窗和预览层左右按钮，靠滑动操作 */
+        @media (max-width: 768px), (hover: none) {
+            .lightbox-nav { display: none; }
+        }
+        @media (max-width: 1023px), (hover: none) {
+            .zoom-panel { display: none; }
+        }
+
+        /* 触屏设备：用左右滑动切换产品图片，不显示切换按钮 */
+        @media (hover: none) {
+            .gallery-nav { display: none; }
+            .product-image-wrap { cursor: default; }
+        }
+    </style>
+</head>
+<body id="top">
+
+    <!-- 导航栏 -->
+    <header>
+        <div class="nav-container">
+            <a class="logo" href="#top" aria-label="CossFood Marketing Pte Ltd"><img src="image/logo-header.svg" alt="CossFood Marketing Pte Ltd"></a>
+            <button class="menu-toggle" type="button" aria-label="打开菜单" aria-expanded="false">☰</button>
+            <ul class="nav-links">
+                <li><a href="#products" data-i18n="navProducts">产品目录</a></li>
+                <li><a href="#services" data-i18n="navServices">核心服务</a></li>
+                <li><a href="#delivery" data-i18n="navDelivery">配送安排</a></li>
+                <li><a href="#about" data-i18n="navAbout">关于我们</a></li>
+                <li><a id="header-whatsapp" href="https://wa.me/6587569015" class="btn-order" target="_blank" rel="noopener" data-i18n="navContact">电话 / WhatsApp 询问 +65 8756 9015</a></li>
+                <li class="language-item">
+                    <label class="language-label" for="language-select" data-i18n="languageLabel">Language</label>
+                    <select id="language-select" class="language-select" aria-label="Language">
+                        <option value="zh">中文</option>
+                        <option value="ms">Bahasa Melayu</option>
+                        <option value="en">English</option>
+                    </select>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section (左图右红B2B经典布局) -->
+    <section class="hero">
+        <div class="hero-left" title="CossFood 产品展示">
+            <img src="image/logo-hero.svg" alt="CossFood 公司 Logo" fetchpriority="high">
+        </div>
+        <div class="hero-right">
+            <h1>CossFood<br><span data-i18n="heroTitle">您可以信赖的食品供应链专家</span></h1>
+            <p data-i18n="heroLead">专注于面类、包点、豆制品、冷冻食品及餐饮常用食材批发。</p>
+            <a id="hero-whatsapp" href="https://wa.me/6587569015" class="hero-cta" target="_blank" rel="noopener" data-i18n="heroCta">WhatsApp 询问 +65 8756 9015</a>
+        </div>
+    </section>
+
+    <!-- 服务与优势 -->
+    <section class="services" id="services">
+        <h2 class="section-title" data-i18n="servicesTitle">为什么选择 CossFood</h2>
+        <div class="grid-3">
+            <div class="card">
+                <div class="icon">🚚</div>
+                <h3 data-i18n="service1Title">专属车队 自送保障</h3>
+                <p data-i18n="service1Body">由公司专职司机配送，覆盖新加坡全岛，方便餐饮客户安排补货。</p>
+            </div>
+            <div class="card">
+                <div class="icon">⏱️</div>
+                <h3 data-i18n="service2Title">订单安排清晰</h3>
+                <p data-i18n="service2Body">按订单时间安排早车、晚车或第二天早车，减少沟通误差。</p>
+            </div>
+            <div class="card">
+                <div class="icon">📱</div>
+                <h3 data-i18n="service3Title">电话与 WhatsApp 询问</h3>
+                <p data-i18n="service3Body">产品规格、库存和批发安排由公司直接说明，沟通更方便。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 三步询价流程 -->
+    <section class="order-process" id="order-process">
+        <div class="order-process-container">
+            <h2 class="section-title" data-i18n="processTitle">3 步完成询价</h2>
+            <div class="process-grid">
+                <article class="process-card">
+                    <span class="process-number">01</span>
+                    <h3 data-i18n="process1Title">填写信息</h3>
+                    <p data-i18n="process1Body">填写姓名、地址、电话和配送时段，提交后由客服跟进。</p>
+                    <button id="open-enquiry-modal" class="process-action" type="button" data-i18n="process1Button">填写配送信息</button>
+                </article>
+                <article class="process-card">
+                    <span class="process-number">02</span>
+                    <h3 data-i18n="process2Title">发送询问</h3>
+                    <p data-i18n="process2Body">点击微信或 WhatsApp，告诉我们产品、数量和需求。</p>
+                </article>
+                <article class="process-card">
+                    <span class="process-number">03</span>
+                    <h3 data-i18n="process3Title">确认配送</h3>
+                    <p data-i18n="process3Body">客服确认库存、配送时段和订单安排。</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 客户信息弹窗 -->
+    <div id="enquiry-modal" class="modal" hidden>
+        <div class="modal-backdrop" data-close-enquiry></div>
+        <section class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="enquiry-modal-title">
+            <button id="close-enquiry-modal" class="modal-close" type="button" aria-label="关闭" data-i18n-aria-label="closeLabel">&times;</button>
+            <h2 id="enquiry-modal-title" data-i18n="enquiryModalTitle">填写信息</h2>
+            <p class="modal-intro" data-i18n="enquiryModalIntro">请填写以下资料，方便我们安排配送和联系。</p>
+            <form id="enquiry-form" class="enquiry-form">
+                <label>
+                    <span data-i18n="nameLabel">名字</span>
+                    <input type="text" name="name" maxlength="100" autocomplete="name" required>
+                </label>
+                <label>
+                    <span data-i18n="addressLabel">地址</span>
+                    <input type="text" name="address" maxlength="500" autocomplete="street-address" required>
+                </label>
+                <label>
+                    <span data-i18n="phoneLabel">电话</span>
+                    <input type="tel" name="phone" maxlength="30" autocomplete="tel" required>
+                </label>
+                <fieldset class="delivery-options">
+                    <legend data-i18n="deliverySlotLabel">配送时间段</legend>
+                    <label class="delivery-option"><input type="radio" name="deliverySlot" value="早车（09:00–17:00）" required><span data-i18n="morningOption">早车（09:00–17:00）</span></label>
+                    <label class="delivery-option"><input type="radio" name="deliverySlot" value="晚车（17:00–21:00）" required><span data-i18n="eveningOption">晚车（17:00–21:00）</span></label>
+                </fieldset>
+                <label class="honeypot" aria-hidden="true">Website<input type="text" name="_website" tabindex="-1" autocomplete="off"></label>
+                <p id="enquiry-status" class="enquiry-status" role="status" aria-live="polite"></p>
+                <button id="enquiry-submit" class="modal-submit" type="submit" data-i18n="enquirySave">保存信息</button>
+            </form>
+        </section>
+    </div>
+
+    <!-- 产品目录 -->
+    <section class="catalog" id="products">
+        <div class="catalog-container">
+            <h2 class="section-title" data-i18n="catalogTitle">产品目录</h2>
+            <p class="catalog-intro" data-i18n="catalogIntro">以下为目前已整理的产品图片。最低订购量按产品 Unit 计算，每项最低为 1 个 Unit。如需规格、库存或配送安排，请直接通过电话或 WhatsApp 联系我们。</p>
+            <div class="catalog-layout">
+                <aside class="category-sidebar">
+                    <h3 data-i18n="categorySidebarTitle">浏览分类</h3>
+                    <div id="category-list" class="category-list" aria-label="产品分类" data-i18n-aria-label="categoryLabel"></div>
+                </aside>
+                <div class="product-results">
+                    <div class="catalog-tools">
+                        <input id="product-search" class="search-box" type="search" placeholder="搜索产品名称、品牌或编号" aria-label="搜索产品" data-i18n-placeholder="searchPlaceholder" data-i18n-aria-label="searchLabel">
+                    </div>
+                    <p id="product-count" class="product-count" aria-live="polite"></p>
+                    <div id="product-grid" class="product-grid"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 配送安排 -->
+    <section class="services" id="delivery">
+        <h2 class="section-title" data-i18n="deliveryTitle">配送安排</h2>
+        <div class="grid-3">
+            <div class="card">
+                <div class="icon">🇸🇬</div>
+                <h3 data-i18n="delivery1Title">新加坡全岛配送</h3>
+                <p data-i18n="delivery1Body">由 CossFood 公司专职司机配送，服务新加坡全岛客户。</p>
+            </div>
+            <div class="card">
+                <div class="icon">🌅</div>
+                <h3 data-i18n="delivery2Title">早车 09:00–17:00</h3>
+                <p data-i18n="delivery2Body">每天 08:55 前收到的订单，安排早车配送。</p>
+            </div>
+            <div class="card">
+                <div class="icon">🌙</div>
+                <h3 data-i18n="delivery3Title">晚车 17:00–21:00</h3>
+                <p data-i18n="delivery3Body">09:00–17:00 收到的订单，请注明安排晚车或第二天早车。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section class="about" id="about">
+        <div class="about-container">
+            <div class="about-text">
+                <h2 class="section-title" style="text-align: left; margin-bottom: 30px;" data-i18n="aboutTitle">关于 CossFood</h2>
+                <p data-i18n="aboutBody1">CossFood 是一家立足于新加坡的食品批发供应商，为餐厅、咖啡店、小贩摊位、零售商及餐饮客户提供日常食品和食材。</p>
+                <p data-i18n="aboutBody2">我们持续整理面类、包点、豆制品、冷冻食品及其他餐饮常用产品，方便客户快速浏览并通过电话或 WhatsApp 询问。</p>
+            </div>
+            <div class="about-img" title="CossFood 产品与配送">
+                <img src="image/logo-about.svg" alt="CossFood 公司 Logo">
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4 class="footer-brand-title">CossFood</h4>
+                <p data-i18n="footerBrand">新加坡食品本地优质供应商。</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footerProductsTitle">核心产品</h4>
+                <ul>
+                    <li data-i18n="footerProduct1">各类精选快熟面</li>
+                    <li data-i18n="footerProduct2">高品质伊面系列</li>
+                    <li data-i18n="footerProduct3">包点与豆卜系列</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footerContactTitle">联系我们</h4>
+                <ul>
+                    <li><a href="tel:+6587569015">+65 8756 9015</a></li>
+                    <li><a id="footer-whatsapp" href="https://wa.me/6587569015" target="_blank" rel="noopener" data-i18n="whatsappAsk">WhatsApp 询问：+65 8756 9015</a></li>
+                    <li data-i18n="islandDelivery">新加坡全岛配送</li>
+                    <li class="visitor-stat"><span data-i18n="visitorStatsLabel">网站访问</span>：<strong id="visitor-total">—</strong></li>
+                    <li class="visitor-stat"><span data-i18n="visitorTodayLabel">今日访问</span>：<strong id="visitor-today">—</strong></li>
+                </ul>
+            </div>
+            <div class="footer-col" id="contact">
+                <h4 data-i18n="footerDeliveryTitle">配送时间</h4>
+                <ul>
+                    <li data-i18n="footerDelivery1">早车：09:00–17:00</li>
+                    <li data-i18n="footerDelivery2">晚车：17:00–21:00</li>
+                    <li data-i18n="footerDelivery3">08:55 前订单安排早车</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footerQrTitle">扫码联系</h4>
+                <div class="footer-qr-list">
+                    <a class="footer-qr-card" href="image/WeChat_QRcode-transparent.png" target="_blank" rel="noopener">
+                        <img src="image/WeChat_QRcode-transparent.png" alt="微信二维码" loading="lazy" decoding="async" data-i18n-alt="wechatQrAlt">
+                        <span data-i18n="wechatQrLabel">微信</span>
+                    </a>
+                    <a class="footer-qr-card" href="image/WhatsApp_QRcode-transparent.png" target="_blank" rel="noopener">
+                        <img src="image/WhatsApp_QRcode-transparent.png" alt="WhatsApp 二维码" loading="lazy" decoding="async" data-i18n-alt="whatsappQrAlt">
+                        <span data-i18n="whatsappQrLabel">WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <p class="copyright">© 2026 CossFood. All rights reserved.</p>
+    </footer>
+
+    <!-- 产品图片放大镜小窗 -->
+    <div class="zoom-panel" id="zoom-panel" hidden aria-hidden="true"><img alt=""></div>
+
+    <!-- 产品大图预览层 -->
+    <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Product image preview">
+        <button class="lightbox-close" type="button" aria-label="Close">&#215;</button>
+        <button class="lightbox-nav prev" type="button" aria-label="Previous image">&#8249;</button>
+        <button class="lightbox-nav next" type="button" aria-label="Next image">&#8250;</button>
+        <img class="lightbox-img" alt="">
+        <span class="lightbox-count">1 / 1</span>
+    </div>
+
+    <script>
+        const products = [
+            { code: 'B003', names: { en: 'Mantou Plain (White)', zh: '白馒头', ms: 'Mantou Kosong (Putih)' }, category: '包点与点心', unit: 'PKT', brand: 'OBASAN', images: ['image/optimized/B003 mantou_plain白馒头/mantou-bau-main.jpg', 'image/optimized/B003 mantou_plain白馒头/bau-detail-1.jpg', 'image/optimized/B003 mantou_plain白馒头/bau-detail-2.jpg'] },
+            { code: 'B004', names: { en: 'Obasan Mantou Plain', zh: '欧巴桑白馒头', ms: 'Mantou Obasan Kosong' }, category: '包点与点心', unit: 'PKT', brand: 'OBASAN', images: ['image/optimized/B004 obasan mantou plain欧巴桑馒头/obasan-mantou-main.jpg', 'image/optimized/B004 obasan mantou plain欧巴桑馒头/obasan-detail-1.jpg', 'image/optimized/B004 obasan mantou plain欧巴桑馒头/obasan-detail-2.jpg'] },
+            { code: 'B006', names: { en: 'Soon Lee Mantou Plain', zh: '顺利白馒头', ms: 'Mantou Soon Lee Kosong' }, category: '包点与点心', unit: 'PKT', brand: 'SOON LEE', images: ['image/optimized/B006 soonlee mantou plain顺利白馒头/mantou-plain-main.jpg', 'image/optimized/B006 soonlee mantou plain顺利白馒头/soonlee-detail-1.jpg'] },
+            { code: 'B007', names: { en: 'Mantou Cocoa', zh: '可可馒头', ms: 'Mantou Koko' }, category: '包点与点心', unit: 'PKT', brand: 'SOON LEE', images: ['image/optimized/B007 mantou cocoa 可可馒头/soolee-coco-main.jpg', 'image/optimized/B007 mantou cocoa 可可馒头/coco-detail-1.jpg', 'image/optimized/B007 mantou cocoa 可可馒头/coco-detail-2.jpg'] },
+            { code: 'B008', names: { en: 'Mantou Pandan', zh: '斑斓馒头', ms: 'Mantou Pandan' }, category: '包点与点心', unit: 'PKT', brand: 'SOON LEE', images: ['image/optimized/B008 mantou pandan 斑斓馒头/soonlee-pandan-main.jpg', 'image/optimized/B008 mantou pandan 斑斓馒头/pandan-detail-1.jpg', 'image/optimized/B008 mantou pandan 斑斓馒头/pandan-detail-2.jpg'] },
+            { code: 'B016', names: { en: 'Lotus Leaf (Plain)', zh: '荷叶包（原味）', ms: 'Daun Teratai (Kosong)' }, category: '包点与点心', unit: 'PKT', brand: 'SOON LEE', images: ['image/optimized/B016 lotus leaf (plain)荷叶包/soonlee-lotusplain-main.jpg', 'image/optimized/B016 lotus leaf (plain)荷叶包/lotusplain-detail-1.jpg', 'image/optimized/B016 lotus leaf (plain)荷叶包/lotusplain-detail-2.jpg'] },
+            { id: 'new-fruitveg', code: '', names: { en: 'Fruit & Vegetable Mantou 180g', zh: '果蔬小馒头 180g', ms: 'Mantou Buah dan Sayur 180g' }, category: '包点与点心', unit: 'PKT', brand: 'OBASAN', images: ['image/optimized/fruit vegetable mantou 180g果蔬小馒头/obasan-fruitveg-main.jpg'] },
+            { id: 'new-lotus-big', code: '', names: { en: 'Lotus Leaf Bun (Large) 400g', zh: '荷叶包（大）400g', ms: 'Pau Daun Teratai (Besar) 400g' }, category: '包点与点心', unit: 'PKT', brand: 'OBASAN', images: ['image/optimized/lotus leaf 400g荷叶包(大）/obasan-lotusleaf-main.jpg'] },
+            { id: 'new-brownsugar', code: '', names: { en: 'Brown Sugar Mantou 130g', zh: '红糖馒头 130g', ms: 'Mantou Gula Perang 130g' }, category: '包点与点心', unit: 'PKT', brand: 'OBASAN', images: ['image/optimized/brown sugar mantou 130g红馒头/obasan-brownsugar-main.jpg'] },
+            { code: 'CC001', names: { en: 'Sweeten Chin Chow', zh: '甜仙草', ms: 'Cincau Manis' }, category: '甜品与凉粉', unit: 'PCS', brand: 'LO SAM', images: ['image/optimized/CC001 sweeten chin chow甜仙草/sweeten-chinchow-main.jpg', 'image/optimized/CC001 sweeten chin chow甜仙草/chinchow-detail-1.jpg'] },
+            { code: 'CC002', names: { en: 'Chin Chow No Sugar', zh: '无糖仙草', ms: 'Cincau Tanpa Gula' }, category: '甜品与凉粉', unit: 'PCS', brand: 'LO SAM', images: ['image/optimized/CC002 chin chow no sugar无糖仙草/original-chinchow-main.jpg', 'image/optimized/CC002 chin chow no sugar无糖仙草/originalchinchow-detail-1.jpg'] },
+            { code: 'CC003', names: { en: 'Jelly Chin Chow 300g', zh: '仙草冻 300g', ms: 'Jeli Cincau 300g' }, category: '甜品与凉粉', unit: 'BOX', brand: 'LO SAM', images: ['image/optimized/CC003 jelly chin chow仙草冻/jelly-chinchow-main.jpg', 'image/optimized/CC003 jelly chin chow仙草冻/jelly-detail-1.jpg'] },
+            { code: 'CF002', names: { en: 'Cuttlefish', zh: '冰鲜鱿鱼', ms: 'Sotong Katak Segar' }, category: '海鲜与冷冻', unit: 'CTN', brand: 'LHF', images: ['image/optimized/CF002 cuttlefish冰鲜鱿鱼/lhf-cuttlefish-main.jpg', 'image/optimized/CF002 cuttlefish冰鲜鱿鱼/cuttlefish-detail-1.jpg'] },
+            { code: 'CF004', names: { en: 'Frozen Cut Squid 10kg (Sotong)', zh: '冷冻切块鱿鱼 10kg', ms: 'Sotong Potong Beku 10kg' }, category: '海鲜与冷冻', unit: 'CTN', brand: 'LHF', images: ['image/optimized/CF004 frozen cut squid 10kg(sotong)冷冻切块鱿鱼/frozen-sotong-main.jpg'] },
+            { code: 'CF014', names: { en: 'Flower Clam (Lala)', zh: '花蛤', ms: 'Lala' }, category: '海鲜与冷冻', unit: 'CTN', brand: 'LHF', images: ['image/optimized/CF014 flower clam (lala)花蛤/lala-main.jpg', 'image/optimized/CF014 flower clam (lala)花蛤/lala-detail-1.jpg'] },
+            { code: 'CS003', names: { en: 'Vegetarian Char Siew (Mince)', zh: '素叉烧（碎）', ms: 'Char Siew Vegetarian (Cincang)' }, category: '其他', unit: 'UNIT', brand: 'WILLING', images: ['image/optimized/CS003 char stew vegetarian (mince)素叉烧/obasan-vegetarian-main.jpg', 'image/optimized/CS003 char stew vegetarian (mince)素叉烧/charwie-detail-1.jpg'] },
+            { code: 'G001', names: { en: 'Garlic 1kg (Packet)', zh: '蒜头碎 1kg（袋装）', ms: 'Bawang Putih Cincang 1kg (Paket)' }, category: '蔬菜与调味', unit: 'PKT', brand: 'LHF', images: ['image/optimized/G001 garlic-1kg 蒜头碎（袋装 ）/garlic-packet-main.jpg'] },
+            { code: 'G003', names: { en: 'Garlic 200g (Box)', zh: '蒜头碎 200g（盒装）', ms: 'Bawang Putih Cincang 200g (Kotak)' }, category: '蔬菜与调味', unit: 'BOX', brand: 'LHF', images: ['image/optimized/G003 garlic 200g蒜头碎 （盒装）/garlic-box-main.jpg'] },
+            { code: 'N001', names: { en: 'Clay Pot Yee Mee 375g', zh: '砂煲伊面 375g', ms: 'Yee Mee Periuk Tanah 375g' }, category: '面类', unit: 'PKT', brand: 'MEGAH MEE', images: ['image/optimized/N001 clay pot yee mee (375gm)砂煲伊面/claypot-375-main.jpg', 'image/optimized/N001 clay pot yee mee (375gm)砂煲伊面/claypot-detail-1.jpg', 'image/optimized/N001 clay pot yee mee (375gm)砂煲伊面/claypot-detail-2.jpg'] },
+            { code: 'N002', names: { en: 'Megah Instant Noodle', zh: 'Megah 快熟面', ms: 'Mi Segera Megah' }, category: '面类', unit: 'CTN', brand: 'FUDO', images: ['image/optimized/N002 megah instant noodle快熟面/megah-instant-main.jpg', 'image/optimized/N002 megah instant noodle快熟面/instant-detail-1.jpg', 'image/optimized/N002 megah instant noodle快熟面/instant-detail-2.jpg'] },
+            { code: 'N003', names: { en: 'Canton Yee Mee 320g', zh: '港式伊面 320g', ms: 'Yee Mee Kantonis 320g' }, category: '面类', unit: 'PKT', brand: 'MEGAH MEE', images: ['image/optimized/N003 canton yee mee 320g港式伊面/canton-320-main.jpg', 'image/optimized/N003 canton yee mee 320g港式伊面/canton-detail-1.jpg', 'image/optimized/N003 canton yee mee 320g港式伊面/canton-detail-2.jpg'] },
+            { code: 'N004', names: { en: 'Sapo Mee Suah 330g', zh: '砂煲面线 330g', ms: 'Mee Suah Sapo 330g' }, category: '面类', unit: 'PKT', brand: 'MEGAH MEE', images: ['image/optimized/N004 sapo mee suah 330g砂煲面线/sapo-330-main.jpg', 'image/optimized/N004 sapo mee suah 330g砂煲面线/sapo-detail-1.jpg', 'image/optimized/N004 sapo mee suah 330g砂煲面线/sapo-detail-2.jpg'] },
+            { code: 'N005', names: { en: 'Fried Egg Noodle 1.5kg', zh: '全旦面 1.5kg', ms: 'Mi Telur Goreng 1.5kg' }, category: '面类', unit: 'CTN', brand: 'MEGAH MEE', images: ['image/optimized/N005 fried egg noodle 1.5kg全旦面/fried-egg-main.jpg', 'image/optimized/N005 fried egg noodle 1.5kg全旦面/fried-egg-detail-1.jpg'] },
+            { code: 'N013', names: { en: 'CF Claypot Yee Mee 375g', zh: '可思砂煲伊面 375g', ms: 'Yee Mee Periuk Tanah CF 375g' }, category: '面类', unit: 'PKT', brand: 'TEHKI', images: ['image/optimized/N013 CFclay pot yee mee (375gm)可思伊面/cfpot-375-main.jpg', 'image/optimized/N013 CFclay pot yee mee (375gm)可思伊面/cfpot-detail-1.jpg', 'image/optimized/N013 CFclay pot yee mee (375gm)可思伊面/cfpot-detail-2.jpg'] },
+            { code: 'N019', names: { en: 'Shabu Shabu Noodles', zh: '唰唰面', ms: 'Mi Shabu Shabu' }, category: '面类', unit: 'PKT', brand: 'MEGAH MEE', images: ['image/optimized/N019 shabu shabu noodles唰唰面/shabu-noodles-main.jpg', 'image/optimized/N019 shabu shabu noodles唰唰面/shabu-detail-1.jpg', 'image/optimized/N019 shabu shabu noodles唰唰面/shabu-detail-2.jpg'] },
+            { code: 'N020', names: { en: 'Vitaman Instant Noodles', zh: '维他快熟面', ms: 'Mi Segera Vitaman' }, category: '面类', unit: 'CTN', brand: 'VITAMAN', images: ['image/optimized/N020 vitaman instant noodles维他快熟面/vitaman-instant-main.jpg', 'image/optimized/N020 vitaman instant noodles维他快熟面/vitaman-detail-1.jpg', 'image/optimized/N020 vitaman instant noodles维他快熟面/vitaman-detail-2.jpg'] },
+            { code: 'P001', names: { en: 'Popiah Wrapper', zh: '薄饼皮', ms: 'Kulit Popiah' }, category: '包点与点心', unit: 'CTN', brand: 'FABULOUS', images: ['image/optimized/P001 popiah wrapper薄饼皮/obasan-wrapper-main.jpg', 'image/optimized/P001 popiah wrapper薄饼皮/wrapper-detail-1.jpg', 'image/optimized/P001 popiah wrapper薄饼皮/wrapper-detail-2.jpg'] },
+            { code: 'TF002', names: { en: 'Smooth Soy Tofu (Blue)', zh: '蓝豆腐（滑豆奶豆腐）', ms: 'Tauhu Soya Lembut (Biru)' }, category: '豆制品与火锅', unit: 'BOX', brand: 'LO SAM', images: ['image/optimized/TF002 smooth soy tofu blue蓝豆腐/tofu-blue-main.jpg', 'image/optimized/TF002 smooth soy tofu blue蓝豆腐/blue-detail-1.jpg'] },
+            { code: 'TF003', names: { en: 'Losam Premium Tofu', zh: '老三豆腐（特级）', ms: 'Tauhu Premium Losam' }, category: '豆制品与火锅', unit: 'BOX', brand: 'LO SAM', images: ['image/optimized/TF003 losam premium tofu老三豆腐/losam-tofu-main.jpg', 'image/optimized/TF003 losam premium tofu老三豆腐/losam-detail-1.jpg'] },
+            { code: 'TF012', names: { en: 'Egg Tofu 100g (Loose Pack)', zh: '日本豆腐 100g（散装）', ms: 'Tauhu Telur 100g (Bungkusan Longgar)' }, category: '豆制品与火锅', unit: 'PKT', brand: 'MSM', images: ['image/optimized/TF012 egg tofu (100gm) loose pack日本豆腐/egg-tofu-main.jpg', 'image/optimized/TF012 egg tofu (100gm) loose pack日本豆腐/egg-detail-1.jpg'] },
+            { code: 'TK005', names: { en: 'Crispy Bean Curd', zh: '脆皮腐竹', ms: 'Fucuk Rangup' }, category: '豆制品与火锅', unit: 'PKT', brand: 'LO SAM', images: ['image/optimized/TK005 crispy bean curd脆皮腐竹/crispy-bean-main.jpg', 'image/optimized/TK005 crispy bean curd脆皮腐竹/crispy-detail-1.jpg', 'image/optimized/TK005 crispy bean curd脆皮腐竹/crispy-detail-2.jpg'] },
+            { code: 'TP001', names: { en: 'Tau Pok (Obasan)', zh: '豆卜（欧巴桑）', ms: 'Tau Pok (Obasan)' }, category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', images: ['image/optimized/TP001 tau pok (obasan)豆卜/taupok-obasan-main.jpg', 'image/optimized/TP001 tau pok (obasan)豆卜/taupok-detail-1.jpg'] },
+            { code: 'TP004', names: { en: 'Big Tau Li (25 pcs)', zh: '大豆粒（25 粒）', ms: 'Tau Li Besar (25 biji)' }, category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', images: ['image/optimized/TP004 big tau li (25 pcs)大豆粒/big-tauli-main.jpg'] },
+            { code: 'TP005', names: { en: 'Small Tau Li (50 pcs)', zh: '小豆粒（50 粒）', ms: 'Tau Li Kecil (50 biji)' }, category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', images: ['image/optimized/TP005 small tau li (50 pcs)小豆粒/small-tauli-main.jpg'] },
+            { code: 'TP006', names: { en: 'Tau Bian', zh: '豆边', ms: 'Tau Bian' }, category: '豆制品与火锅', unit: 'PKT', brand: 'ENG SOON', images: ['image/optimized/TP006 tau bian豆边/tau-bian-main.jpg'] },
+            { code: 'Z001', names: { en: 'Chee Cheong Fun 300g', zh: '猪肠粉 300g', ms: 'Chee Cheong Fun 300g' }, category: '包点与点心', unit: 'CTN', brand: 'LO SAM', images: ['image/optimized/Z001 CHEE CHEONG FUN 300G/cheecheong-fun-main.jpg', 'image/optimized/Z001 CHEE CHEONG FUN 300G/fun-detail-1.jpg'] },
+        ];
+
+        // 默认展示顺序：面类 → 馒头/包点 → 豆卜及豆制品 → 其他 → 海鲜/鱿鱼
+        const productGroup = (product) => {
+            if (product.category === '面类') return 0;
+            if (product.code === 'B016' || product.code === 'MIX-001') return 1;
+            if (product.category === '豆制品与火锅') return 2;
+            if (product.category === '海鲜与冷冻') return 4;
+            return 3;
+        };
+        products.sort((first, second) => productGroup(first) - productGroup(second));
+
+        const translations = {
+            zh: {
+                navProducts: '产品目录', navServices: '核心服务', navDelivery: '配送安排', navAbout: '关于我们', navContact: '电话 / WhatsApp 询问 +65 8756 9015',
+                heroTitle: '您可以信赖的食品供应链专家', heroLead: '专注于面类、包点、豆制品、冷冻食品及餐饮常用食材批发。', heroCta: 'WhatsApp 询问 +65 8756 9015',
+                servicesTitle: '为什么选择 CossFood', service1Title: '专属车队 自送保障', service1Body: '由公司专职司机配送，覆盖新加坡全岛，方便餐饮客户安排补货。', service2Title: '订单安排清晰', service2Body: '按订单时间安排早车、晚车或第二天早车，减少沟通误差。', service3Title: '电话与 WhatsApp 询问', service3Body: '产品规格、库存和批发安排由公司直接说明，沟通更方便。', categorySidebarTitle: '浏览分类', processTitle: '3 步完成询价', process1Title: '填写信息', process1Body: '填写姓名、地址、电话和配送时段，提交后由客服跟进。', process1Button: '填写配送信息', process2Title: '发送询问', process2Body: '点击微信或 WhatsApp，告诉我们产品、数量和需求。', process3Title: '确认配送', process3Body: '客服确认库存、配送时段和订单安排。', enquiryModalTitle: '填写信息', enquiryModalIntro: '请填写以下资料，方便我们安排配送和联系。', nameLabel: '名字', addressLabel: '地址', phoneLabel: '电话', deliverySlotLabel: '配送时间段', morningOption: '早车（09:00–17:00）', eveningOption: '晚车（17:00–21:00）', enquirySave: '保存信息', enquirySaving: '正在保存…', enquirySuccess: (number) => `资料已保存，我们会尽快联系您。编号：${number}`, enquiryError: '保存失败，请稍后再试，或直接通过电话 / WhatsApp 联系我们。', closeLabel: '关闭', languageLabel: '语言', prevImage: '上一张图片', nextImage: '下一张图片',
+                catalogTitle: '产品目录', catalogIntro: '目前本公司提供以下产品，如需其他相关产品可与客服联系。订单金额达到 $50（不含 GST）不收取运费。如需规格、库存或配送安排，请直接通过电话或 WhatsApp 联系我们。', searchPlaceholder: '搜索产品名称、品牌或编号', searchLabel: '搜索产品', categoryLabel: '产品分类',
+                deliveryTitle: '配送安排', delivery1Title: '新加坡全岛配送', delivery1Body: '由 CossFood 公司专职司机配送，服务新加坡全岛客户。', delivery2Title: '早车 09:00–17:00', delivery2Body: '每天 08:55 前收到的订单，安排早车配送。', delivery3Title: '晚车 17:00–21:00', delivery3Body: '09:00–17:00 收到的订单，请注明安排晚车或第二天早车。',
+                aboutTitle: '关于 CossFood', aboutBody1: 'CossFood 是一家立足于新加坡的优质食品批发供应商，为餐厅、咖啡店、小贩摊位、零售商及餐饮客户提供日常食品和食材。', aboutBody2: '我们持续整理面类、包点、豆制品、冷冻食品及其他餐饮常用产品，方便客户快速浏览并通过电话或 WhatsApp 询问。',
+                footerBrand: '新加坡食品本地优质供应商。', footerProductsTitle: '核心产品', footerProduct1: '各类精选快熟面', footerProduct2: '高品质伊面系列', footerProduct3: '包点与豆卜系列', footerContactTitle: '联系我们', whatsappAsk: 'WhatsApp 询问：+65 8756 9015', islandDelivery: '新加坡全岛配送', visitorStatsLabel: '网站访问', visitorTodayLabel: '今日访问', footerDeliveryTitle: '配送时间', footerDelivery1: '早车：09:00–17:00', footerDelivery2: '晚车：17:00–21:00', footerDelivery3: '08:55 前订单安排早车', footerQrTitle: '扫码联系', wechatQrLabel: '微信', whatsappQrLabel: 'WhatsApp', wechatQrAlt: '微信二维码', whatsappQrAlt: 'WhatsApp 二维码',
+                brandLabel: '品牌', unitLabel: 'Unit', minimumLabel: '最低订购量', call: '微信', whatsapp: 'WhatsApp', productCount: (shown, total) => `显示 ${shown} / ${total} 项产品`, noResult: '没有找到匹配的产品，请尝试其他关键词。', allCategory: '全部', whatsappGeneral: '您好，我想咨询 CossFood 的产品和配送安排。', whatsappProduct: '您好，我想咨询产品：'
+            },
+            ms: {
+                navProducts: 'Produk', navServices: 'Perkhidmatan', navDelivery: 'Penghantaran', navAbout: 'Tentang Kami', navContact: 'Telefon / WhatsApp +65 8756 9015',
+                heroTitle: 'Pakar Rantaian Bekalan Makanan Yang Boleh Dipercayai', heroLead: 'Pembekal mi, pau, produk tauhu, makanan sejuk beku dan bahan makanan untuk perniagaan F&B.', heroCta: 'Tanya melalui WhatsApp +65 8756 9015',
+                servicesTitle: 'Mengapa Pilih CossFood', service1Title: 'Armada Sendiri', service1Body: 'Penghantaran oleh pemandu syarikat ke seluruh Singapura untuk memudahkan pembelian stok.', service2Title: 'Jadual Pesanan Jelas', service2Body: 'Pesanan diatur dengan lori pagi, lori petang atau lori pagi hari berikutnya mengikut masa pesanan.', service3Title: 'Pertanyaan Telefon dan WhatsApp', service3Body: 'Hubungi kami terus untuk spesifikasi produk, stok dan urusan borong.', categorySidebarTitle: 'Semak Kategori', processTitle: '3 Langkah untuk Bertanya', process1Title: 'Isi Maklumat', process1Body: 'Isi nama, alamat, telefon dan waktu penghantaran untuk dihubungi oleh pasukan kami.', process1Button: 'Isi Maklumat Penghantaran', process2Title: 'Hantar Pertanyaan', process2Body: 'Klik WeChat atau WhatsApp dan beritahu produk, kuantiti serta keperluan anda.', process3Title: 'Sahkan Penghantaran', process3Body: 'Pasukan kami mengesahkan stok, masa penghantaran dan susunan pesanan.', enquiryModalTitle: 'Isi Maklumat', enquiryModalIntro: 'Sila isi maklumat di bawah supaya kami boleh mengatur penghantaran dan menghubungi anda.', nameLabel: 'Nama', addressLabel: 'Alamat', phoneLabel: 'Telefon', deliverySlotLabel: 'Waktu penghantaran', morningOption: 'Lori pagi (09:00–17:00)', eveningOption: 'Lori petang (17:00–21:00)', enquirySave: 'Simpan Maklumat', enquirySaving: 'Sedang menyimpan…', enquirySuccess: (number) => `Maklumat telah disimpan. Kami akan menghubungi anda. Nombor: ${number}`, enquiryError: 'Gagal menyimpan. Sila cuba lagi atau hubungi kami melalui telefon / WhatsApp.', closeLabel: 'Tutup', languageLabel: 'Bahasa', prevImage: 'Imej sebelumnya', nextImage: 'Imej seterusnya',
+                catalogTitle: 'Katalog Produk', catalogIntro: 'Syarikat kami kini menyediakan produk-produk berikut. Untuk produk berkaitan yang lain, sila hubungi kami. Tiada caj penghantaran untuk pesanan bernilai $50 ke atas, tidak termasuk GST. Untuk spesifikasi, stok atau pengaturan penghantaran, sila hubungi kami melalui telefon atau WhatsApp.', searchPlaceholder: 'Cari nama, jenama atau kod produk', searchLabel: 'Cari produk', categoryLabel: 'Kategori produk',
+                deliveryTitle: 'Jadual Penghantaran', delivery1Title: 'Seluruh Singapura', delivery1Body: 'Dihantar oleh pemandu syarikat CossFood ke seluruh Singapura.', delivery2Title: 'Lori Pagi 09:00–17:00', delivery2Body: 'Pesanan yang diterima sebelum 08:55 akan dihantar dengan lori pagi.', delivery3Title: 'Lori Petang 17:00–21:00', delivery3Body: 'Untuk pesanan 09:00–17:00, nyatakan lori petang atau lori pagi hari berikutnya.',
+                aboutTitle: 'Tentang CossFood', aboutBody1: 'CossFood ialah pembekal makanan borong berkualiti yang berpangkalan di Singapura untuk restoran, kafe, gerai penjaja, peruncit dan pelanggan F&B.', aboutBody2: 'Kami menyediakan mi, pau, produk tauhu, makanan sejuk beku dan bahan makanan harian untuk memudahkan pelanggan membuat pertanyaan.',
+                footerBrand: 'Pembekal makanan tempatan di Singapura.', footerProductsTitle: 'Produk Utama', footerProduct1: 'Mi segera pilihan', footerProduct2: 'Pelbagai Yee Mee', footerProduct3: 'Pau dan Tau Pok', footerContactTitle: 'Hubungi Kami', whatsappAsk: 'Pertanyaan WhatsApp: +65 8756 9015', islandDelivery: 'Penghantaran seluruh Singapura', visitorStatsLabel: 'Lawatan laman web', visitorTodayLabel: 'Lawatan hari ini', footerDeliveryTitle: 'Waktu Penghantaran', footerDelivery1: 'Lori pagi: 09:00–17:00', footerDelivery2: 'Lori petang: 17:00–21:00', footerDelivery3: 'Pesanan sebelum 08:55: lori pagi', footerQrTitle: 'Hubungi melalui QR', wechatQrLabel: 'WeChat', whatsappQrLabel: 'WhatsApp', wechatQrAlt: 'Kod QR WeChat', whatsappQrAlt: 'Kod QR WhatsApp',
+                brandLabel: 'Jenama', unitLabel: 'Unit', minimumLabel: 'Pesanan minimum', call: 'WeChat', whatsapp: 'WhatsApp', productCount: (shown, total) => `Menunjukkan ${shown} / ${total} produk`, noResult: 'Tiada produk yang sepadan. Cuba kata kunci lain.', allCategory: 'Semua', whatsappGeneral: 'Salam, saya ingin bertanya tentang produk dan penghantaran CossFood.', whatsappProduct: 'Salam, saya ingin bertanya tentang produk: '
+            },
+            en: {
+                navProducts: 'Products', navServices: 'Core Services', navDelivery: 'Delivery', navAbout: 'About Us', navContact: 'Call / WhatsApp +65 8756 9015',
+                heroTitle: 'Your Trusted Food Supply Chain Partner', heroLead: 'Wholesale supply of noodles, buns, tofu products, frozen foods and everyday F&B ingredients.', heroCta: 'Ask on WhatsApp +65 8756 9015',
+                servicesTitle: 'Why Choose CossFood', service1Title: 'Dedicated Delivery Fleet', service1Body: 'Company drivers deliver islandwide in Singapore, helping F&B customers replenish their stock.', service2Title: 'Clear Order Scheduling', service2Body: 'Orders are arranged for the morning, evening or next morning delivery based on the order time.', service3Title: 'Phone and WhatsApp Enquiries', service3Body: 'Contact our team directly for product specifications, availability and wholesale arrangements.', categorySidebarTitle: 'Browse Categories', processTitle: 'Enquire in 3 Steps', process1Title: 'Fill in Details', process1Body: 'Enter your name, address, phone number and preferred delivery slot for our team to follow up.', process1Button: 'Fill Delivery Details', process2Title: 'Send an Enquiry', process2Body: 'Click WeChat or WhatsApp and tell us the products, quantities and requirements.', process3Title: 'Confirm Delivery', process3Body: 'Our team confirms stock, delivery timing and order arrangements.', enquiryModalTitle: 'Fill in Details', enquiryModalIntro: 'Please provide the details below so we can arrange delivery and contact you.', nameLabel: 'Name', addressLabel: 'Address', phoneLabel: 'Phone', deliverySlotLabel: 'Delivery slot', morningOption: 'Morning run (09:00–17:00)', eveningOption: 'Evening run (17:00–21:00)', enquirySave: 'Save Details', enquirySaving: 'Saving…', enquirySuccess: (number) => `Your details were saved. We will contact you soon. Reference: ${number}`, enquiryError: 'Unable to save your details. Please try again or contact us by phone / WhatsApp.', closeLabel: 'Close', languageLabel: 'Language', prevImage: 'Previous image', nextImage: 'Next image',
+                catalogTitle: 'Product Catalogue', catalogIntro: 'Our company currently provides the products below. For other related products, please contact our team. Delivery is free for orders of $50 or more, excluding GST. For specifications, stock or delivery arrangements, please contact us by phone or WhatsApp.', searchPlaceholder: 'Search by product name, brand or code', searchLabel: 'Search products', categoryLabel: 'Product categories',
+                deliveryTitle: 'Delivery Schedule', delivery1Title: 'Islandwide Singapore', delivery1Body: 'Delivered by dedicated CossFood company drivers across Singapore.', delivery2Title: 'Morning Run 09:00–17:00', delivery2Body: 'Orders received before 08:55 are scheduled for the morning run.', delivery3Title: 'Evening Run 17:00–21:00', delivery3Body: 'For orders received from 09:00–17:00, specify evening or next morning delivery.',
+                aboutTitle: 'About CossFood', aboutBody1: 'CossFood is a quality food wholesaler based in Singapore, serving restaurants, cafés, hawker stalls, retailers and F&B customers.', aboutBody2: 'We supply noodles, buns, tofu products, frozen foods and everyday ingredients so customers can browse and enquire easily.',
+                footerBrand: 'A local food supplier in Singapore.', footerProductsTitle: 'Key Products', footerProduct1: 'Selected instant noodles', footerProduct2: 'Yee Mee range', footerProduct3: 'Buns and bean curd', footerContactTitle: 'Contact Us', whatsappAsk: 'WhatsApp Enquiry: +65 8756 9015', islandDelivery: 'Islandwide Singapore delivery', visitorStatsLabel: 'Website visits', visitorTodayLabel: 'Today\'s visits', footerDeliveryTitle: 'Delivery Hours', footerDelivery1: 'Morning: 09:00–17:00', footerDelivery2: 'Evening: 17:00–21:00', footerDelivery3: 'Before 08:55: morning run', footerQrTitle: 'Scan to Contact', wechatQrLabel: 'WeChat', whatsappQrLabel: 'WhatsApp', wechatQrAlt: 'WeChat QR code', whatsappQrAlt: 'WhatsApp QR code',
+                brandLabel: 'Brand', unitLabel: 'Unit', minimumLabel: 'Minimum order', call: 'WeChat', whatsapp: 'WhatsApp', productCount: (shown, total) => `Showing ${shown} of ${total} products`, noResult: 'No matching products found. Try another keyword.', allCategory: 'All', whatsappGeneral: 'Hello, I would like to enquire about CossFood products and delivery.', whatsappProduct: 'Hello, I would like to enquire about: '
+            }
+        };
+
+        const categoryLabels = {
+            zh: { '全部': '全部', '面类': '面类', '豆制品与火锅': '豆制品与火锅', '包点与点心': '包点与点心', '海鲜与冷冻': '海鲜与冷冻', '甜品与凉粉': '甜品与凉粉', '蔬菜与调味': '蔬菜与调味', '其他': '其他' },
+            ms: { '全部': 'Semua', '面类': 'Mi', '豆制品与火锅': 'Tauhu dan Steamboat', '包点与点心': 'Pau dan Dim Sum', '海鲜与冷冻': 'Makanan Laut dan Sejuk Beku', '甜品与凉粉': 'Pencuci Mulut', '蔬菜与调味': 'Sayur dan Perasa', '其他': 'Lain-lain' },
+            en: { '全部': 'All', '面类': 'Noodles', '豆制品与火锅': 'Tofu and Steamboat', '包点与点心': 'Buns and Dim Sum', '海鲜与冷冻': 'Seafood and Frozen', '甜品与凉粉': 'Desserts', '蔬菜与调味': 'Vegetables and Seasonings', '其他': 'Others' }
+        };
+
+        const grid = document.getElementById('product-grid');
+        const count = document.getElementById('product-count');
+        const search = document.getElementById('product-search');
+        const categoryList = document.getElementById('category-list');
+        const languageSelect = document.getElementById('language-select');
+        const enquiryModal = document.getElementById('enquiry-modal');
+        const enquiryForm = document.getElementById('enquiry-form');
+        const enquiryStatus = document.getElementById('enquiry-status');
+        const enquirySubmit = document.getElementById('enquiry-submit');
+        const enquiryApiUrl = window.location.hostname.endsWith('github.io') ? 'https://cossfood.com/save-inquiry.php' : 'save-inquiry.php';
+        const visitorTotal = document.getElementById('visitor-total');
+        const visitorToday = document.getElementById('visitor-today');
+        const visitorStatsUrl = window.location.hostname.endsWith('github.io') ? 'https://cossfood.com/visitor-stats.php' : 'visitor-stats.php';
+        const savedLanguage = localStorage.getItem('cossfood-language');
+        let currentLanguage = ['zh', 'ms', 'en'].includes(savedLanguage) ? savedLanguage : 'zh';
+        let activeCategory = '全部';
+
+        const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
+        const t = () => translations[currentLanguage];
+        const productName = (product) => (product.names[currentLanguage] || product.names.en);
+        const whatsappUrl = (product) => {
+            if (!product) return `https://wa.me/6587569015?text=${encodeURIComponent(t().whatsappGeneral)}`;
+            const reference = product.code ? `${product.code} ${productName(product)}` : productName(product);
+            return `https://wa.me/6587569015?text=${encodeURIComponent(`${t().whatsappProduct}${reference}`)}`;
+        };
+        const wechatQrUrl = 'image/WeChat_QRcode-transparent.png';
+
+        let enquiryLastFocus = null;
+        const setEnquiryStatus = (message, isError = false) => {
+            enquiryStatus.textContent = message;
+            enquiryStatus.classList.toggle('error', isError);
+        };
+        const openEnquiryModal = () => {
+            enquiryLastFocus = document.activeElement;
+            enquiryModal.hidden = false;
+            document.body.classList.add('modal-open');
+            setEnquiryStatus('');
+            enquiryForm.elements.name.focus();
+        };
+        const closeEnquiryModal = () => {
+            enquiryModal.hidden = true;
+            document.body.classList.remove('modal-open');
+            setEnquiryStatus('');
+            if (enquiryLastFocus) enquiryLastFocus.focus();
+        };
+
+        document.getElementById('open-enquiry-modal').addEventListener('click', openEnquiryModal);
+        document.getElementById('close-enquiry-modal').addEventListener('click', closeEnquiryModal);
+        enquiryModal.querySelector('[data-close-enquiry]').addEventListener('click', closeEnquiryModal);
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && !enquiryModal.hidden) closeEnquiryModal();
+        });
+        enquiryForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            if (!enquiryForm.checkValidity()) {
+                enquiryForm.reportValidity();
+                return;
+            }
+            enquirySubmit.disabled = true;
+            enquirySubmit.textContent = t().enquirySaving;
+            setEnquiryStatus('');
+            try {
+                const response = await fetch(enquiryApiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(Object.fromEntries(new FormData(enquiryForm).entries()))
+                });
+                const result = await response.json().catch(() => ({}));
+                if (!response.ok || !result.success) throw new Error(result.message || 'save failed');
+                enquiryForm.reset();
+                setEnquiryStatus(t().enquirySuccess(result.sequence));
+            } catch (error) {
+                setEnquiryStatus(t().enquiryError, true);
+            } finally {
+                enquirySubmit.disabled = false;
+                enquirySubmit.textContent = t().enquirySave;
+            }
+        });
+
+        async function recordVisit() {
+            try {
+                const response = await fetch(visitorStatsUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: '{}',
+                    cache: 'no-store',
+                    keepalive: true
+                });
+                const result = await response.json().catch(() => ({}));
+                if (!response.ok || !result.success) return;
+                visitorTotal.textContent = String(result.totalVisitors);
+                visitorToday.textContent = String(result.todayVisitors);
+            } catch (error) {
+                // Visitor statistics are supplementary and must not interrupt browsing.
+            }
+        }
+
+        function renderCategories() {
+            const categories = ['全部', ...new Set(products.map((product) => product.category))];
+            categoryList.innerHTML = categories.map((category) => `<button class="category-btn ${category === activeCategory ? 'active' : ''}" type="button" data-category="${escapeHtml(category)}">${escapeHtml(categoryLabels[currentLanguage][category] || category)}</button>`).join('');
+            categoryList.querySelectorAll('.category-btn').forEach((button) => button.addEventListener('click', () => {
+                activeCategory = button.dataset.category;
+                renderCategories();
+                renderProducts();
+            }));
+        }
+
+        function renderProducts() {
+            hideZoomPanel();
+            const keyword = search.value.trim().toLowerCase();
+            const filtered = products.filter((product) => {
+                const matchesCategory = activeCategory === '全部' || product.category === activeCategory;
+                const haystack = `${product.code} ${product.names.en} ${product.names.zh} ${product.names.ms} ${product.brand} ${product.category}`.toLowerCase();
+                return matchesCategory && haystack.includes(keyword);
+            });
+            count.textContent = t().productCount(filtered.length, products.length);
+            if (!filtered.length) {
+                grid.innerHTML = `<div class="empty-state">${escapeHtml(t().noResult)}</div>`;
+                return;
+            }
+            const categoryLabel = (product) => categoryLabels[currentLanguage][product.category] || product.category;
+            grid.innerHTML = filtered.map((product) => {
+                const images = product.images;
+                const singleImage = images.length < 2;
+                return `
+                <article class="product-card">
+                    <div class="product-media" data-key="${escapeHtml(product.id || product.code)}">
+                        <div class="product-image-wrap">
+                            <img class="product-image" src="${encodeURI(images[0])}" alt="${escapeHtml(productName(product))}" loading="lazy" decoding="async">
+                        </div>
+                        <button class="gallery-nav prev" type="button" data-gallery="prev" aria-label="${escapeHtml(t().prevImage)}"${singleImage ? ' hidden' : ''}>&#8249;</button>
+                        <button class="gallery-nav next" type="button" data-gallery="next" aria-label="${escapeHtml(t().nextImage)}"${singleImage ? ' hidden' : ''}>&#8250;</button>
+                        <span class="gallery-count"${singleImage ? ' hidden' : ''}>1 / ${images.length}</span>
+                    </div>
+                    <div class="product-info">
+                        ${product.code ? `<span class="product-code">${escapeHtml(product.code)}</span>` : ''}
+                        <h3 class="product-name">${escapeHtml(productName(product))}</h3>
+                        <p class="product-meta">${escapeHtml(categoryLabel(product))}<br>${escapeHtml(t().brandLabel)}：${escapeHtml(product.brand)}<br>${escapeHtml(t().unitLabel)}：${escapeHtml(product.unit)}<br>${escapeHtml(t().minimumLabel)}：1 ${escapeHtml(product.unit)}</p>
+                        <div class="product-actions">
+                            <a class="call" href="${wechatQrUrl}" target="_blank" rel="noopener" aria-label="${escapeHtml(t().wechatQrAlt)}">${escapeHtml(t().call)}</a>
+                            <a class="whatsapp" href="${whatsappUrl(product)}" target="_blank" rel="noopener">${escapeHtml(t().whatsapp)}</a>
+                        </div>
+                    </div>
+                </article>`;
+            }).join('');
+            setupGalleries();
+        }
+
+        // 产品图交互：桌面端悬停出现放大镜取景框 + 右侧固定放大弹窗，触屏端滑动切换，点击看大图
+        const zoomPanel = document.getElementById('zoom-panel');
+        const zoomPanelImage = zoomPanel.querySelector('img');
+
+        function hideZoomPanel() {
+            zoomPanel.classList.remove('show');
+            zoomPanel.hidden = true;
+            zoomPanel.setAttribute('aria-hidden', 'true');
+            document.querySelectorAll('.zoom-lens').forEach((lens) => { lens.style.display = 'none'; });
+        }
+
+        window.addEventListener('scroll', hideZoomPanel, { passive: true });
+        window.addEventListener('resize', hideZoomPanel);
+        document.addEventListener('keydown', (event) => { if (event.key === 'Escape') hideZoomPanel(); });
+
+        let lightboxBox = null;
+        let lightboxImg = null;
+        let lightboxCount = null;
+        let lightboxProduct = null;
+        let lightboxIndex = 0;
+        let lightboxStartX = 0;
+        let lightboxStartY = 0;
+        let lightboxLastTap = 0;
+        let lightboxScale = 1;
+        let lightboxTranslateX = 0;
+        let lightboxTranslateY = 0;
+        let lightboxMoved = false;
+        let lightboxPinch = null;
+        let lightboxDrag = null;
+        let lightboxLastTouch = 0;
+
+        const applyLightboxZoom = () => {
+            lightboxImg.style.transform = `translate3d(${Math.round(lightboxTranslateX)}px, ${Math.round(lightboxTranslateY)}px, 0) scale(${lightboxScale})`;
+            lightboxBox.classList.toggle('zoomed', lightboxScale > 1.01);
+        };
+
+        const clampLightboxPan = () => {
+            const width = lightboxImg.clientWidth || 0;
+            const height = lightboxImg.clientHeight || 0;
+            const maxX = Math.max(0, (width * lightboxScale - window.innerWidth) / 2);
+            const maxY = Math.max(0, (height * lightboxScale - window.innerHeight) / 2);
+            lightboxTranslateX = Math.max(-maxX, Math.min(maxX, lightboxTranslateX));
+            lightboxTranslateY = Math.max(-maxY, Math.min(maxY, lightboxTranslateY));
+        };
+
+        function resetLightboxZoom() {
+            lightboxScale = 1;
+            lightboxTranslateX = 0;
+            lightboxTranslateY = 0;
+            if (!lightboxBox) return;
+            applyLightboxZoom();
+            lightboxImg.style.transition = '';
+            lightboxBox.classList.remove('zoomed');
+        }
+
+        function toggleLightboxZoom(clientX, clientY) {
+            if (lightboxScale > 1.01) {
+                resetLightboxZoom();
+                return;
+            }
+            const rect = lightboxImg.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            lightboxScale = 2.6;
+            lightboxTranslateX = (centerX - clientX) * (lightboxScale - 1);
+            lightboxTranslateY = (centerY - clientY) * (lightboxScale - 1);
+            clampLightboxPan();
+            lightboxImg.style.transition = 'transform .18s ease-out';
+            applyLightboxZoom();
+        }
+
+        function renderLightbox() {
+            if (!lightboxProduct) return;
+            const images = lightboxProduct.images;
+            const hasMultiple = images.length > 1;
+            lightboxImg.src = encodeURI(images[lightboxIndex]);
+            lightboxImg.alt = productName(lightboxProduct);
+            lightboxCount.textContent = `${lightboxIndex + 1} / ${images.length}`;
+            lightboxCount.hidden = !hasMultiple;
+            lightboxBox.querySelectorAll('.lightbox-nav').forEach((button) => { button.hidden = !hasMultiple; });
+            resetLightboxZoom();
+        }
+
+        function stepLightbox(delta) {
+            if (!lightboxProduct) return;
+            const total = lightboxProduct.images.length;
+            lightboxIndex = (lightboxIndex + delta + total) % total;
+            renderLightbox();
+        }
+
+        function closeLightbox() {
+            if (!lightboxBox) return;
+            lightboxBox.hidden = true;
+            resetLightboxZoom();
+            document.body.classList.remove('lightbox-open');
+            lightboxProduct = null;
+        }
+
+        function setupLightbox() {
+            lightboxBox = document.getElementById('lightbox');
+            lightboxImg = lightboxBox.querySelector('.lightbox-img');
+            lightboxCount = lightboxBox.querySelector('.lightbox-count');
+            lightboxBox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+            lightboxBox.querySelector('.lightbox-nav.prev').addEventListener('click', () => stepLightbox(-1));
+            lightboxBox.querySelector('.lightbox-nav.next').addEventListener('click', () => stepLightbox(1));
+            lightboxBox.addEventListener('click', (event) => {
+                if (event.target === lightboxImg) {
+                    if (Date.now() - lightboxLastTouch < 500) return;
+                    toggleLightboxZoom(event.clientX, event.clientY);
+                    return;
+                }
+                if (event.target === lightboxBox) closeLightbox();
+            });
+            lightboxBox.addEventListener('touchstart', (event) => {
+                lightboxLastTouch = Date.now();
+                lightboxMoved = false;
+                lightboxDrag = null;
+                if (event.touches.length === 2) {
+                    const a = event.touches[0];
+                    const b = event.touches[1];
+                    lightboxPinch = {
+                        distance: Math.max(1, Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY)),
+                        scale: lightboxScale,
+                        midX: (a.clientX + b.clientX) / 2,
+                        midY: (a.clientY + b.clientY) / 2,
+                        translateX: lightboxTranslateX,
+                        translateY: lightboxTranslateY
+                    };
+                    lightboxStartX = lightboxPinch.midX;
+                    lightboxStartY = lightboxPinch.midY;
+                    return;
+                }
+                lightboxPinch = null;
+                if (event.touches.length !== 1) return;
+                const touch = event.touches[0];
+                lightboxStartX = touch.clientX;
+                lightboxStartY = touch.clientY;
+                if (lightboxScale > 1.01) {
+                    lightboxDrag = { x: touch.clientX, y: touch.clientY, translateX: lightboxTranslateX, translateY: lightboxTranslateY };
+                }
+            }, { passive: true });
+            lightboxBox.addEventListener('touchmove', (event) => {
+                if (lightboxPinch && event.touches.length >= 2) {
+                    event.preventDefault();
+                    const a = event.touches[0];
+                    const b = event.touches[1];
+                    const distance = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+                    const midX = (a.clientX + b.clientX) / 2;
+                    const midY = (a.clientY + b.clientY) / 2;
+                    lightboxScale = Math.max(1, Math.min(4, lightboxPinch.scale * (distance / lightboxPinch.distance)));
+                    lightboxTranslateX = lightboxPinch.translateX + (midX - lightboxPinch.midX);
+                    lightboxTranslateY = lightboxPinch.translateY + (midY - lightboxPinch.midY);
+                    lightboxImg.style.transition = 'none';
+                    if (lightboxScale <= 1.04) {
+                        lightboxScale = 1;
+                        lightboxTranslateX = 0;
+                        lightboxTranslateY = 0;
+                    }
+                    clampLightboxPan();
+                    applyLightboxZoom();
+                    lightboxMoved = true;
+                    return;
+                }
+                if (lightboxDrag && event.touches.length === 1) {
+                    event.preventDefault();
+                    const touch = event.touches[0];
+                    lightboxTranslateX = lightboxDrag.translateX + (touch.clientX - lightboxDrag.x);
+                    lightboxTranslateY = lightboxDrag.translateY + (touch.clientY - lightboxDrag.y);
+                    lightboxImg.style.transition = 'none';
+                    clampLightboxPan();
+                    applyLightboxZoom();
+                    lightboxMoved = true;
+                }
+            }, { passive: false });
+            lightboxBox.addEventListener('touchend', (event) => {
+                const touch = event.changedTouches[0];
+                const wasPinching = Boolean(lightboxPinch);
+                lightboxPinch = null;
+                lightboxDrag = null;
+                if (!touch) return;
+                if (lightboxMoved) {
+                    lightboxMoved = false;
+                    return;
+                }
+                const deltaX = touch.clientX - lightboxStartX;
+                const deltaY = touch.clientY - lightboxStartY;
+                if (lightboxScale > 1.01) {
+                    if (Math.abs(deltaX) < 12 && Math.abs(deltaY) < 12 && !wasPinching) {
+                        const now = Date.now();
+                        if (now - lightboxLastTap < 320) {
+                            resetLightboxZoom();
+                            lightboxLastTap = 0;
+                        } else {
+                            lightboxLastTap = now;
+                        }
+                    }
+                    return;
+                }
+                if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY) * 1.4) {
+                    stepLightbox(deltaX < 0 ? 1 : -1);
+                    return;
+                }
+                if (Math.abs(deltaX) < 12 && Math.abs(deltaY) < 12) {
+                    const now = Date.now();
+                    if (now - lightboxLastTap < 320) {
+                        toggleLightboxZoom(touch.clientX, touch.clientY);
+                        lightboxLastTap = 0;
+                    } else {
+                        lightboxLastTap = now;
+                    }
+                }
+            }, { passive: true });
+            document.addEventListener('keydown', (event) => {
+                if (lightboxBox.hidden) return;
+                if (event.key === 'Escape') closeLightbox();
+                if (event.key === 'ArrowLeft') stepLightbox(-1);
+                if (event.key === 'ArrowRight') stepLightbox(1);
+            });
+        }
+
+        function openLightbox(product, index) {
+            if (!lightboxBox) setupLightbox();
+            if (!lightboxBox) return;
+            hideZoomPanel();
+            lightboxProduct = product;
+            lightboxIndex = index;
+            renderLightbox();
+            lightboxBox.hidden = false;
+            document.body.classList.add('lightbox-open');
+        }
+
+        function setupGalleries() {
+            grid.querySelectorAll('.product-media').forEach((media) => {
+                const product = products.find((item) => (item.id || item.code) === media.dataset.key);
+                if (!product) return;
+                const image = media.querySelector('.product-image');
+                const wrap = media.querySelector('.product-image-wrap');
+                const counter = media.querySelector('.gallery-count');
+                let index = 0;
+                let suppressClick = false;
+                let touchActive = false;
+                let startX = 0;
+                let startY = 0;
+                const show = () => {
+                    image.src = encodeURI(product.images[index]);
+                    if (counter) counter.textContent = `${index + 1} / ${product.images.length}`;
+                    hideZoomPanel();
+                };
+                const step = (delta) => {
+                    if (product.images.length < 2) return;
+                    index = (index + delta + product.images.length) % product.images.length;
+                    show();
+                };
+                if (product.images.length > 1) {
+                    media.querySelector('[data-gallery="prev"]').addEventListener('click', () => step(-1));
+                    media.querySelector('[data-gallery="next"]').addEventListener('click', () => step(1));
+                }
+                wrap.addEventListener('touchstart', (event) => {
+                    if (event.touches.length !== 1) return;
+                    touchActive = true;
+                    startX = event.touches[0].clientX;
+                    startY = event.touches[0].clientY;
+                }, { passive: true });
+                wrap.addEventListener('touchend', (event) => {
+                    if (!touchActive) return;
+                    touchActive = false;
+                    const touch = event.changedTouches[0];
+                    const deltaX = touch.clientX - startX;
+                    const deltaY = touch.clientY - startY;
+                    if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY) * 1.4) {
+                        suppressClick = true;
+                        setTimeout(() => { suppressClick = false; }, 400);
+                        step(deltaX < 0 ? 1 : -1);
+                    }
+                }, { passive: true });
+                wrap.addEventListener('touchcancel', () => { touchActive = false; }, { passive: true });
+                wrap.addEventListener('click', () => {
+                    if (suppressClick) {
+                        suppressClick = false;
+                        return;
+                    }
+                    openLightbox(product, index);
+                });
+                if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+                const lens = document.createElement('div');
+                lens.className = 'zoom-lens';
+                wrap.appendChild(lens);
+                zoomPanelImage.draggable = false;
+                let lensSize = 120;
+                let zoomFrame = 0;
+                let pendingEvent = null;
+
+                const stopZoom = () => {
+                    wrap.classList.remove('zooming');
+                    lens.style.display = 'none';
+                    if (zoomFrame) { cancelAnimationFrame(zoomFrame); zoomFrame = 0; }
+                    pendingEvent = null;
+                    hideZoomPanel();
+                };
+
+                const moveZoom = (event) => {
+                    if (zoomPanel.hidden || !image.naturalWidth || !image.naturalHeight) return;
+                    const rect = wrap.getBoundingClientRect();
+                    const fit = Math.min(rect.width / image.naturalWidth, rect.height / image.naturalHeight);
+                    const shownWidth = image.naturalWidth * fit;
+                    const shownHeight = image.naturalHeight * fit;
+                    const offsetX = (rect.width - shownWidth) / 2;
+                    const offsetY = (rect.height - shownHeight) / 2;
+                    let lensLeft = event.clientX - rect.left - lensSize / 2;
+                    let lensTop = event.clientY - rect.top - lensSize / 2;
+                    lensLeft = Math.min(offsetX + shownWidth - lensSize, Math.max(offsetX, lensLeft));
+                    lensTop = Math.min(offsetY + shownHeight - lensSize, Math.max(offsetY, lensTop));
+                    lens.style.transform = `translate3d(${Math.round(lensLeft)}px, ${Math.round(lensTop)}px, 0)`;
+                    const panelSize = parseFloat(zoomPanel.style.width) || 400;
+                    const scale = panelSize / lensSize;
+                    zoomPanelImage.style.width = `${Math.round(shownWidth * scale)}px`;
+                    zoomPanelImage.style.height = `${Math.round(shownHeight * scale)}px`;
+                    zoomPanelImage.style.transform = `translate3d(${Math.round(-(lensLeft - offsetX) * scale)}px, ${Math.round(-(lensTop - offsetY) * scale)}px, 0)`;
+                };
+
+                const scheduleMove = (event) => {
+                    pendingEvent = event;
+                    if (zoomFrame) return;
+                    zoomFrame = requestAnimationFrame(() => {
+                        zoomFrame = 0;
+                        if (pendingEvent) {
+                            moveZoom(pendingEvent);
+                            pendingEvent = null;
+                        }
+                    });
+                };
+
+                const startZoom = (event) => {
+                    if (window.innerWidth < 1024 || !image.naturalWidth || !image.naturalHeight) return;
+                    const rect = wrap.getBoundingClientRect();
+                    const fit = Math.min(rect.width / image.naturalWidth, rect.height / image.naturalHeight);
+                    const shown = Math.min(image.naturalWidth * fit, image.naturalHeight * fit);
+                    if (shown < 140) return;
+                    lensSize = Math.round(Math.max(80, Math.min(170, shown * 0.5)));
+                    lens.style.width = `${lensSize}px`;
+                    lens.style.height = `${lensSize}px`;
+                    const panelSize = window.innerWidth >= 1440 ? 440 : window.innerWidth >= 1280 ? 400 : 340;
+                    zoomPanel.style.width = `${panelSize}px`;
+                    zoomPanel.style.height = `${panelSize}px`;
+                    let left = rect.right + 18;
+                    if (left + panelSize > window.innerWidth - 12) left = rect.left - panelSize - 18;
+                    if (left < 12) left = Math.max(12, Math.min(window.innerWidth - panelSize - 12, rect.left));
+                    const top = Math.max(12, Math.min(window.innerHeight - panelSize - 12, rect.top));
+                    zoomPanel.style.left = `${Math.round(left)}px`;
+                    zoomPanel.style.top = `${Math.round(top)}px`;
+                    zoomPanelImage.src = image.currentSrc || image.src;
+                    zoomPanel.hidden = false;
+                    zoomPanel.setAttribute('aria-hidden', 'false');
+                    lens.style.display = 'block';
+                    wrap.classList.add('zooming');
+                    moveZoom(event);
+                    requestAnimationFrame(() => zoomPanel.classList.add('show'));
+                };
+
+                wrap.addEventListener('mouseenter', startZoom);
+                wrap.addEventListener('mousemove', (event) => {
+                    if (event.target.closest('.gallery-nav, .gallery-count')) { stopZoom(); return; }
+                    if (zoomPanel.hidden) startZoom(event);
+                    else scheduleMove(event);
+                });
+                wrap.addEventListener('mouseleave', stopZoom);
+            });
+        }
+
+        function applyLanguage() {
+            const language = t();
+            document.documentElement.lang = currentLanguage === 'zh' ? 'zh-SG' : `${currentLanguage}-SG`;
+            document.title = currentLanguage === 'zh' ? 'CossFood | 新加坡优质的食品批发供应商' : currentLanguage === 'ms' ? 'CossFood | Pembekal Makanan Borong Singapura' : 'CossFood | Singapore Food Wholesale Supplier';
+            document.querySelectorAll('[data-i18n]').forEach((element) => {
+                const key = element.dataset.i18n;
+                if (language[key]) element.textContent = language[key];
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach((element) => {
+                const key = element.dataset.i18nPlaceholder;
+                if (language[key]) element.placeholder = language[key];
+            });
+            document.querySelectorAll('[data-i18n-aria-label]').forEach((element) => {
+                const key = element.dataset.i18nAriaLabel;
+                if (language[key]) element.setAttribute('aria-label', language[key]);
+            });
+            document.querySelectorAll('[data-i18n-alt]').forEach((element) => {
+                const key = element.dataset.i18nAlt;
+                if (language[key]) element.alt = language[key];
+            });
+            languageSelect.value = currentLanguage;
+            document.getElementById('header-whatsapp').href = whatsappUrl();
+            document.getElementById('hero-whatsapp').href = whatsappUrl();
+            document.getElementById('footer-whatsapp').href = whatsappUrl();
+            renderCategories();
+            renderProducts();
+        }
+
+        search.addEventListener('input', renderProducts);
+        languageSelect.addEventListener('change', () => {
+            currentLanguage = languageSelect.value;
+            localStorage.setItem('cossfood-language', currentLanguage);
+            activeCategory = '全部';
+            applyLanguage();
+        });
+        applyLanguage();
+        recordVisit();
+        setInterval(recordVisit, 300000);
+
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        menuToggle.addEventListener('click', () => {
+            const isOpen = navLinks.classList.toggle('open');
+            menuToggle.setAttribute('aria-expanded', String(isOpen));
+        });
+        navLinks.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+            navLinks.classList.remove('open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+        }));
+    </script>
+</body>
+</html>
